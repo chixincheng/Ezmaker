@@ -29,10 +29,10 @@ router.put('/editStory', auth.verify, EasyMakerController.editStory)
 router.delete('/deleteStory', auth.verify, EasyMakerController.deleteStory)
 
 // get a specific comic in Comic table by id
-router.get('/getComic', auth.verify, EasyMakerController.getComic)
+router.get('/getComic', auth.verify, EasyMakerController.getComicByID)
 
 // get a specific story in Story table by id
-router.get('/getStory', auth.verify, EasyMakerController.getStory)
+router.get('/getStory', auth.verify, EasyMakerController.getStoryByID)
 
 // get all comics of this user
 router.get('/getAllUserComics', auth.verify, EasyMakerController.getAllUserComics)
