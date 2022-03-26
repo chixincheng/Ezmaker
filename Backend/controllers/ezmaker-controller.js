@@ -278,7 +278,7 @@ createComic = (req, res) => {
                 message: 'Comic Not Created!'
             })
         })
-    }
+}
 
 //edit comics
 editComic = async (req, res) => {
@@ -513,6 +513,107 @@ getAllUserStories = async (req, res) => {
         }
     }).catch(err => console.log(err))
 }
+// create a new comment
+createComment = (req,res) =>{
+    const body = req.body;
+    if (!body) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a comment object',
+        })
+    }
+
+    const comment = new Comment(body);
+    console.log("creating comment: " + JSON.stringify(comment));
+    if (!comment) {
+        return res.status(400).json({ success: false, error: err })
+    }
+
+    comment
+        .save()
+        .then(() => {
+            return res.status(201).json({
+                success: true,
+                comment: comment,
+                message: 'Comment Created!'
+            })
+        })
+        .catch(error => {
+            return res.status(400).json({
+                error,
+                message: 'Comment Not Created!'
+            })
+        })
+}
+// update comment array in published comic/story
+addComment = async (req, res) => {
+    const body = req.body
+    console.log("add Comment: " + JSON.stringify(body));
+    if (!body) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a body to update',
+        })
+    }
+    PublishedStory.findOne({ _id: req.params.id }, (err, comment) => {
+        console.log("PublishedStory found: " + JSON.stringify(comment));
+        if (err) {
+            // Published story is not found, try to found id in published comic
+            PublishedComic.findOne({ _id: req.params.id }, (err, comment) => {
+                console.log("PublishedComic found: " + JSON.stringify(comment));
+                if (err) {
+                    // ID is not found in published story and in published comic
+                    return res.status(404).json({
+                        err,
+                        message: 'PublishedComic and PublishedStory not found!',
+                    })
+                }
+                // ID found in published Comic table
+                PublishedComic.comments = PublishedComic.comments.push(body)
+
+                PublishedComic
+                    .save()
+                    .then(() => {
+                        console.log("SUCCESS!!!");
+                        return res.status(200).json({
+                            success: true,
+                            id: PublishedComic._id,
+                            message: 'PublishedComic updated!',
+                        })
+                    })
+                    .catch(error => {
+                        console.log("FAILURE: " + JSON.stringify(error));
+                        return res.status(404).json({
+                            error,
+                            message: 'PublishedComic not updated!',
+                        })
+                    })
+            })
+        }
+        //ID found in published Story table
+        PublishedStory.comments = PublishedStory.comments.push(body)
+
+        PublishedStory
+            .save()
+            .then(() => {
+                console.log("SUCCESS!!!");
+                return res.status(200).json({
+                    success: true,
+                    id: PublishedStory._id,
+                    message: 'PublishedStory updated!',
+                })
+            })
+            .catch(error => {
+                console.log("FAILURE: " + JSON.stringify(error));
+                return res.status(404).json({
+                    error,
+                    message: 'PublishedStory not updated!',
+                })
+            })
+    })
+}
+
+
 
 module.exports = {
     getCommunityComics,
@@ -526,5 +627,7 @@ module.exports = {
     getComicByID,
     getStoryByID,
     getAllUserComics,
-    getAllUserStories
+    getAllUserStories,
+    createComment,
+    addComment
 }
