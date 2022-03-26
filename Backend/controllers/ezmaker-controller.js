@@ -1,8 +1,9 @@
-const comic = require('../models/comic-model');
-const story = require('../models/story-model');
-const comment = require('../models/comment-model');
-const publishedComic = require('../models/publishedComic-model');
-const publishedStory = require('../models/publishedStory-model');
+const Comic = require('../models/comic-model');
+const Story = require('../models/story-model');
+const Comment = require('../models/comment-model');
+const PublishedComic = require('../models/publishedComic-model');
+const PublishedStory = require('../models/publishedStory-model');
+const ComicModel = require('../models/comic-model');
 
 /*
 createTop5List = (req, res) => {
@@ -305,29 +306,29 @@ createComic = (req, res) => {
     if (!body) {
         return res.status(400).json({
             success: false,
-            error: 'You must provide a Top 5 List',
+            error: 'You must provide a comic object',
         })
     }
 
-    const top5List = new Top5List(body);
-    console.log("creating top5List: " + JSON.stringify(top5List));
-    if (!top5List) {
+    const comic = new Comic(body);
+    console.log("creating comic: " + JSON.stringify(comic));
+    if (!comic) {
         return res.status(400).json({ success: false, error: err })
     }
 
-    top5List
+    comic
         .save()
         .then(() => {
             return res.status(201).json({
                 success: true,
-                top5List: top5List,
-                message: 'Top 5 List Created!'
+                comic: comic,
+                message: 'Comic Created!'
             })
         })
         .catch(error => {
             return res.status(400).json({
                 error,
-                message: 'Top 5 List Not Created!'
+                message: 'Comic Not Created!'
             })
         })
 }
@@ -335,7 +336,7 @@ createComic = (req, res) => {
 //edit comics
 editComic = async (req, res) => {
     const body = req.body
-    console.log("updateTop5List: " + JSON.stringify(body));
+    console.log("updateComic: " + JSON.stringify(body));
     if (!body) {
         return res.status(400).json({
             success: false,
@@ -343,46 +344,32 @@ editComic = async (req, res) => {
         })
     }
 
-    Top5List.findOne({ _id: req.params.id }, (err, top5List) => {
-        console.log("top5List found: " + JSON.stringify(top5List));
+    Comic.findOne({ _id: req.params.id }, (err, comic) => {
+        console.log("comic found: " + JSON.stringify(comic));
         if (err) {
             return res.status(404).json({
                 err,
-                message: 'Top 5 List not found!',
+                message: 'Comic not found!',
             })
         }
 
-        top5List.name = body.name
-        top5List.items = body.items
-        top5List.ownerEmail = body.ownerEmail
-        top5List.comments = body.comments
-        top5List.Author = body.Author
-        top5List.like = body.like
-        top5List.dislike = body.dislike
-        top5List.view = body.view
-        top5List.publish = body.publish
-        top5List.createdate = body.createdate
-        top5List.viewing = body.viewing
-        top5List.publishdate = body.publishdate
-        top5List.isCommunityList = body.isCommunityList
-        top5List.updateDate = body.updateDate
-        top5List.commentItems = body.commentItems
+        comic.comicTitle = body.comicTitle
 
-        top5List
+        comic
             .save()
             .then(() => {
                 console.log("SUCCESS!!!");
                 return res.status(200).json({
                     success: true,
-                    id: top5List._id,
-                    message: 'Top 5 List updated!',
+                    id: comic._id,
+                    message: 'Comic updated!',
                 })
             })
             .catch(error => {
                 console.log("FAILURE: " + JSON.stringify(error));
                 return res.status(404).json({
                     error,
-                    message: 'Top 5 List not updated!',
+                    message: 'Comic not updated!',
                 })
             })
     })
@@ -390,15 +377,15 @@ editComic = async (req, res) => {
 
 //delete the comic by id 
 deleteComic = async (req, res) => {
-    Top5List.findById({ _id: req.params.id }, (err, top5List) => {
+    Comic.findById({ _id: req.params.id }, (err, comic) => {
         if (err) {
             return res.status(404).json({
                 err,
-                message: 'Top 5 List not found!',
+                message: 'Comic not found!',
             })
         }
-        Top5List.findOneAndDelete({ _id: req.params.id }, () => {
-            return res.status(200).json({ success: true, data: top5List })
+        Comic.findOneAndDelete({ _id: req.params.id }, () => {
+            return res.status(200).json({ success: true, data: comic })
         }).catch(err => console.log(err))
     })
 }
@@ -410,29 +397,29 @@ createStory = (req, res) => {
     if (!body) {
         return res.status(400).json({
             success: false,
-            error: 'You must provide a Top 5 List',
+            error: 'You must provide a story object',
         })
     }
 
-    const top5List = new Top5List(body);
-    console.log("creating top5List: " + JSON.stringify(top5List));
-    if (!top5List) {
+    const story = new Story(body);
+    console.log("creating story: " + JSON.stringify(story));
+    if (!story) {
         return res.status(400).json({ success: false, error: err })
     }
 
-    top5List
+    story
         .save()
         .then(() => {
             return res.status(201).json({
                 success: true,
-                top5List: top5List,
-                message: 'Top 5 List Created!'
+                story: story,
+                message: 'Story Created!'
             })
         })
         .catch(error => {
             return res.status(400).json({
                 error,
-                message: 'Top 5 List Not Created!'
+                message: 'Story Not Created!'
             })
         })
 }
@@ -440,7 +427,7 @@ createStory = (req, res) => {
 //edit stories
 editStory = async (req, res) => {
     const body = req.body
-    console.log("updateTop5List: " + JSON.stringify(body));
+    console.log("updateStory: " + JSON.stringify(body));
     if (!body) {
         return res.status(400).json({
             success: false,
@@ -448,46 +435,32 @@ editStory = async (req, res) => {
         })
     }
 
-    Top5List.findOne({ _id: req.params.id }, (err, top5List) => {
-        console.log("top5List found: " + JSON.stringify(top5List));
+    Story.findOne({ _id: req.params.id }, (err, story) => {
+        console.log("Story found: " + JSON.stringify(story));
         if (err) {
             return res.status(404).json({
                 err,
-                message: 'Top 5 List not found!',
+                message: 'Story not found!',
             })
         }
 
-        top5List.name = body.name
-        top5List.items = body.items
-        top5List.ownerEmail = body.ownerEmail
-        top5List.comments = body.comments
-        top5List.Author = body.Author
-        top5List.like = body.like
-        top5List.dislike = body.dislike
-        top5List.view = body.view
-        top5List.publish = body.publish
-        top5List.createdate = body.createdate
-        top5List.viewing = body.viewing
-        top5List.publishdate = body.publishdate
-        top5List.isCommunityList = body.isCommunityList
-        top5List.updateDate = body.updateDate
-        top5List.commentItems = body.commentItems
+        story.storyTitle = body.storyTitle
 
-        top5List
+        story
             .save()
             .then(() => {
                 console.log("SUCCESS!!!");
                 return res.status(200).json({
                     success: true,
-                    id: top5List._id,
-                    message: 'Top 5 List updated!',
+                    id: story._id,
+                    message: 'Story updated!',
                 })
             })
             .catch(error => {
                 console.log("FAILURE: " + JSON.stringify(error));
                 return res.status(404).json({
                     error,
-                    message: 'Top 5 List not updated!',
+                    message: 'Story not updated!',
                 })
             })
     })
@@ -495,51 +468,69 @@ editStory = async (req, res) => {
 
 //delete the story by id 
 deleteStory = async (req, res) => {
-    Top5List.findById({ _id: req.params.id }, (err, top5List) => {
+    Story.findById({ _id: req.params.id }, (err, story) => {
         if (err) {
             return res.status(404).json({
                 err,
-                message: 'Top 5 List not found!',
+                message: 'Story not found!',
             })
         }
-        Top5List.findOneAndDelete({ _id: req.params.id }, () => {
-            return res.status(200).json({ success: true, data: top5List })
+        Story.findOneAndDelete({ _id: req.params.id }, () => {
+            return res.status(200).json({ success: true, data: story })
         }).catch(err => console.log(err))
     })
 }
 
 // get comic by id
 getComicByID = async (req, res) => {
-    await Top5List.findById({ _id: req.params.id }, (err, list) => {
+    await Comic.findById({ _id: req.params.id }, (err, comic) => {
         if (err) {
             return res.status(400).json({ success: false, error: err });
         }
-        return res.status(200).json({ success: true, top5List: list })
+        return res.status(200).json({ success: true, story: comic })
     }).catch(err => console.log(err))
 }
 
 // get story by id
 getStoryByID = async (req, res) => {
-    await Top5List.findById({ _id: req.params.id }, (err, list) => {
+    await Story.findById({ _id: req.params.id }, (err, story) => {
         if (err) {
             return res.status(400).json({ success: false, error: err });
         }
-        return res.status(200).json({ success: true, top5List: list })
+        return res.status(200).json({ success: true, story: story })
     }).catch(err => console.log(err))
 }
 
 // get all user comics
 getAllUserComics = async (req, res) => {
-    await Top5List.find({}, (err, top5Lists) => {
+    await Comic.find({ }, (err, comicLists) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
-        if (!top5Lists.length) {
+        if (!comicLists) {
+            console.log("!comicLists.length");
             return res
                 .status(404)
-                .json({ success: false, error: `Top 5 Lists not found` })
+                .json({ success: false, error: 'Comic not found' })
         }
-        return res.status(200).json({ success: true, data: top5Lists })
+        else {
+            // PUT ALL THE LISTS INTO ID, NAME PAIRS
+            let pairs = [];
+            for (let key in comicLists) {
+                let comic = comicLists[key];
+                if(comic.authorID === req.params._id){
+                    let pair = {
+                        _id: list._id,
+                        authorID: list.authorID,
+                        authorName: list.authorName,
+                        editedTime: list.editedTime,
+                        comicTitle: list.comicTitle
+                    };
+                    pairs.push(pair);
+                }
+            }
+            return res.status(200).json({ success: true, idNamePairs: pairs })
+        }
     }).catch(err => console.log(err))
 }
 
