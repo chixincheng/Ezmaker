@@ -300,36 +300,37 @@ getCommunityStories = async (req, res) => {
 }
 
 //create comics
-createComic = (req, res) => {
-    const body = req.body;
-    if (!body) {
-        return res.status(400).json({
-            success: false,
-            error: 'You must provide a Top 5 List',
-        })
-    }
+createComic = async (req, res) => {
+   try{
+    const newComic = new comic({
+        authorID: "605d4f9d1546452e045c8a68",
+        authorName: "abc",
+        editedTime: "2014-01-19T05:00:00Z",
+        comicTitle: "asd"
+    });
+   
+    const response = await newComic.save();
 
-    const top5List = new Top5List(body);
-    console.log("creating top5List: " + JSON.stringify(top5List));
-    if (!top5List) {
+    console.log(response);
+
+    if (!response) {
         return res.status(400).json({ success: false, error: err })
     }
 
-    top5List
-        .save()
-        .then(() => {
-            return res.status(201).json({
-                success: true,
-                top5List: top5List,
-                message: 'Top 5 List Created!'
-            })
-        })
-        .catch(error => {
-            return res.status(400).json({
-                error,
-                message: 'Top 5 List Not Created!'
-            })
-        })
+
+    return res.status(201).json({
+        success: true,
+        message: 'Top 5 List Created!'
+    })
+   
+   }catch(err){
+    console.error(err);
+    res.status(500).send();
+   }
+
+    
+
+    
 }
 
 //edit comics

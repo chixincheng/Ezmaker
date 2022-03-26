@@ -11,7 +11,7 @@ router.get('/communityComics', auth.verify, EasyMakerController.getCommunityComi
 router.get('/communityStories', auth.verify, EasyMakerController.getCommunityStories)
 
 // create a new comic object in Comic table
-router.post('/createComic', auth.verify, EasyMakerController.createComic)
+router.get('/createComic',  EasyMakerController.createComic)
 
 // modify a partifuclar comic object in Comic table by id
 router.put('/editComic', auth.verify, EasyMakerController.editComic)
