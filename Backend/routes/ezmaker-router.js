@@ -52,6 +52,12 @@ router.put('/editPublishedComic', auth.verify, EasyMakerController.editPublished
 // modify a partifuclar like user, dislike user, view number in pushlied story
 router.put('/editPublishedStory', auth.verify, EasyMakerController.editPublishedStory)
 
+// create a new published comic object in the published comic table
+router.post('/createPublishedComic', auth.verify, EasyMakerController.createPublishedComic)
+
+// create a new published story object in the published story table
+router.post('/createPublishedStory', auth.verify, EasyMakerController.createPublishedStory)
+
 //===================================================USER========================================================
 // Handle's new user registration requests
 router.post('/register', UserController.registerUser)
