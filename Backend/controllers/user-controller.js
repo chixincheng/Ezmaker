@@ -10,15 +10,17 @@ getLoggedIn = async (req, res) => {
             user: {
                 firstName: loggedInUser.firstName,
                 lastName: loggedInUser.lastName,
+                userName: loggedInUser.userName,
                 email: loggedInUser.email,
                 userName: loggedInUser.userName,
-                _id: loggedInUser._id,
-                likedList: loggedInUser.likedList,
-                dislikedList: loggedInUser.dislikedList
+                authentication: loggedInUser.authentication,
+                profilePictureID: loggedInUser.profilePictureID
             }
         }).send();
     })
 }
+
+//Needs change
 loginUser = async(req, res) => {
     try {
         const { email, password } = req.body;
@@ -78,9 +80,10 @@ loginUser = async(req, res) => {
         res.status(500).send();
     }
 }
+// register a new user based on the given information
 registerUser = async (req, res) => {
     try {
-        const { firstName, lastName, email, password, passwordVerify,userName } = req.body;
+        const { firstName, lastName, userName, email, password, passwordVerify } = req.body;
         if (!firstName || !lastName || !email || !password || !passwordVerify || !userName) {
             return res.status(201)
                         .json({ errorMessage: "Please enter all required fields." });
@@ -98,6 +101,7 @@ registerUser = async (req, res) => {
                     errorMessage: "Please enter the same password twice."
                 })
         }
+        //email must be unique
         const existingUser = await User.findOne({ email: email });
         if (existingUser) {
             return res
@@ -107,6 +111,7 @@ registerUser = async (req, res) => {
                     errorMessage: "An account with this email address already exists."
                 })
         }
+        //username must be unique
         const exists = await User.findOne({ userName: userName });
         if (exists) {
             return res
@@ -121,7 +126,7 @@ registerUser = async (req, res) => {
         const passwordHash = await bcrypt.hash(password, salt);
 
         const newUser = new User({
-            firstName, lastName, email, passwordHash, password, userName
+            firstName, lastName, userName, email, passwordHash
         });
         const savedUser = await newUser.save();
 
@@ -137,11 +142,9 @@ registerUser = async (req, res) => {
             user: {
                 firstName: savedUser.firstName,
                 lastName: savedUser.lastName,
-                email: savedUser.email,
                 userName: savedUser.userName,
+                email: savedUser.email,
                 _id: savedUser._id,
-                likedList: savedUser.likedList,
-                dislikedList: savedUser.dislikedList
             }
         }).send();
     } catch (err) {
@@ -149,7 +152,7 @@ registerUser = async (req, res) => {
         res.status(500).send();
     }
 }
-
+//==
 getUserById = async (req, res) => {
     await User.findById({ _id: req.params.id }, (err, user) => {
         if (err) {
@@ -158,7 +161,7 @@ getUserById = async (req, res) => {
         return res.status(200).json({ success: true, user: user })
     }).catch(err => console.log(err))
 }
-
+//==change password can be handled here
 updateUser = async (req, res) => {
     const body = req.body
     console.log("updateUser: " + JSON.stringify(body));
