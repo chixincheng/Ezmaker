@@ -1,4 +1,4 @@
-const Top5List = require('../models/top5list-model');
+const ezmaker = require('../models/ezmaker-model');
 
 createTop5List = (req, res) => {
     const body = req.body;
