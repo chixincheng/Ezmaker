@@ -1,17 +1,17 @@
 [{
   "_id": {
-    "$oid": "62168d57555f8ea9bd80ec69"
+    "$oid": "72168d57555f8ea9bd80ec69"
   },
   "Comments": [],
-  "Story_Title": "",
+  "Story_Title": "Entertainment",
   "Author_ID": {
-    "$oid": "621b0bde1bb10a5979dfe954"
+    "$oid": "621689da555f8ea9bd80dc58"
   },
-  "Author_Name": "",
+  "Author_Name": "Owen Gank",
   "Disliked_Users": [],
-  "Liked_Users": [],
+  "Liked_Users": ["621689da555f8ea9bd80dc57", "621689da555f8ea9bd80dc59", "621689da555f8ea9bd80dc5a"],
   "Published_Time": {
-    "$date": "2001-12-01T05:00:00Z"
+    "$date": "2009-12-01T05:00:00Z"
   },
-  "View_Number": 11111
+  "View_Number": 222
 }]

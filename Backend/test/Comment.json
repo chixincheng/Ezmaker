@@ -1,34 +1,137 @@
 {
   "Comment": [
+
+    {
+      "//note": "Published Comic: \"Black Pink 1\" --Ziming Li"
+    },
+
     {
       "_id": {
         "$oid": "6216910c555f8ea9bd80dc77"
       },
-      "Replies": [],
-      "Content": "",
+      "Replies": ["6216910c555f8ea9bd80dc78", "6216910c555f8ea9bd80dc7a"],
+      "Content": "Wow, that's amazing.",
       "Comment_User_ID": {
-        "$oid": "621b0ba51bb10a5979dfe94e"
+        "$oid": "621689da555f8ea9bd80dc58"
       }
     },
     {
       "_id": {
-        "$oid": "6216910c555f8ea9bd80dc72"
+        "$oid": "6216910c555f8ea9bd80dc78"
       },
-      "Replies": [],
-      "Content": "",
+      "Replies": ["6216910c555f8ea9bd80dc79"],
+      "Content": "Thank You.",
       "Comment_User_ID": {
-        "$oid": "621b0ba51bb10a5979dfe94f"
+        "$oid": "621689da555f8ea9bd80dc57"
       }
     },
     {
       "_id": {
-        "$oid": "6216910c555f8ea9bd80dc73"
+        "$oid": "6216910c555f8ea9bd80dc79"
       },
       "Replies": [],
-      "Content": "",
+      "Content": "You are welcome",
       "Comment_User_ID": {
-        "$oid": "621b0ba51bb10a5979dfe94g"
+        "$oid": "621689da555f8ea9bd80dc58"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "6216910c555f8ea9bd80dc7a"
+      },
+      "Replies": [],
+      "Content": "I agree it is amazing!",
+      "Comment_User_ID": {
+        "$oid": "621689da555f8ea9bd80dc59"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "6216910c555f8ea9bd80dc7b"
+      },
+      "Replies": [],
+      "Content": "Hi, Nice to see this.",
+      "Comment_User_ID": {
+        "$oid": "621689da555f8ea9bd80dc59"
+      }
+    },
+
+
+    {
+      "//note": "Published Story: \"Entertainment\" --Owen Gank"
+    },
+
+
+    {
+      "_id": {
+        "$oid": "6216910c555f8ea9bd80dc7c"
+      },
+      "Replies": [],
+      "Content": "Hope Everyone likes this story!",
+      "Comment_User_ID": {
+        "$oid": "621689da555f8ea9bd80dc58"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "6216910c555f8ea9bd80dc7d"
+      },
+      "Replies": [],
+      "Content": "It reminds me those good old days...",
+      "Comment_User_ID": {
+        "$oid": "621689da555f8ea9bd80dc59"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "6216910c555f8ea9bd80dc7e"
+      },
+      "Replies": [],
+      "Content": "XD",
+      "Comment_User_ID": {
+        "$oid": "621689da555f8ea9bd80dc58"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "6216910c555f8ea9bd80dc7f"
+      },
+      "Replies": [],
+      "Content": "It reminds me those working days...",
+      "Comment_User_ID": {
+        "$oid": "621689da555f8ea9bd80dc5a"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "6216910c555f8ea9bd80dc80"
+      },
+      "Replies": [],
+      "Content": "XD",
+      "Comment_User_ID": {
+        "$oid": "621689da555f8ea9bd80dc58"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "6216910c555f8ea9bd80dc81"
+      },
+      "Replies": [],
+      "Content": "Hope this story will remind forever.",
+      "Comment_User_ID": {
+        "$oid": "621689da555f8ea9bd80dc57"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "6216910c555f8ea9bd80dc82"
+      },
+      "Replies": [],
+      "Content": "XD",
+      "Comment_User_ID": {
+        "$oid": "621689da555f8ea9bd80dc58"
       }
     }
+
   ]
 }

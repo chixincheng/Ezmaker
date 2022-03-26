@@ -5,10 +5,10 @@
         "$oid": "62168d57555f8ea9bda0dc69"
       },
       "Author_ID": {
-        "$oid": "621689da555f8ea9bd80dc58"
+        "$oid": "621689da555f8ea9bd80dc57"
       },
-      "Author_Name": "Owen Gank",
-      "Comic_Title": "Black Pink",
+      "Author_Name": "Ziming Li",
+      "Comic_Title": "Black Pink 2",
       "Edited_Time": {
         "$date": "2014-01-19T05:00:00Z"
       }
