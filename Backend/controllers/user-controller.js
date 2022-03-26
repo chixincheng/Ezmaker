@@ -21,9 +21,11 @@ getLoggedIn = async (req, res) => {
 }
 
 //Needs change
+// check
 loginUser = async(req, res) => {
     try {
-        const { email, username ,password } = req.body;
+        console.log(req.query);
+        const { email, username ,password } = req.query;
         if( !email && !username ){
             return res.status(201)
                         .json({ errorMessage: "Please enter email or username." });
@@ -33,15 +35,18 @@ loginUser = async(req, res) => {
                         .json({ errorMessage: "Please enter password." });
         }
       
+       
         
-        let hashedPassword = await bcrypt.hash(password, 8);
         var response = null;
         if( email ){
-            response = await User.findOne({ email: email, password: hashedPassword });
+            response = await User.findOne({ email: email });
+            
         }
         else{
-            response = await User.findOne({ userName: username, password: hashedPassword  });
+            response = await User.findOne({ userName: username  });
         }
+
+
         
         if ( !response ) {
             return res
@@ -51,27 +56,38 @@ loginUser = async(req, res) => {
                     errorMessage: "An account with this email  or username does not exists."
                 });
         }
+
+        bcrypt.compare(password, response.passwordHash, async (err, result) => {
+            if (err) {
+              throw err;
+            }
+
+            // LOGIN THE USER
+            const token = auth.signToken(response);
+            await res.cookie("token", token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: "none"
+            }).status(200).json({
+                success: true,
+                user: response
+            }).send();
+        });
        
 
-        // LOGIN THE USER
-        const token = auth.signToken(response);
-        await res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none"
-        }).status(200).json({
-            success: true,
-            user: response
-        }).send();
+        
     } catch (err) {
         console.error(err);
         res.status(500).send();
     }
 }
 // register a new user based on the given information
+// check
 registerUser = async (req, res) => {
     try {
-        const { firstName, lastName, userName, email, password, passwordVerify } = req.body;
+        console.log(req.query);
+        console.log(req.body);
+        const { firstName, lastName, userName, email, password, passwordVerify } = req.query;
         if (!firstName || !lastName || !email || !password || !passwordVerify || !userName) {
             return res.status(201)
                         .json({ errorMessage: "Please enter all required fields." });
@@ -109,10 +125,8 @@ registerUser = async (req, res) => {
                     errorMessage: "An account with this user name already exists."
                 })
         }
-        const saltRounds = 10;
-        const salt = await bcrypt.genSalt(saltRounds);
-        const passwordHash = await bcrypt.hash(password, salt);
-
+        
+        let passwordHash = await bcrypt.hash(password, 8);
         const newUser = new User({
             firstName, lastName, userName, email, passwordHash
         });
