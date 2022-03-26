@@ -1,0 +1,13 @@
+[{
+  "_id": {
+    "$oid": "62168d57555f8ea9bda0dc69"
+  },
+  "Author_ID": {
+    "$oid": "621b07891bb10a5979dfe92b"
+  },
+  "Author_Name": "",
+  "Comic_Title": "",
+  "Edited_Time": {
+    "$date": "2014-01-19T05:00:00Z"
+  }
+}]

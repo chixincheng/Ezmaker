@@ -1,0 +1,11 @@
+[{
+  "_id": {
+    "$oid": "621689da555f8ea9bd80dc57"
+  },
+  "Authentication": true,
+  "Email": "",
+  "Name": "",
+  "Password": "",
+  "Profile_Picture_ID": 123,
+  "Username": ""
+}]
