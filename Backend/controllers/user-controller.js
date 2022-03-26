@@ -23,20 +23,27 @@ getLoggedIn = async (req, res) => {
 //Needs change
 loginUser = async(req, res) => {
     try {
-        const { email, password } = req.body;
-        if (!email || !password) {
+        const { email, username ,password } = req.body;
+        if( !email && !username ){
             return res.status(201)
-                        .json({ errorMessage: "Please enter all required fields." });
+                        .json({ errorMessage: "Please enter email or username." });
         }
-        if (password.length < 8) {
+        if ( !password) {
             return res.status(201)
-                    .json({
-                    errorMessage: "Please enter a password of at least 8 characters."
-                });
+                        .json({ errorMessage: "Please enter password." });
         }
-        const exist1 = await User.findOne({ email: email });
-        const exist2 = await User.findOne({ userName: email });
-        if (!exist1 && !exist2) {
+      
+        
+        let hashedPassword = await bcrypt.hash(password, 8);
+        var response = null;
+        if( email ){
+            response = await User.findOne({ email: email, password: hashedPassword });
+        }
+        else{
+            response = await User.findOne({ userName: username, password: hashedPassword  });
+        }
+        
+        if ( !response ) {
             return res
                 .status(201)
                 .json({
