@@ -1,17 +1,55 @@
-[{
-  "_id": {
-    "$oid": "62168d57555f8ea9bd80ec69"
-  },
-  "Comments": [],
-  "Author_ID": {
-    "$oid": "621b0bcd1bb10a5979dfe951"
-  },
-  "Author_Name": "",
-  "Comic_Title": "",
-  "Disliked_Users": [],
-  "Liked_Users": [],
-  "Published_Time": {
-    "$date": "2001-12-01T05:00:00Z"
-  },
-  "View_Number": 11111
-}]
+{
+  "Published Comics": [
+    {
+      "_id": {
+        "$oid": "62168d57555f8ea9bd80ec69"
+      },
+      "Comments": [],
+      "Author_ID": {
+        "$oid": "621b0bcd1bb10a5979dfe951"
+      },
+      "Author_Name": "",
+      "Comic_Title": "",
+      "Disliked_Users": [],
+      "Liked_Users": [],
+      "Published_Time": {
+        "$date": "2001-12-01T05:00:00Z"
+      },
+      "View_Number": 11111
+    },
+    {
+      "_id": {
+        "$oid": "62168d57555f8ea9bd80ec69"
+      },
+      "Comments": [],
+      "Author_ID": {
+        "$oid": "621b0bcd1bb10a5979dfe951"
+      },
+      "Author_Name": "",
+      "Comic_Title": "",
+      "Disliked_Users": [],
+      "Liked_Users": [],
+      "Published_Time": {
+        "$date": "2001-12-01T05:00:00Z"
+      },
+      "View_Number": 11111
+    },
+    {
+      "_id": {
+        "$oid": "62168d57555f8ea9bd80ec69"
+      },
+      "Comments": [],
+      "Author_ID": {
+        "$oid": "621b0bcd1bb10a5979dfe951"
+      },
+      "Author_Name": "",
+      "Comic_Title": "",
+      "Disliked_Users": [],
+      "Liked_Users": [],
+      "Published_Time": {
+        "$date": "2001-12-01T05:00:00Z"
+      },
+      "View_Number": 11111
+    }
+  ]
+}
