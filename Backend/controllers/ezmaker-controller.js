@@ -331,7 +331,7 @@ createComic = (req, res) => {
                 message: 'Comic Not Created!'
             })
         })
-
+    }
 
 //edit comics
 editComic = async (req, res) => {
@@ -536,16 +536,34 @@ getAllUserComics = async (req, res) => {
 
 // get all user stories
 getAllUserStories = async (req, res) => {
-    await Top5List.find({}, (err, top5Lists) => {
+    await Story.find({ }, (err, storyLists) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
-        if (!top5Lists.length) {
+        if (!storyLists) {
+            console.log("!storyLists.length");
             return res
                 .status(404)
-                .json({ success: false, error: `Top 5 Lists not found` })
+                .json({ success: false, error: 'Story not found' })
         }
-        return res.status(200).json({ success: true, data: top5Lists })
+        else {
+            // PUT ALL THE LISTS INTO ID, NAME PAIRS
+            let pairs = [];
+            for (let key in storyLists) {
+                let story = storyLists[key];
+                if(story.authorID === req.params._id){
+                    let pair = {
+                        _id: list._id,
+                        authorID: list.authorID,
+                        authorName: list.authorName,
+                        editedTime: list.editedTime,
+                        storyTitle: list.storyTitle
+                    };
+                    pairs.push(pair);
+                }
+            }
+            return res.status(200).json({ success: true, idNamePairs: pairs })
+        }
     }).catch(err => console.log(err))
 }
 
