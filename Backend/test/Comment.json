@@ -9,51 +9,41 @@
       "_id": {
         "$oid": "6216910c555f8ea9bd80dc77"
       },
-      "Replies": ["6216910c555f8ea9bd80dc78", "6216910c555f8ea9bd80dc7a"],
-      "Content": "Wow, that's amazing.",
-      "Comment_User_ID": {
-        "$oid": "621689da555f8ea9bd80dc58"
-      }
+      "commentUserID" : "621689da555f8ea9bd80dc58",
+      "content" : "Wow, that's amazing.",
+      "replies" : ["6216910c555f8ea9bd80dc78", "6216910c555f8ea9bd80dc7a"]
     },
     {
       "_id": {
         "$oid": "6216910c555f8ea9bd80dc78"
       },
-      "Replies": ["6216910c555f8ea9bd80dc79"],
-      "Content": "Thank You.",
-      "Comment_User_ID": {
-        "$oid": "621689da555f8ea9bd80dc57"
-      }
+      "commentUserID" : "621689da555f8ea9bd80dc57",
+      "content" : "Thank You.",
+      "replies" : ["6216910c555f8ea9bd80dc79"]
     },
     {
       "_id": {
         "$oid": "6216910c555f8ea9bd80dc79"
       },
-      "Replies": [],
-      "Content": "You are welcome",
-      "Comment_User_ID": {
-        "$oid": "621689da555f8ea9bd80dc58"
-      }
+      "commentUserID" : "621689da555f8ea9bd80dc58",
+      "content" : "You are welcome",
+      "replies" : []
     },
     {
       "_id": {
         "$oid": "6216910c555f8ea9bd80dc7a"
       },
-      "Replies": [],
-      "Content": "I agree it is amazing!",
-      "Comment_User_ID": {
-        "$oid": "621689da555f8ea9bd80dc59"
-      }
+      "commentUserID" : "621689da555f8ea9bd80dc59",
+      "content" : "I agree it is amazing!",
+      "replies" : []
     },
     {
       "_id": {
         "$oid": "6216910c555f8ea9bd80dc7b"
       },
-      "Replies": [],
-      "Content": "Hi, Nice to see this.",
-      "Comment_User_ID": {
-        "$oid": "621689da555f8ea9bd80dc59"
-      }
+      "commentUserID" : "621689da555f8ea9bd80dc59",
+      "content" : "Hi, Nice to see this.",
+      "replies" : []
     },
 
 
@@ -66,71 +56,58 @@
       "_id": {
         "$oid": "6216910c555f8ea9bd80dc7c"
       },
-      "Replies": [],
-      "Content": "Hope Everyone likes this story!",
-      "Comment_User_ID": {
-        "$oid": "621689da555f8ea9bd80dc58"
-      }
+
+      "commentUserID" : "621689da555f8ea9bd80dc58",
+      "content" : "Hope everyone likes this story!",
+      "replies" : ["6216910c555f8ea9bd80dc7d", "6216910c555f8ea9bd80dc7f", "6216910c555f8ea9bd80dc81"]
     },
     {
       "_id": {
         "$oid": "6216910c555f8ea9bd80dc7d"
       },
-      "Replies": [],
-      "Content": "It reminds me those good old days...",
-      "Comment_User_ID": {
-        "$oid": "621689da555f8ea9bd80dc59"
-      }
+      "commentUserID" : "621689da555f8ea9bd80dc59",
+      "content": "It reminds me those good old days...",
+      "replies" : ["6216910c555f8ea9bd80dc7e"]
     },
     {
       "_id": {
         "$oid": "6216910c555f8ea9bd80dc7e"
       },
-      "Replies": [],
-      "Content": "XD",
-      "Comment_User_ID": {
-        "$oid": "621689da555f8ea9bd80dc58"
-      }
+      "commentUserID" : "621689da555f8ea9bd80dc58",
+      "content" : "XD",
+      "replies" : []
     },
     {
       "_id": {
         "$oid": "6216910c555f8ea9bd80dc7f"
       },
-      "Replies": [],
-      "Content": "It reminds me those working days...",
-      "Comment_User_ID": {
-        "$oid": "621689da555f8ea9bd80dc5a"
-      }
+      "commentUserID" : "621689da555f8ea9bd80dc5a",
+      "content" : "It reminds me those working days...",
+      "replies" : ["6216910c555f8ea9bd80dc80"]
     },
     {
       "_id": {
         "$oid": "6216910c555f8ea9bd80dc80"
       },
-      "Replies": [],
-      "Content": "XD",
-      "Comment_User_ID": {
-        "$oid": "621689da555f8ea9bd80dc58"
-      }
+      "commentUserID" : "621689da555f8ea9bd80dc58",
+      "content" : "XD",
+      "replies" : []
     },
     {
       "_id": {
         "$oid": "6216910c555f8ea9bd80dc81"
       },
-      "Replies": [],
-      "Content": "Hope this story will remind forever.",
-      "Comment_User_ID": {
-        "$oid": "621689da555f8ea9bd80dc57"
-      }
+      "commentUserID" : "621689da555f8ea9bd80dc57",
+      "content" : "Hope this story will remind forever.",
+      "replies" : ["6216910c555f8ea9bd80dc82"]
     },
     {
       "_id": {
         "$oid": "6216910c555f8ea9bd80dc82"
       },
-      "Replies": [],
-      "Content": "XD",
-      "Comment_User_ID": {
-        "$oid": "621689da555f8ea9bd80dc58"
-      }
+      "commentUserID" : "621689da555f8ea9bd80dc58",
+      "content" : "XD",
+      "replies" : []
     }
 
   ]
