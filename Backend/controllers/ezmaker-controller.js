@@ -3,7 +3,6 @@ const Story = require('../models/story-model');
 const Comment = require('../models/comment-model');
 const PublishedComic = require('../models/publishedComic-model');
 const PublishedStory = require('../models/publishedStory-model');
-const ComicModel = require('../models/comic-model');
 
 /*
 createTop5List = (req, res) => {
@@ -220,83 +219,31 @@ module.exports = {
 
 // get community comics
 getCommunityComics = async (req, res) => {
-    await Top5List.find({ }, (err, top5Lists) => {
+    await PublishedComic.find({}, (err, publishedComicList) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
-        if (!top5Lists) {
-            console.log("!top5Lists.length");
+        if (!publishedComicList.length) {
             return res
                 .status(404)
-                .json({ success: false, error: 'Top 5 Lists not found' })
+                .json({ success: false, error: `Published comic list not found` })
         }
-        else {
-            // PUT ALL THE LISTS INTO ID, NAME PAIRS
-            let pairs = [];
-            for (let key in top5Lists) {
-                let list = top5Lists[key];
-                if(list.isCommunityList){
-                    let pair = {
-                        _id: list._id,
-                        name: list.name,
-                        items: list.items,
-                        comments: list.comments,
-                        like: list.like,
-                        dislike: list.dislike,
-                        view: list.view,
-                        publish: list.publish,
-                        createdate: list.createdate,
-                        publishdate: list.publishdate,
-                        isCommunityList: list.isCommunityList,
-                        updateDate: list.updateDate,
-                        commentItems: list.commentItems
-                    };
-                    pairs.push(pair);
-                }
-            }
-            return res.status(200).json({ success: true, idNamePairs: pairs })
-        }
+        return res.status(200).json({ success: true, data: publishedComicList })
     }).catch(err => console.log(err))
 }
 
 // get community stories
 getCommunityStories = async (req, res) => {
-    await Top5List.find({ }, (err, top5Lists) => {
+    await PublishedStory.find({}, (err, publishedStoryList) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
-        if (!top5Lists) {
-            console.log("!top5Lists.length");
+        if (!publishedStoryList.length) {
             return res
                 .status(404)
-                .json({ success: false, error: 'Top 5 Lists not found' })
+                .json({ success: false, error: `Published story list not found` })
         }
-        else {
-            // PUT ALL THE LISTS INTO ID, NAME PAIRS
-            let pairs = [];
-            for (let key in top5Lists) {
-                let list = top5Lists[key];
-                if(list.isCommunityList){
-                    let pair = {
-                        _id: list._id,
-                        name: list.name,
-                        items: list.items,
-                        comments: list.comments,
-                        like: list.like,
-                        dislike: list.dislike,
-                        view: list.view,
-                        publish: list.publish,
-                        createdate: list.createdate,
-                        publishdate: list.publishdate,
-                        isCommunityList: list.isCommunityList,
-                        updateDate: list.updateDate,
-                        commentItems: list.commentItems
-                    };
-                    pairs.push(pair);
-                }
-            }
-            return res.status(200).json({ success: true, idNamePairs: pairs })
-        }
+        return res.status(200).json({ success: true, data: publishedStoryList })
     }).catch(err => console.log(err))
 }
 
