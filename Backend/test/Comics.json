@@ -1,13 +1,43 @@
-[{
-  "_id": {
-    "$oid": "62168d57555f8ea9bda0dc69"
-  },
-  "Author_ID": {
-    "$oid": "621b07891bb10a5979dfe92b"
-  },
-  "Author_Name": "",
-  "Comic_Title": "",
-  "Edited_Time": {
-    "$date": "2014-01-19T05:00:00Z"
-  }
-}]
+{
+  "Comics": [
+    {
+      "_id": {
+        "$oid": "62168d57555f8ea9bda0dc69"
+      },
+      "Author_ID": {
+        "$oid": "621689da555f8ea9bd80dc58"
+      },
+      "Author_Name": "Owen Gank",
+      "Comic_Title": "Black Pink",
+      "Edited_Time": {
+        "$date": "2014-01-19T05:00:00Z"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "62168d57555f8ea9bda0dc6a"
+      },
+      "Author_ID": {
+        "$oid": "621689da555f8ea9bd80dc59"
+      },
+      "Author_Name": "Sheng Chen",
+      "Comic_Title": "EXO",
+      "Edited_Time": {
+        "$date": "2014-02-19T05:00:00Z"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "62168d57555f8ea9bda0dc6b"
+      },
+      "Author_ID": {
+        "$oid": "621689da555f8ea9bd80dc5a"
+      },
+      "Author_Name": "Xin Chi",
+      "Comic_Title": "Big Bang",
+      "Edited_Time": {
+        "$date": "2014-03-19T05:00:00Z"
+      }
+    }
+  ]
+}

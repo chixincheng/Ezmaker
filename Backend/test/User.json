@@ -14,7 +14,7 @@
     "$oid": "621689da555f8ea9bd80dc58"
   },
   "Authentication": true,
-  "Email": "owengan@sbu-ezmaker.com",
+  "Email": "owengank@sbu-ezmaker.com",
   "Name": "Owen Gank",
   "Password": "22222222",
   "Profile_Picture_ID": 124,
@@ -25,8 +25,8 @@
     "$oid": "621689da555f8ea9bd80dc59"
   },
   "Authentication": true,
-  "Email": "shengda@sbu-ezmaker.com",
-  "Name": "Shengda Chen",
+  "Email": "shengchen@sbu-ezmaker.com",
+  "Name": "Sheng Chen",
   "Password": "33333333",
   "Profile_Picture_ID": 125,
   "Username": "SheC"
@@ -36,8 +36,8 @@
     "$oid": "621689da555f8ea9bd80dc5a"
   },
   "Authentication": true,
-  "Email": "xinchengchi@sbu-ezmaker.com",
-  "Name": "Xincheng Chi",
+  "Email": "xin Chi@sbu-ezmaker.com",
+  "Name": "Xin Chi",
   "Password": "44444444",
   "Profile_Picture_ID": 126,
   "Username": "XinC"
