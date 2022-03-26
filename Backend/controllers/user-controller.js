@@ -152,7 +152,7 @@ getUserById = async (req, res) => {
 //==change password can be handled here
 updateUser = async (req, res) => {
     const body = req.body
-    console.log("updateUser: " + JSON.stringify(body));
+    
     if (!body) {
         return res.status(400).json({
             success: false,
@@ -169,8 +169,15 @@ updateUser = async (req, res) => {
             })
         }
 
-        user.likedList = body.likedList
-        user.dislikedList = body.dislikedList
+        
+
+        user.firstName = body.firstName;
+        user.lastName = body.lastName;
+        user.userName = body.userName;
+        user.email = body.email;
+        user.passwordHash = body.passwordHash;
+        user.authication = body.authentication;
+        user.profilePictureID = body.profilePictureID;
 
         user
             .save()
@@ -192,8 +199,15 @@ updateUser = async (req, res) => {
     })
 }
 
-logoutUser = async (req,res)=>{
 
+
+logoutUser = async (req,res)=>{
+    res.clearCookie("token", { httpOnly: true, sameSite: 'none', secure: true } );
+
+    res.send({
+      authenticated: false,
+      token: null,
+    });
 }
 
 module.exports = {
