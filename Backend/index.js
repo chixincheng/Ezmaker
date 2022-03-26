@@ -19,8 +19,8 @@ app.use(express.json())
 app.use(cookieParser())
 
 // SETUP OUR OWN ROUTERS AS MIDDLEWARE
-const top5listsRouter = require('./routes/top5lists-router')
-app.use('/api', top5listsRouter)
+const ezmakerRouter = require('./routes/ezmaker-router')
+app.use('/', ezmakerRouter)
 
 // INITIALIZE OUR DATABASE OBJECT
 const db = require('./db')
