@@ -1,4 +1,9 @@
-const ezmaker = require('../models/ezmaker-model');
+const comic = require('../models/comic-model');
+const story = require('../models/story-model');
+const comment = require('../models/comment-model');
+const publishedComic = require('../models/publishedComic-model');
+const publishedStory = require('../models/publishedStory-model');
+
 /*
 createTop5List = (req, res) => {
     const body = req.body;
