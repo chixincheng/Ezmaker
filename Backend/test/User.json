@@ -3,9 +3,44 @@
     "$oid": "621689da555f8ea9bd80dc57"
   },
   "Authentication": true,
-  "Email": "",
-  "Name": "",
-  "Password": "",
+  "Email": "zimingli@sbu-ezmaker.com",
+  "Name": "Ziming Li",
+  "Password": "11111111",
   "Profile_Picture_ID": 123,
-  "Username": ""
-}]
+  "Username": "zimL"
+},
+{
+  "_id": {
+    "$oid": "621689da555f8ea9bd80dc58"
+  },
+  "Authentication": true,
+  "Email": "owengan@sbu-ezmaker.com",
+  "Name": "Owen Gank",
+  "Password": "22222222",
+  "Profile_Picture_ID": 124,
+  "Username": "OweG"
+},
+{
+  "_id": {
+    "$oid": "621689da555f8ea9bd80dc59"
+  },
+  "Authentication": true,
+  "Email": "shengda@sbu-ezmaker.com",
+  "Name": "Shengda Chen",
+  "Password": "33333333",
+  "Profile_Picture_ID": 125,
+  "Username": "SheC"
+},
+{
+  "_id": {
+    "$oid": "621689da555f8ea9bd80dc5a"
+  },
+  "Authentication": true,
+  "Email": "xinchengchi@sbu-ezmaker.com",
+  "Name": "Xincheng Chi",
+  "Password": "44444444",
+  "Profile_Picture_ID": 126,
+  "Username": "XinC"
+}
+
+]
