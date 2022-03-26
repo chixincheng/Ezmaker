@@ -204,10 +204,15 @@ updateUser = async (req, res) => {
     })
 }
 
+logoutUser = async (req,res)=>{
+
+}
+
 module.exports = {
     getLoggedIn,
     registerUser,
     loginUser,
     getUserById,
-    updateUser
+    updateUser,
+    logoutUser
 }

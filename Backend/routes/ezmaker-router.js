@@ -11,7 +11,7 @@ router.get('/communityComics', auth.verify, EasyMakerController.getCommunityComi
 router.get('/communityStories', auth.verify, EasyMakerController.getCommunityStories)
 
 // create a new comic object in Comic table
-router.post('/createComic', auth.verify, EasyMkaerController.createComic)
+router.post('/createComic', auth.verify, EasyMakerController.createComic)
 
 // modify a partifuclar comic object in Comic table by id
 router.put('/editComic', auth.verify, EasyMakerController.editComic)
@@ -20,7 +20,7 @@ router.put('/editComic', auth.verify, EasyMakerController.editComic)
 router.delete('/deleteComic', auth.verify, EasyMakerController.deleteComic)
 
 // create a new story object in Story table
-router.post('/createStory', auth.verify, EasyMkaerController.createStory)
+router.post('/createStory', auth.verify, EasyMakerController.createStory)
 
 // modify a particular story object in Story table by id
 router.put('/editStory', auth.verify, EasyMakerController.editStory)
@@ -42,16 +42,16 @@ router.get('/getAllUserStories', auth.verify, EasyMakerController.getAllUserStor
 
 //===================================================USER========================================================
 // Handle's new user registration requests
-router.post('/register', UserController.register)
+router.post('/register', UserController.registerUser)
 
 // Handles ask if user logged in request
-router.get('/loggedIn', UserController.loggedIn)
+router.get('/loggedIn', UserController.getLoggedIn)
 
 // Handles existing user login requests
-router.post('/login', UserController.login)
+router.post('/login', UserController.loginUser)
 
 // Handles logout user requests
-router.get('/logout', UserController.logout)
+router.get('/logout', UserController.logoutUser)
 
 // Get user by id
 router.get('/user/:id', UserController.getUserById)
