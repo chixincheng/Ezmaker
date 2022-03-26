@@ -612,7 +612,92 @@ addComment = async (req, res) => {
             })
     })
 }
+// Update like user, dislike user, view number in pushlied story
+editPublishedStory = async (req, res) => {
+    const body = req.body
+    console.log("editPublishedStory: " + JSON.stringify(body));
+    if (!body) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a body to update',
+        })
+    }
 
+    PublishedStory.findOne({ _id: req.params.id }, (err, publishedStory) => {
+        console.log("comic found: " + JSON.stringify(publishedStory));
+        if (err) {
+            return res.status(404).json({
+                err,
+                message: 'Published Story not found!',
+            })
+        }
+
+        publishedStory.dislikedUser = body.dislikedUser
+        publishedStory.likedUser = body.likedUser
+        publishedStory.viewNumber = body.viewNumber
+
+        publishedStory
+            .save()
+            .then(() => {
+                console.log("SUCCESS!!!");
+                return res.status(200).json({
+                    success: true,
+                    id: publishedStory._id,
+                    message: 'PublishedStory updated!',
+                })
+            })
+            .catch(error => {
+                console.log("FAILURE: " + JSON.stringify(error));
+                return res.status(404).json({
+                    error,
+                    message: 'PublishedStory not updated!',
+                })
+            })
+    })
+}
+// Update like user, dislike user, view number in pushlied comic
+editPublishedComic = async (req, res) => {
+    const body = req.body
+    console.log("editPublishedComic: " + JSON.stringify(body));
+    if (!body) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a body to update',
+        })
+    }
+
+    PublishedComic.findOne({ _id: req.params.id }, (err, publishedComic) => {
+        console.log("comic found: " + JSON.stringify(publishedComic));
+        if (err) {
+            return res.status(404).json({
+                err,
+                message: 'Published Story not found!',
+            })
+        }
+
+        publishedComic.dislikedUser = body.dislikedUser
+        publishedComic.likedUser = body.likedUser
+        publishedComic.viewNumber = body.viewNumber
+
+        publishedComic
+            .save()
+            .then(() => {
+                console.log("SUCCESS!!!");
+                return res.status(200).json({
+                    success: true,
+                    id: publishedComic._id,
+                    message: 'PublishedComic updated!',
+                })
+            })
+            .catch(error => {
+                console.log("FAILURE: " + JSON.stringify(error));
+                return res.status(404).json({
+                    error,
+                    message: 'PublishedComic not updated!',
+                })
+            })
+    })
+}
 
 
 module.exports = {
@@ -629,5 +714,7 @@ module.exports = {
     getAllUserComics,
     getAllUserStories,
     createComment,
-    addComment
+    addComment,
+    editPublishedStory,
+    editPublishedComic
 }
