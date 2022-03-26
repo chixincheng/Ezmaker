@@ -561,5 +561,5 @@ module.exports = {
     getComicByID,
     getStoryByID,
     getAllUserComics,
-    getAllUserStories,
+    getAllUserStories
 }
