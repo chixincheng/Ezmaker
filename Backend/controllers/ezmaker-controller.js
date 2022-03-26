@@ -331,7 +331,7 @@ createComic = (req, res) => {
                 message: 'Comic Not Created!'
             })
         })
-}
+
 
 //edit comics
 editComic = async (req, res) => {

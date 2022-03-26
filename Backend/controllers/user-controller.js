@@ -48,39 +48,20 @@ loginUser = async(req, res) => {
                 .status(201)
                 .json({
                     success: false,
-                    errorMessage: "An account with this email address or user name does not exists."
+                    errorMessage: "An account with this email  or username does not exists."
                 });
         }
-        let existingUser = exist1;
-        if(!exist1){
-            existingUser = exist2;
-        }
-        console.log(existingUser)
-        if(existingUser.password != password){
-            return res
-                .status(201).json({
-                    success: false,
-                    errorMessage: "Invalid password."
-                });
-        }
+       
 
         // LOGIN THE USER
-        const token = auth.signToken(existingUser);
+        const token = auth.signToken(response);
         await res.cookie("token", token, {
             httpOnly: true,
             secure: true,
             sameSite: "none"
         }).status(200).json({
             success: true,
-            user: {
-                firstName: existingUser.firstName,
-                lastName: existingUser.lastName,
-                email: existingUser.email,
-                userName: existingUser.userName,
-                _id: existingUser._id,
-                likedList: existingUser.likedList,
-                dislikedList: existingUser.dislikedList
-            }
+            user: response
         }).send();
     } catch (err) {
         console.error(err);
@@ -171,7 +152,7 @@ getUserById = async (req, res) => {
 //==change password can be handled here
 updateUser = async (req, res) => {
     const body = req.body
-    console.log("updateUser: " + JSON.stringify(body));
+    
     if (!body) {
         return res.status(400).json({
             success: false,
@@ -188,8 +169,15 @@ updateUser = async (req, res) => {
             })
         }
 
-        user.likedList = body.likedList
-        user.dislikedList = body.dislikedList
+        
+
+        user.firstName = body.firstName;
+        user.lastName = body.lastName;
+        user.userName = body.userName;
+        user.email = body.email;
+        user.passwordHash = body.passwordHash;
+        user.authication = body.authentication;
+        user.profilePictureID = body.profilePictureID;
 
         user
             .save()
@@ -211,8 +199,15 @@ updateUser = async (req, res) => {
     })
 }
 
-logoutUser = async (req,res)=>{
 
+
+logoutUser = async (req,res)=>{
+    res.clearCookie("token", { httpOnly: true, sameSite: 'none', secure: true } );
+
+    res.send({
+      authenticated: false,
+      token: null,
+    });
 }
 
 module.exports = {
