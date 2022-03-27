@@ -15,7 +15,7 @@ process.env.GLOBAL_TEST = "456";
 const storage = new CloudinaryStorage({
     cloudinary,
     params: {
-        folder:'samples',
+        folder:'Ezmaker',
         resource_type:"auto",
         allowedFormats: ['jpeg', 'png', 'jpg', 'gif', 'tif',"tldr"]
         
