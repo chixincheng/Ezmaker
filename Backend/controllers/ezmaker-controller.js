@@ -3,6 +3,7 @@ const Story = require('../models/story-model');
 const Comment = require('../models/comment-model');
 const PublishedComic = require('../models/publishedComic-model');
 const PublishedStory = require('../models/publishedStory-model');
+const {cloudinary} = require("../cloudinary");
 
 
 // get community comics
@@ -37,6 +38,7 @@ getCommunityStories = async (req, res) => {
 
 //create comics
 createComic = (req, res) => {
+    console.log(req.files);
     const body = req.body;
     if (!body) {
         return res.status(400).json({
@@ -303,6 +305,7 @@ getAllUserStories = async (req, res) => {
 }
 // create a new comment
 createComment = (req,res) =>{
+    
     const body = req.body;
     if (!body) {
         return res.status(400).json({

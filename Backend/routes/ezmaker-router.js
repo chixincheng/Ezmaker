@@ -1,8 +1,12 @@
+require('dotenv').config();
 const auth = require('../auth')
 const express = require('express')
 const EasyMakerController = require('../controllers/ezmaker-controller')
 const UserController = require('../controllers/user-controller')
 const router = express.Router()
+const multer = require("multer");
+const { storage, cloudinary } = require("../cloudinary");
+const upload = multer({ storage });
 
 // get all community comics from MongoDB
 router.get('/communityComics', auth.verify, EasyMakerController.getCommunityComics)
@@ -11,7 +15,7 @@ router.get('/communityComics', auth.verify, EasyMakerController.getCommunityComi
 router.get('/communityStories', auth.verify, EasyMakerController.getCommunityStories)
 
 // create a new comic object in Comic table
-router.post('/createComic', auth.verify, EasyMakerController.createComic)
+router.post('/createComic', upload.array("tldrFile", 1) , EasyMakerController.createComic)
 
 // modify a partifuclar comic object in Comic table by id
 router.put('/editComic', auth.verify, EasyMakerController.editComic)
