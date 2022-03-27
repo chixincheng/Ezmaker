@@ -491,14 +491,13 @@ editPublishedComic = async (req, res) => {
 }
 // when a comic is published create it in the published comic table
 createPublishedComic = async (req, res) =>{
-    const body = req.body;
+    const body = req.query;
     if (!body) {
         return res.status(400).json({
             success: false,
             error: 'You must provide a published comic object',
         })
     }
-
     const publishedComic = new PublishedComic(body);
     console.log("creating published comic: " + JSON.stringify(publishedComic));
     if (!publishedComic) {

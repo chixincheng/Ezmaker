@@ -57,7 +57,7 @@ router.put('/editPublishedComic', auth.verify, EasyMakerController.editPublished
 router.put('/editPublishedStory', auth.verify, EasyMakerController.editPublishedStory)
 
 // create a new published comic object in the published comic table
-router.post('/createPublishedComic', auth.verify, EasyMakerController.createPublishedComic)
+router.post('/createPublishedComic', EasyMakerController.createPublishedComic)
 
 // create a new published story object in the published story table
 router.post('/createPublishedStory', auth.verify, EasyMakerController.createPublishedStory)

@@ -8,8 +8,8 @@ const PublishedComicSchema = new Schema(
         authorName: { type: String, required: true },
         comicTitle:{ type: String, required: true },
         comments: { type: [ObjectId], required: false },
-        dislikedUser: {type: [ObjectId], required: true},
-        likedUser: {type: [ObjectId], required: true},
+        dislikedUser: {type: [ObjectId], required: false},
+        likedUser: {type: [ObjectId], required: false},
         publishedTime: {type: Date, required: true},
         viewNumber: {type: Number, required: true}
     },
