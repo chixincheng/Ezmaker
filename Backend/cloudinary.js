@@ -12,17 +12,24 @@ cloudinary.config({
 });
 process.env.GLOBAL_TEST = "456";
 
-const storage = new CloudinaryStorage({
+const tldrStorage = new CloudinaryStorage({
+    cloudinary,
+    params: {
+        folder:'Ezmaker',
+        resource_type:"auto",
+        allowedFormats: ['jpeg', 'png', 'jpg', 'gif', 'tif',"tldr"],
+        format: "tldr"
+      
+    }
+    
+});
+
+const imgStorage = new CloudinaryStorage({
     cloudinary,
     params: {
         folder:'Ezmaker',
         resource_type:"auto",
         allowedFormats: ['jpeg', 'png', 'jpg', 'gif', 'tif',"tldr"]
-        
-       
-        
-        
-       
       
     }
     
@@ -32,5 +39,6 @@ const storage = new CloudinaryStorage({
 
 module.exports = {
     cloudinary,
-    storage
+    tldrStorage,
+    imgStorage
 }
