@@ -38,11 +38,17 @@ router.get('/getComic', auth.verify, EasyMakerController.getComicByID)
 // get a specific story in Story table by id
 router.get('/getStory', auth.verify, EasyMakerController.getStoryByID)
 
-// get all comics of this user
-router.get('/getAllUserComics', auth.verify, EasyMakerController.getAllUserComics)
+// get all unpublished comics of this user
+router.get('/getAllUserUnpublishedComics', auth.verify, EasyMakerController.getAllUserUnpublishedComics)
 
-// get all stories of this user
-router.get('/getAllUserStories', auth.verify, EasyMakerController.getAllUserStories)
+// get all unpublished stories of this user
+router.get('/getAllUserUnpublishedStories', auth.verify, EasyMakerController.getAllUserUnpublishedStories)
+
+// get all published comics of this user
+router.get('/getAllUserPublishedComics', auth.verify, EasyMakerController.getAllUserPublishedComics)
+
+// get all published stories of this user
+router.get('/getAllUserPublishedStories', auth.verify, EasyMakerController.getAllUserPublishedStories)
 
 // create a new comment
 router.post('/createComment', auth.verify, EasyMakerController.createComment)
@@ -62,6 +68,12 @@ router.post('/createPublishedComic', EasyMakerController.createPublishedComic)
 // create a new published story object in the published story table
 router.post('/createPublishedStory', auth.verify, EasyMakerController.createPublishedStory)
 
+// get a specific published comic in PublishedComic table by id
+router.get('/getPublishedComicByID', auth.verify, EasyMakerController.getPublishedComicByID)
+
+// get a specific published story in PublishedStory table by id
+router.get('/getPublishedStoryByID', auth.verify, EasyMakerController.getPublishedStoryByID)
+
 //===================================================USER========================================================
 // Handle's new user registration requests
 router.post('/register', UserController.registerUser)
@@ -79,6 +91,7 @@ router.get('/logout', UserController.logoutUser)
 router.get('/user/:id', UserController.getUserById)
 // Update user by id (password reset and user information change)
 router.put('/user/:id', UserController.updateUser)
+
 
 
 module.exports = router

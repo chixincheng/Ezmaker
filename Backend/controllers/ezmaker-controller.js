@@ -238,8 +238,8 @@ getStoryByID = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
-// get all user comics
-getAllUserComics = async (req, res) => {
+// get all user's unpublished comics
+getAllUserUnpublishedComics = async (req, res) => {
     await Comic.find({ }, (err, comicLists) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
@@ -271,8 +271,8 @@ getAllUserComics = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
-// get all user stories
-getAllUserStories = async (req, res) => {
+// get all user's unpublished stories
+getAllUserUnpublishedStories = async (req, res) => {
     await Story.find({ }, (err, storyLists) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
@@ -303,6 +303,81 @@ getAllUserStories = async (req, res) => {
         }
     }).catch(err => console.log(err))
 }
+
+// get all user's published comics
+getAllUserPublishedComics = async (req, res) => {
+    await PublishedComic.find({ }, (err, comicLists) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!comicLists) {
+            console.log("!comicLists.length");
+            return res
+                .status(404)
+                .json({ success: false, error: 'Published comic not found' })
+        }
+        else {
+            // PUT ALL THE LISTS INTO ID, NAME PAIRS
+            let pairs = [];
+            for (let key in comicLists) {
+                let comic = comicLists[key];
+                if(comic.authorID === req.params._id){
+                    let pair = {
+                        _id: list._id,
+                        authorID: list.authorID,
+                        authorName: list.authorName,
+                        comicTitle: list.comicTitle,
+                        comments: list.comments,
+                        dislikedUser: list.dislikedUser,
+                        likedUser: list.likedUser,
+                        publishedTime: list.publishedTime,
+                        viewNumber: list.viewNumber
+                    };
+                    pairs.push(pair);
+                }
+            }
+            return res.status(200).json({ success: true, idNamePairs: pairs })
+        }
+    }).catch(err => console.log(err))
+}
+
+// get all user's published stories
+getAllUserPublishedStories = async (req, res) => {
+    await Story.find({ }, (err, storyLists) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!storyLists) {
+            console.log("!storyLists.length");
+            return res
+                .status(404)
+                .json({ success: false, error: 'Story not found' })
+        }
+        else {
+            // PUT ALL THE LISTS INTO ID, NAME PAIRS
+            let pairs = [];
+            for (let key in storyLists) {
+                let story = storyLists[key];
+                if(story.authorID === req.params._id){
+                    let pair = {
+                        _id: list._id,
+                        authorID: list.authorID,
+                        authorName: list.authorName,
+                        comicTitle: list.comicTitle,
+                        comments: list.comments,
+                        dislikedUser: list.dislikedUser,
+                        likedUser: list.likedUser,
+                        publishedTime: list.publishedTime,
+                        viewNumber: list.viewNumber
+                    };
+                    pairs.push(pair);
+                }
+            }
+            return res.status(200).json({ success: true, idNamePairs: pairs })
+        }
+    }).catch(err => console.log(err))
+}
+
 // create a new comment
 createComment = (req,res) =>{
     
@@ -554,6 +629,26 @@ createPublishedStory = async (req, res) =>{
         })
 }
 
+// get published comic by id
+getPublishedComicByID = async (req, res) => {
+    await PublishedComic.findById({ _id: req.params.id }, (err, comic) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err });
+        }
+        return res.status(200).json({ success: true, story: comic })
+    }).catch(err => console.log(err))
+}
+
+// get published story by id
+getPublishedStoryByID = async (req, res) => {
+    await PublishedStory.findById({ _id: req.params.id }, (err, story) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err });
+        }
+        return res.status(200).json({ success: true, story: story })
+    }).catch(err => console.log(err))
+}
+
 module.exports = {
     getCommunityComics,
     getCommunityStories,
@@ -565,12 +660,16 @@ module.exports = {
     deleteStory,
     getComicByID,
     getStoryByID,
-    getAllUserComics,
-    getAllUserStories,
+    getAllUserUnpublishedComics,
+    getAllUserUnpublishedStories,
+    getAllUserPublishedComics,
+    getAllUserPublishedStories,
     createComment,
     addComment,
     editPublishedStory,
     editPublishedComic,
     createPublishedComic,
-    createPublishedStory
+    createPublishedStory,
+    getPublishedComicByID,
+    getPublishedStoryByID
 }
