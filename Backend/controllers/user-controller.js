@@ -20,7 +20,6 @@ getLoggedIn = async (req, res) => {
     })
 }
 
-//Needs change
 // check
 loginUser = async(req, res) => {
     try {
@@ -163,7 +162,7 @@ getUserById = async (req, res) => {
         return res.status(200).json({ success: true, user: user })
     }).catch(err => console.log(err))
 }
-//==change password can be handled here
+//==change password and password reset can be handled here
 updateUser = async (req, res) => {
     const body = req.body
     
@@ -182,8 +181,6 @@ updateUser = async (req, res) => {
                 message: 'User not found!',
             })
         }
-
-        
 
         user.firstName = body.firstName;
         user.lastName = body.lastName;
