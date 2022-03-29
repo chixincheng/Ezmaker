@@ -255,13 +255,13 @@ getAllUserUnpublishedComics = async (req, res) => {
             let pairs = [];
             for (let key in comicLists) {
                 let comic = comicLists[key];
-                if(comic.authorID === req.params._id){
+                if(comic.authorID.equals(req.params._id)){
                     let pair = {
-                        _id: list._id,
-                        authorID: list.authorID,
-                        authorName: list.authorName,
-                        editedTime: list.editedTime,
-                        comicTitle: list.comicTitle
+                        _id: comic._id,
+                        authorID: comic.authorID,
+                        authorName: comic.authorName,
+                        editedTime: comic.editedTime,
+                        comicTitle: comic.comicTitle
                     };
                     pairs.push(pair);
                 }
@@ -288,13 +288,13 @@ getAllUserUnpublishedStories = async (req, res) => {
             let pairs = [];
             for (let key in storyLists) {
                 let story = storyLists[key];
-                if(story.authorID === req.params._id){
+                if(story.authorID.equals(req.params._id)){
                     let pair = {
-                        _id: list._id,
-                        authorID: list.authorID,
-                        authorName: list.authorName,
-                        editedTime: list.editedTime,
-                        storyTitle: list.storyTitle
+                        _id: story._id,
+                        authorID: story.authorID,
+                        authorName: story.authorName,
+                        editedTime: story.editedTime,
+                        storyTitle: story.storyTitle
                     };
                     pairs.push(pair);
                 }
@@ -321,17 +321,17 @@ getAllUserPublishedComics = async (req, res) => {
             let pairs = [];
             for (let key in comicLists) {
                 let comic = comicLists[key];
-                if(comic.authorID === req.params._id){
+                if(comic.authorID.equals(req.params._id)){
                     let pair = {
-                        _id: list._id,
-                        authorID: list.authorID,
-                        authorName: list.authorName,
-                        comicTitle: list.comicTitle,
-                        comments: list.comments,
-                        dislikedUser: list.dislikedUser,
-                        likedUser: list.likedUser,
-                        publishedTime: list.publishedTime,
-                        viewNumber: list.viewNumber
+                        _id: comic._id,
+                        authorID: comic.authorID,
+                        authorName: comic.authorName,
+                        comicTitle: comic.comicTitle,
+                        comments: comic.comments,
+                        dislikedUser: comic.dislikedUser,
+                        likedUser: comic.likedUser,
+                        publishedTime: comic.publishedTime,
+                        viewNumber: comic.viewNumber
                     };
                     pairs.push(pair);
                 }
@@ -343,7 +343,7 @@ getAllUserPublishedComics = async (req, res) => {
 
 // get all user's published stories
 getAllUserPublishedStories = async (req, res) => {
-    await Story.find({ }, (err, storyLists) => {
+    await PublishedStory.find({ }, (err, storyLists) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
@@ -358,17 +358,17 @@ getAllUserPublishedStories = async (req, res) => {
             let pairs = [];
             for (let key in storyLists) {
                 let story = storyLists[key];
-                if(story.authorID === req.params._id){
+                if(story.authorID.equals(req.params._id)){
                     let pair = {
-                        _id: list._id,
-                        authorID: list.authorID,
-                        authorName: list.authorName,
-                        comicTitle: list.comicTitle,
-                        comments: list.comments,
-                        dislikedUser: list.dislikedUser,
-                        likedUser: list.likedUser,
-                        publishedTime: list.publishedTime,
-                        viewNumber: list.viewNumber
+                        _id: story._id,
+                        authorID: story.authorID,
+                        authorName: story.authorName,
+                        storyTitle: story.storyTitle,
+                        comments: story.comments,
+                        dislikedUser: story.dislikedUser,
+                        likedUser: story.likedUser,
+                        publishedTime: story.publishedTime,
+                        viewNumber: story.viewNumber
                     };
                     pairs.push(pair);
                 }
@@ -631,7 +631,7 @@ createPublishedStory = async (req, res) =>{
 
 // get published comic by id
 getPublishedComicByID = async (req, res) => {
-    await PublishedComic.findById({ _id: req.params.id }, (err, comic) => {
+    await PublishedComic.findById({ _id: req.params._id }, (err, comic) => {
         if (err) {
             return res.status(400).json({ success: false, error: err });
         }
@@ -641,7 +641,7 @@ getPublishedComicByID = async (req, res) => {
 
 // get published story by id
 getPublishedStoryByID = async (req, res) => {
-    await PublishedStory.findById({ _id: req.params.id }, (err, story) => {
+    await PublishedStory.findById({ _id: req.params._id }, (err, story) => {
         if (err) {
             return res.status(400).json({ success: false, error: err });
         }
