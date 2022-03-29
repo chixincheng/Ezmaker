@@ -380,7 +380,6 @@ getAllUserPublishedStories = async (req, res) => {
 
 // create a new comment
 createComment = (req,res) =>{
-    
     const body = req.body;
     if (!body) {
         return res.status(400).json({
@@ -388,13 +387,11 @@ createComment = (req,res) =>{
             error: 'You must provide a comment object',
         })
     }
-
     const comment = new Comment(body);
     console.log("creating comment: " + JSON.stringify(comment));
     if (!comment) {
         return res.status(400).json({ success: false, error: err })
     }
-
     comment
         .save()
         .then(() => {
@@ -411,6 +408,58 @@ createComment = (req,res) =>{
             })
         })
 }
+
+// get comment by id
+getCommentByID = async (req, res) => {
+    await Comment.findById({ _id: req.params._id }, (err, comment) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err });
+        }
+        return res.status(200).json({ success: true, comment: comment })
+    }).catch(err => console.log(err))
+}
+
+addRepliedComment = async (req,res) => {
+    const body = req.body
+    console.log("add replied comment: " + JSON.stringify(body));
+    if (!body) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a body to update',
+        })
+    }
+    Comment.findOne({ _id: req.params.id }, (err, replyComment) => {
+        console.log("Comment found: " + JSON.stringify(replyComment));
+        if (err) {
+            // ID is not found in published story and in published comic
+            return res.status(404).json({
+                err,
+                message: 'Comment not found!',
+            })
+        }
+        // ID found in published Comic table
+        replyComment.replies = replyComment.replies.push(body)
+
+        replyComment
+            .save()
+            .then(() => {
+                console.log("SUCCESS!!!");
+                return res.status(200).json({
+                    success: true,
+                    id: replyComment._id,
+                    message: 'Comment updated!',
+                })
+            })
+            .catch(error => {
+                console.log("FAILURE: " + JSON.stringify(error));
+                return res.status(404).json({
+                    error,
+                    message: 'Comment not updated!',
+                })
+            })
+    })
+}
+
 // update comment array in published comic/story
 addComment = async (req, res) => {
     const body = req.body
@@ -421,12 +470,12 @@ addComment = async (req, res) => {
             error: 'You must provide a body to update',
         })
     }
-    PublishedStory.findOne({ _id: req.params.id }, (err, comment) => {
-        console.log("PublishedStory found: " + JSON.stringify(comment));
+    PublishedStory.findOne({ _id: req.params.id }, (err, publishedStory) => {
+        console.log("PublishedStory found: " + JSON.stringify(publishedStory));
         if (err) {
             // Published story is not found, try to found id in published comic
-            PublishedComic.findOne({ _id: req.params.id }, (err, comment) => {
-                console.log("PublishedComic found: " + JSON.stringify(comment));
+            PublishedComic.findOne({ _id: req.params.id }, (err, publishedComic) => {
+                console.log("PublishedComic found: " + JSON.stringify(publishedComic));
                 if (err) {
                     // ID is not found in published story and in published comic
                     return res.status(404).json({
@@ -435,15 +484,15 @@ addComment = async (req, res) => {
                     })
                 }
                 // ID found in published Comic table
-                PublishedComic.comments = PublishedComic.comments.push(body)
+                publishedComic.comments = publishedComic.comments.push(body)
 
-                PublishedComic
+                publishedComic
                     .save()
                     .then(() => {
                         console.log("SUCCESS!!!");
                         return res.status(200).json({
                             success: true,
-                            id: PublishedComic._id,
+                            id: publishedComic._id,
                             message: 'PublishedComic updated!',
                         })
                     })
@@ -457,15 +506,15 @@ addComment = async (req, res) => {
             })
         }
         //ID found in published Story table
-        PublishedStory.comments = PublishedStory.comments.push(body)
+        publishedStory.comments = publishedStory.comments.push(body)
 
-        PublishedStory
+        publishedStory
             .save()
             .then(() => {
                 console.log("SUCCESS!!!");
                 return res.status(200).json({
                     success: true,
-                    id: PublishedStory._id,
+                    id: publishedStory._id,
                     message: 'PublishedStory updated!',
                 })
             })
