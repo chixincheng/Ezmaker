@@ -25,9 +25,16 @@ resetPassword = async (req, res) =>{
       transporter.sendMail(mailOptions, function(error, info){
         if (error) {
           console.log(error);
+          return res.status(400).json({
+            success: false,
+            error: error,
+          })
         } else {
           console.log('Email sent: ' + info.response);
-
+          return res.status(200).json({
+            success: true,
+            message: 'Email sent!'
+          })
         }
       });
 }
