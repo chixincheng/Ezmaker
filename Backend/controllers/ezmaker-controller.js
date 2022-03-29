@@ -720,5 +720,7 @@ module.exports = {
     createPublishedComic,
     createPublishedStory,
     getPublishedComicByID,
-    getPublishedStoryByID
+    getPublishedStoryByID,
+    getCommentByID,
+    addRepliedComment
 }

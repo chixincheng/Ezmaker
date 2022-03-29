@@ -75,6 +75,12 @@ router.get('/getPublishedComicByID', auth.verify, EasyMakerController.getPublish
 // get a specific published story in PublishedStory table by id
 router.get('/getPublishedStoryByID', auth.verify, EasyMakerController.getPublishedStoryByID)
 
+// get a specific comment in Comment table by id
+router.get('/getCommentByID', auth.verify, EasyMakerController.getCommentByID)
+
+// modify a partifuclar comment array in Comment table
+router.put('/addRepliedComment', auth.verify, EasyMakerController.addRepliedComment)
+
 //===================================================USER========================================================
 // Handle's new user registration requests
 router.post('/register', UserController.registerUser)
