@@ -17,9 +17,9 @@ const transporter = nodemailer.createTransport({
 resetPassword = async (req, res) =>{
     var mailOptions = {
         from: process.env.USER,
-        to: req.body.email,
-        subject: req.body.subject ,
-        text: req.body.text
+        to: req.query.email,
+        subject: req.query.subject ,
+        text: req.query.text
       };
       
       transporter.sendMail(mailOptions, function(error, info){
@@ -257,5 +257,6 @@ module.exports = {
     loginUser,
     getUserById,
     updateUser,
-    logoutUser
+    logoutUser,
+    resetPassword
 }
