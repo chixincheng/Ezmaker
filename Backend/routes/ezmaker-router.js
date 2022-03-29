@@ -6,8 +6,8 @@ const UserController = require('../controllers/user-controller')
 const router = express.Router()
 const multer = require("multer");
 const { tldrStorage, cloudinary, imgStorage } = require("../cloudinary");
-const imgUpload = multer({ imgStorage });
-const tldrUpload = multer({ tldrStorage });
+const imgUpload = multer({storage: imgStorage });
+const tldrUpload = multer({ storage: tldrStorage });
 
 // get all community comics from MongoDB
 router.get('/communityComics', auth.verify, EasyMakerController.getCommunityComics)
@@ -16,7 +16,7 @@ router.get('/communityComics', auth.verify, EasyMakerController.getCommunityComi
 router.get('/communityStories', auth.verify, EasyMakerController.getCommunityStories)
 
 // create a new comic object in Comic table
-router.post('/createComic', tldrUpload.array("tldrFile", 1) , EasyMakerController.createComic)
+router.post('/createComic', tldrUpload.array("tldrFile", 10) , EasyMakerController.createComic)
 
 // modify a partifuclar comic object in Comic table by id
 router.put('/editComic', auth.verify, EasyMakerController.editComic)

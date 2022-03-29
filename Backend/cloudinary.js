@@ -17,8 +17,10 @@ const tldrStorage = new CloudinaryStorage({
     params: {
         folder:'Ezmaker',
         resource_type:"auto",
-        allowedFormats: ['jpeg', 'png', 'jpg', 'gif', 'tif',"tldr"],
         format: "tldr"
+        
+        
+        
       
     }
     
@@ -28,8 +30,8 @@ const imgStorage = new CloudinaryStorage({
     cloudinary,
     params: {
         folder:'Ezmaker',
-        resource_type:"auto",
-        allowedFormats: ['jpeg', 'png', 'jpg', 'gif', 'tif',"tldr"]
+        resource_type:"auto"
+       
       
     }
     

@@ -48,7 +48,7 @@ createComic = (req, res) => {
     }
 
     const comic = new Comic(body);
-    console.log("creating comic: " + JSON.stringify(comic));
+    
     if (!comic) {
         return res.status(400).json({ success: false, error: err })
     }
