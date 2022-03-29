@@ -1,6 +1,36 @@
+require('dotenv').config();
 const auth = require('../auth')
 const User = require('../models/user-model')
 const bcrypt = require('bcryptjs')
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user:  process.env.USER,
+    pass: process.env.PASS
+  }
+});
+
+
+// when resetting a new password, the frontend will send 2 http requests: resetpassword and updateuser
+resetPassword = async (req, res) =>{
+    var mailOptions = {
+        from: process.env.USER,
+        to: req.body.email,
+        subject: req.body.subject ,
+        text: req.body.text
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+
+        }
+      });
+}
 
 getLoggedIn = async (req, res) => {
     auth.verify(req, res, async function () {
