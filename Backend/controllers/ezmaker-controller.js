@@ -39,7 +39,7 @@ getCommunityStories = async (req, res) => {
 //create comics
 createComic = (req, res) => {
     console.log(req.files);
-    const body = req.body;
+    const body = req.query;
     if (!body) {
         return res.status(400).json({
             success: false,
@@ -72,7 +72,7 @@ createComic = (req, res) => {
 
 //edit comics
 editComic = async (req, res) => {
-    const body = req.body
+    const body = req.query
     console.log("updateComic: " + JSON.stringify(body));
     if (!body) {
         return res.status(400).json({
@@ -130,7 +130,7 @@ deleteComic = async (req, res) => {
 
 //create stories
 createStory = (req, res) => {
-    const body = req.body;
+    const body = req.query;
     if (!body) {
         return res.status(400).json({
             success: false,
@@ -163,7 +163,7 @@ createStory = (req, res) => {
 
 //edit stories
 editStory = async (req, res) => {
-    const body = req.body
+    const body = req.query
     console.log("updateStory: " + JSON.stringify(body));
     if (!body) {
         return res.status(400).json({
@@ -380,7 +380,7 @@ getAllUserPublishedStories = async (req, res) => {
 
 // create a new comment
 createComment = (req,res) =>{
-    const body = req.body;
+    const body = req.query;
     if (!body) {
         return res.status(400).json({
             success: false,
@@ -420,7 +420,7 @@ getCommentByID = async (req, res) => {
 }
 
 addRepliedComment = async (req,res) => {
-    const body = req.body
+    const body = req.query
     console.log("add replied comment: " + JSON.stringify(body));
     if (!body) {
         return res.status(400).json({
@@ -462,7 +462,7 @@ addRepliedComment = async (req,res) => {
 
 // update comment array in published comic/story
 addComment = async (req, res) => {
-    const body = req.body
+    const body = req.query
     console.log("add Comment: " + JSON.stringify(body));
     if (!body) {
         return res.status(400).json({
@@ -529,7 +529,7 @@ addComment = async (req, res) => {
 }
 // Update like user, dislike user, view number in pushlied story
 editPublishedStory = async (req, res) => {
-    const body = req.body
+    const body = req.query
     console.log("editPublishedStory: " + JSON.stringify(body));
     if (!body) {
         return res.status(400).json({
@@ -572,7 +572,7 @@ editPublishedStory = async (req, res) => {
 }
 // Update like user, dislike user, view number in pushlied comic
 editPublishedComic = async (req, res) => {
-    const body = req.body
+    const body = req.query
     console.log("editPublishedComic: " + JSON.stringify(body));
     if (!body) {
         return res.status(400).json({
@@ -647,7 +647,7 @@ createPublishedComic = async (req, res) =>{
 
 // when a story is published create it in the published story table
 createPublishedStory = async (req, res) =>{
-    const body = req.body;
+    const body = req.query;
     if (!body) {
         return res.status(400).json({
             success: false,
