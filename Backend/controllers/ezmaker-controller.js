@@ -792,5 +792,7 @@ module.exports = {
     getPublishedComicByID,
     getPublishedStoryByID,
     getCommentByID,
-    addRepliedComment
+    addRepliedComment,
+    searchComicByInput,
+    searchStoryByInput
 }

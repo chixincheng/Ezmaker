@@ -81,6 +81,13 @@ router.get('/getCommentByID', auth.verify, EasyMakerController.getCommentByID)
 // modify a partifuclar comment array in Comment table
 router.put('/addRepliedComment', auth.verify, EasyMakerController.addRepliedComment)
 
+// get all the search result by user input in comic table
+router.get('/searchComicByInput', auth.verify, EasyMakerController.searchComicByInput)
+
+// get all the search result by user input in story table
+router.get('/searchStoryByInput', auth.verify, EasyMakerController.searchStoryByInput)
+
+
 //===================================================USER========================================================
 // Handle's new user registration requests
 router.post('/register', UserController.registerUser)
