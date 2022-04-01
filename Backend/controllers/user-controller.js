@@ -122,7 +122,7 @@ loginUser = async(req, res) => {
 registerUser = async (req, res) => {
     try {
         console.log(req.query);
-        console.log(req.body);
+        console.log(req.query);
         const { firstName, lastName, userName, email, password, passwordVerify } = req.query;
         if (!firstName || !lastName || !email || !password || !passwordVerify || !userName) {
             return res.status(201)
@@ -201,7 +201,7 @@ getUserById = async (req, res) => {
 }
 //==change password and password reset can be handled here
 updateUser = async (req, res) => {
-    const body = req.body
+    const body = req.query
     
     if (!body) {
         return res.status(400).json({
@@ -210,7 +210,7 @@ updateUser = async (req, res) => {
         })
     }
 
-    User.findOne({ _id: req.params.id }, (err, user) => {
+    User.findOne({ _id: req.params.id }, async (err, user) => {
         console.log("User found: " + JSON.stringify(user));
         if (err) {
             return res.status(404).json({
@@ -223,7 +223,8 @@ updateUser = async (req, res) => {
         user.lastName = body.lastName;
         user.userName = body.userName;
         user.email = body.email;
-        user.passwordHash = body.passwordHash;
+        let passwordHash = await bcrypt.hash(body.password, 8);
+        user.passwordHash = passwordHash;
         user.authication = body.authentication;
         user.profilePictureID = body.profilePictureID;
 
@@ -259,6 +260,21 @@ logoutUser = async (req,res)=>{
 
 }
 
+deleteUser = async (req, res) => {
+    User.findById({ _id: req.query.id }, (err, user) => {
+        if (err) {
+            return res.status(404).json({
+                err,
+                message: 'User not found!',
+            })
+        }
+        User.findOneAndDelete({ _id: req.query.id }, () => {
+            return res.status(200).json({ success: true, data: user })
+        }).catch(err => console.log(err))
+    })
+}
+
+
 module.exports = {
     getLoggedIn,
     registerUser,
@@ -266,5 +282,6 @@ module.exports = {
     getUserById,
     updateUser,
     logoutUser,
-    resetPassword
+    resetPassword,
+    deleteUser
 }
