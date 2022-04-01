@@ -438,7 +438,7 @@ addRepliedComment = async (req,res) => {
             })
         }
         // ID found in published Comic table
-        replyComment.replies = replyComment.replies.push(body.commentID)
+        replyComment.replies = body.commentArr
 
         replyComment
             .save()
