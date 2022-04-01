@@ -99,6 +99,8 @@ router.get('/user/:id', UserController.getUserById)
 // Update user by id (password reset and user information change)
 router.put('/user/:id', UserController.updateUser)
 
+router.delete('/deleteUser', auth.verify, UserController.deleteUser)
+
 router.put('/resetPassword', UserController.resetPassword)
 
 

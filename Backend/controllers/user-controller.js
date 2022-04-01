@@ -259,6 +259,21 @@ logoutUser = async (req,res)=>{
     });
 }
 
+deleteUser = async (req, res) => {
+    User.findById({ _id: req.query.id }, (err, user) => {
+        if (err) {
+            return res.status(404).json({
+                err,
+                message: 'User not found!',
+            })
+        }
+        User.findOneAndDelete({ _id: req.query.id }, () => {
+            return res.status(200).json({ success: true, data: user })
+        }).catch(err => console.log(err))
+    })
+}
+
+
 module.exports = {
     getLoggedIn,
     registerUser,
@@ -266,5 +281,6 @@ module.exports = {
     getUserById,
     updateUser,
     logoutUser,
-    resetPassword
+    resetPassword,
+    deleteUser
 }
