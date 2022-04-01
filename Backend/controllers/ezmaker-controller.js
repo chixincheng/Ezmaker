@@ -472,7 +472,7 @@ addComment = async (req, res) => {
     }
     PublishedStory.findOne({ _id: req.query.id }, (err, publishedStory) => {
         console.log("PublishedStory found: " + JSON.stringify(publishedStory));
-        if (err) {
+        if (err || !publishedStory) {
             // Published story is not found, try to found id in published comic
             PublishedComic.findOne({ _id: req.query.id }, (err, publishedComic) => {
                 console.log("PublishedComic found: " + JSON.stringify(publishedComic));
