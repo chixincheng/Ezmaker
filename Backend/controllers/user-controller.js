@@ -122,7 +122,7 @@ loginUser = async(req, res) => {
 registerUser = async (req, res) => {
     try {
         console.log(req.query);
-        console.log(req.body);
+        console.log(req.query);
         const { firstName, lastName, userName, email, password, passwordVerify } = req.query;
         if (!firstName || !lastName || !email || !password || !passwordVerify || !userName) {
             return res.status(201)
@@ -201,7 +201,7 @@ getUserById = async (req, res) => {
 }
 //==change password and password reset can be handled here
 updateUser = async (req, res) => {
-    const body = req.body
+    const body = req.query
     
     if (!body) {
         return res.status(400).json({
@@ -223,7 +223,8 @@ updateUser = async (req, res) => {
         user.lastName = body.lastName;
         user.userName = body.userName;
         user.email = body.email;
-        user.passwordHash = body.passwordHash;
+        let passwordHash = await bcrypt.hash(body.password, 8);
+        user.passwordHash = passwordHash;
         user.authication = body.authentication;
         user.profilePictureID = body.profilePictureID;
 
