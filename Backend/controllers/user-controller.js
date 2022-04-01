@@ -256,6 +256,7 @@ logoutUser = async (req,res)=>{
       authenticated: false,
       token: null,
     });
+
 }
 
 module.exports = {
