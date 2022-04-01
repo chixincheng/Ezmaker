@@ -74,7 +74,7 @@ createComic = (req, res) => {
 editComic = async (req, res) => {
     const body = req.query
     console.log("updateComic: " + JSON.stringify(body));
-    if (!body) {
+    if (!body || !body.id) {
         return res.status(400).json({
             success: false,
             error: 'You must provide a body to update',
@@ -165,7 +165,7 @@ createStory = (req, res) => {
 editStory = async (req, res) => {
     const body = req.query
     console.log("updateStory: " + JSON.stringify(body));
-    if (!body) {
+    if (!body || !body.id) {
         return res.status(400).json({
             success: false,
             error: 'You must provide a body to update',
