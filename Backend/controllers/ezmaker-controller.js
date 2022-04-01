@@ -81,7 +81,7 @@ editComic = async (req, res) => {
         })
     }
 
-    Comic.findOne({ _id: req.params.id }, (err, comic) => {
+    Comic.findOne({ _id: req.query.id }, (err, comic) => {
         console.log("comic found: " + JSON.stringify(comic));
         if (err) {
             return res.status(404).json({
@@ -114,14 +114,14 @@ editComic = async (req, res) => {
 
 //delete the comic by id 
 deleteComic = async (req, res) => {
-    Comic.findById({ _id: req.params.id }, (err, comic) => {
+    Comic.findById({ _id: req.query.id }, (err, comic) => {
         if (err) {
             return res.status(404).json({
                 err,
                 message: 'Comic not found!',
             })
         }
-        Comic.findOneAndDelete({ _id: req.params.id }, () => {
+        Comic.findOneAndDelete({ _id: req.query.id }, () => {
             return res.status(200).json({ success: true, data: comic })
         }).catch(err => console.log(err))
     })
@@ -172,7 +172,7 @@ editStory = async (req, res) => {
         })
     }
 
-    Story.findOne({ _id: req.params.id }, (err, story) => {
+    Story.findOne({ _id: req.query.id }, (err, story) => {
         console.log("Story found: " + JSON.stringify(story));
         if (err) {
             return res.status(404).json({
@@ -205,14 +205,14 @@ editStory = async (req, res) => {
 
 //delete the story by id 
 deleteStory = async (req, res) => {
-    Story.findById({ _id: req.params.id }, (err, story) => {
+    Story.findById({ _id: req.query.id }, (err, story) => {
         if (err) {
             return res.status(404).json({
                 err,
                 message: 'Story not found!',
             })
         }
-        Story.findOneAndDelete({ _id: req.params.id }, () => {
+        Story.findOneAndDelete({ _id: req.query.id }, () => {
             return res.status(200).json({ success: true, data: story })
         }).catch(err => console.log(err))
     })
@@ -220,7 +220,7 @@ deleteStory = async (req, res) => {
 
 // get comic by id
 getComicByID = async (req, res) => {
-    await Comic.findById({ _id: req.params.id }, (err, comic) => {
+    await Comic.findById({ _id: req.query.id }, (err, comic) => {
         if (err) {
             return res.status(400).json({ success: false, error: err });
         }
@@ -230,7 +230,7 @@ getComicByID = async (req, res) => {
 
 // get story by id
 getStoryByID = async (req, res) => {
-    await Story.findById({ _id: req.params.id }, (err, story) => {
+    await Story.findById({ _id: req.query.id }, (err, story) => {
         if (err) {
             return res.status(400).json({ success: false, error: err });
         }
@@ -255,7 +255,7 @@ getAllUserUnpublishedComics = async (req, res) => {
             let pairs = [];
             for (let key in comicLists) {
                 let comic = comicLists[key];
-                if(comic.authorID.equals(req.params._id)){
+                if(comic.authorID.equals(req.query._id)){
                     let pair = {
                         _id: comic._id,
                         authorID: comic.authorID,
@@ -288,7 +288,7 @@ getAllUserUnpublishedStories = async (req, res) => {
             let pairs = [];
             for (let key in storyLists) {
                 let story = storyLists[key];
-                if(story.authorID.equals(req.params._id)){
+                if(story.authorID.equals(req.query._id)){
                     let pair = {
                         _id: story._id,
                         authorID: story.authorID,
@@ -321,7 +321,7 @@ getAllUserPublishedComics = async (req, res) => {
             let pairs = [];
             for (let key in comicLists) {
                 let comic = comicLists[key];
-                if(comic.authorID.equals(req.params._id)){
+                if(comic.authorID.equals(req.query._id)){
                     let pair = {
                         _id: comic._id,
                         authorID: comic.authorID,
@@ -358,7 +358,7 @@ getAllUserPublishedStories = async (req, res) => {
             let pairs = [];
             for (let key in storyLists) {
                 let story = storyLists[key];
-                if(story.authorID.equals(req.params._id)){
+                if(story.authorID.equals(req.query._id)){
                     let pair = {
                         _id: story._id,
                         authorID: story.authorID,
@@ -411,7 +411,7 @@ createComment = (req,res) =>{
 
 // get comment by id
 getCommentByID = async (req, res) => {
-    await Comment.findById({ _id: req.params._id }, (err, comment) => {
+    await Comment.findById({ _id: req.query._id }, (err, comment) => {
         if (err) {
             return res.status(400).json({ success: false, error: err });
         }
@@ -428,7 +428,7 @@ addRepliedComment = async (req,res) => {
             error: 'You must provide a body to update',
         })
     }
-    Comment.findOne({ _id: req.params.id }, (err, replyComment) => {
+    Comment.findOne({ _id: req.query.id }, (err, replyComment) => {
         console.log("Comment found: " + JSON.stringify(replyComment));
         if (err) {
             // ID is not found in published story and in published comic
@@ -470,11 +470,11 @@ addComment = async (req, res) => {
             error: 'You must provide a body to update',
         })
     }
-    PublishedStory.findOne({ _id: req.params.id }, (err, publishedStory) => {
+    PublishedStory.findOne({ _id: req.query.id }, (err, publishedStory) => {
         console.log("PublishedStory found: " + JSON.stringify(publishedStory));
         if (err) {
             // Published story is not found, try to found id in published comic
-            PublishedComic.findOne({ _id: req.params.id }, (err, publishedComic) => {
+            PublishedComic.findOne({ _id: req.query.id }, (err, publishedComic) => {
                 console.log("PublishedComic found: " + JSON.stringify(publishedComic));
                 if (err) {
                     // ID is not found in published story and in published comic
@@ -538,7 +538,7 @@ editPublishedStory = async (req, res) => {
         })
     }
 
-    PublishedStory.findOne({ _id: req.params.id }, (err, publishedStory) => {
+    PublishedStory.findOne({ _id: req.query.id }, (err, publishedStory) => {
         console.log("comic found: " + JSON.stringify(publishedStory));
         if (err) {
             return res.status(404).json({
@@ -581,7 +581,7 @@ editPublishedComic = async (req, res) => {
         })
     }
 
-    PublishedComic.findOne({ _id: req.params.id }, (err, publishedComic) => {
+    PublishedComic.findOne({ _id: req.query.id }, (err, publishedComic) => {
         console.log("comic found: " + JSON.stringify(publishedComic));
         if (err) {
             return res.status(404).json({
@@ -680,7 +680,7 @@ createPublishedStory = async (req, res) =>{
 
 // get published comic by id
 getPublishedComicByID = async (req, res) => {
-    await PublishedComic.findById({ _id: req.params._id }, (err, comic) => {
+    await PublishedComic.findById({ _id: req.query._id }, (err, comic) => {
         if (err) {
             return res.status(400).json({ success: false, error: err });
         }
@@ -690,7 +690,7 @@ getPublishedComicByID = async (req, res) => {
 
 // get published story by id
 getPublishedStoryByID = async (req, res) => {
-    await PublishedStory.findById({ _id: req.params._id }, (err, story) => {
+    await PublishedStory.findById({ _id: req.query._id }, (err, story) => {
         if (err) {
             return res.status(400).json({ success: false, error: err });
         }
