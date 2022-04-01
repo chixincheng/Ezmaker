@@ -210,7 +210,7 @@ updateUser = async (req, res) => {
         })
     }
 
-    User.findOne({ _id: req.params.id }, (err, user) => {
+    User.findOne({ _id: req.params.id }, async (err, user) => {
         console.log("User found: " + JSON.stringify(user));
         if (err) {
             return res.status(404).json({
