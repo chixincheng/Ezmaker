@@ -505,26 +505,29 @@ addComment = async (req, res) => {
                     })
             })
         }
-        //ID found in published Story table
-        publishedStory.comments.push(body.commentID);
+        else {
+                //ID found in published Story table
+            publishedStory.comments.push(body.commentID);
 
-        publishedStory
-            .save()
-            .then(() => {
-                console.log("SUCCESS!!!");
-                return res.status(200).json({
-                    success: true,
-                    id: publishedStory._id,
-                    message: 'PublishedStory updated!',
+            publishedStory
+                .save()
+                .then(() => {
+                    console.log("SUCCESS!!!");
+                    return res.status(200).json({
+                        success: true,
+                        id: publishedStory._id,
+                        message: 'PublishedStory updated!',
+                    })
                 })
-            })
-            .catch(error => {
-                console.log("FAILURE: " + JSON.stringify(error));
-                return res.status(404).json({
-                    error,
-                    message: 'PublishedStory not updated!',
+                .catch(error => {
+                    console.log("FAILURE: " + JSON.stringify(error));
+                    return res.status(404).json({
+                        error,
+                        message: 'PublishedStory not updated!',
+                    })
                 })
-            })
+        }
+        
     })
 }
 // Update like user, dislike user, view number in pushlied story
