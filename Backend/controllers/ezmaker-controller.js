@@ -734,7 +734,7 @@ searchComicByInput = async (req,res) => {
     }).catch(err => console.log(err))
 }
 
-// search author name or comic title by user input in story table
+// search author name or story title by user input in story table
 searchStoryByInput = async (req,res) => {
     await Story.find({ }, (err, storyLists) => {
         if (err) {
@@ -767,6 +767,79 @@ searchStoryByInput = async (req,res) => {
     }).catch(err => console.log(err))
 }
 
+// search author name or story title by user input in published story table
+searchPublishedStoryByInput = async (req, res) => {
+    await PublishedStory.find({ }, (err, storyLists) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!storyLists) {
+            console.log("!storyLists.length");
+            return res
+                .status(404)
+                .json({ success: false, error: 'Story not found' })
+        }
+        else {
+            // PUT ALL THE LISTS INTO ID, NAME PAIRS
+            let pairs = [];
+            for (let key in storyLists) {
+                let story = storyLists[key];
+                if(story.authorName.includes(req.query.searchInput) || story.storyTitle.includes(req.query.searchInput)){
+                    let pair = {
+                        _id: story._id,
+                        authorID: story.authorID,
+                        authorName: story.authorName,
+                        storyTitle: story.storyTitle,
+                        comments: story.comments,
+                        dislikedUser: story.dislikedUser,
+                        likedUser: story.likedUser,
+                        publishedTime: story.publishedTime,
+                        viewNumber: story.viewNumber
+                    };
+                    pairs.push(pair);
+                }
+            }
+            return res.status(200).json({ success: true, idNamePairs: pairs })
+        }
+    }).catch(err => console.log(err))
+}
+
+// search author name or comic title by user input in published comic table
+searchPublishedComicByInput = async (req, res) => {
+    await PublishedComic.find({ }, (err, comicLists) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!comicLists) {
+            console.log("!comicLists.length");
+            return res
+                .status(404)
+                .json({ success: false, error: 'Published comic not found' })
+        }
+        else {
+            // PUT ALL THE LISTS INTO ID, NAME PAIRS
+            let pairs = [];
+            for (let key in comicLists) {
+                let comic = comicLists[key];
+                if(comic.authorName.includes(req.query.searchInput) || comic.comicTitle.includes(req.query.searchInput) ){
+                    let pair = {
+                        _id: comic._id,
+                        authorID: comic.authorID,
+                        authorName: comic.authorName,
+                        comicTitle: comic.comicTitle,
+                        comments: comic.comments,
+                        dislikedUser: comic.dislikedUser,
+                        likedUser: comic.likedUser,
+                        publishedTime: comic.publishedTime,
+                        viewNumber: comic.viewNumber
+                    };
+                    pairs.push(pair);
+                }
+            }
+            return res.status(200).json({ success: true, idNamePairs: pairs })
+        }
+    }).catch(err => console.log(err))
+}
 
 module.exports = {
     getCommunityComics,
@@ -794,5 +867,7 @@ module.exports = {
     getCommentByID,
     addRepliedComment,
     searchComicByInput,
-    searchStoryByInput
+    searchStoryByInput,
+    searchPublishedStoryByInput,
+    searchPublishedComicByInput
 }
