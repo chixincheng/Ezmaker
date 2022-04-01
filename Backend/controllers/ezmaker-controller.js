@@ -438,7 +438,7 @@ addRepliedComment = async (req,res) => {
             })
         }
         // ID found in published Comic table
-        replyComment.replies = body.commentArr
+        replyComment.replies.push(body.commentID);
 
         replyComment
             .save()
@@ -484,7 +484,7 @@ addComment = async (req, res) => {
                     })
                 }
                 // ID found in published Comic table
-                publishedComic.comments = body.commentArr
+                publishedComic.comments.push(body.commentID);
 
                 publishedComic
                     .save()
@@ -506,7 +506,7 @@ addComment = async (req, res) => {
             })
         }
         //ID found in published Story table
-        publishedStory.comments = body.commentArr
+        publishedStory.comments.push(body.commentID);
 
         publishedStory
             .save()
