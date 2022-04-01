@@ -6,7 +6,7 @@ const CommentSchema = new Schema(
     {
         commentUserID: { type: ObjectId, required: true },
         content: {type: String, required: true},
-        replies: {type: [ObjectId], required: true}
+        replies: {type: [ObjectId], required: false}
     },
     { timestamps: true },
 )
