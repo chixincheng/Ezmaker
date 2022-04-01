@@ -718,8 +718,8 @@ searchComicByInput = async (req,res) => {
             let pairs = [];
             for (let key in comicLists) {
                 let comic = comicLists[key];
-                if(comic.authorName.includes(req.query.searchInput.toUpperCase()) || comic.comicTitle.includes(req.query.searchInput.toUpperCase()) || 
-                comic.authorName.includes(req.query.searchInput.toLowerCase()) || comic.comicTitle.includes(req.query.searchInput.toLowerCase())){
+                if(comic.authorName.toUpperCase().includes(req.query.searchInput.toUpperCase()) || comic.comicTitle.toUpperCase().includes(req.query.searchInput.toUpperCase()) 
+                ){
                     let pair = {
                         _id: comic._id,
                         authorID: comic.authorID,
@@ -752,8 +752,8 @@ searchStoryByInput = async (req,res) => {
             let pairs = [];
             for (let key in storyLists) {
                 let story = storyLists[key];
-                if(story.authorName.includes(req.query.searchInput.toUpperCase()) || story.storyTitle.includes(req.query.searchInput.toUpperCase()) || 
-                story.authorName.includes(req.query.searchInput.toLowerCase()) || story.storyTitle.includes(req.query.searchInput.toLowerCase())){
+                if(story.authorName.toUpperCase().includes(req.query.searchInput.toUpperCase()) || story.storyTitle.toUpperCase().includes(req.query.searchInput.toUpperCase())
+                ){
                     let pair = {
                         _id: story._id,
                         authorID: story.authorID,
@@ -786,8 +786,8 @@ searchPublishedStoryByInput = async (req, res) => {
             let pairs = [];
             for (let key in storyLists) {
                 let story = storyLists[key];
-                if(story.authorName.includes(req.query.searchInput.toUpperCase()) || story.storyTitle.includes(req.query.searchInput.toUpperCase()) || 
-                story.authorName.includes(req.query.searchInput.toLowerCase()) || story.storyTitle.includes(req.query.searchInput.toLowerCase())){
+                if(story.authorName.toUpperCase().includes(req.query.searchInput.toUpperCase()) || story.storyTitle.toUpperCase().includes(req.query.searchInput.toUpperCase())  
+                ){
                     let pair = {
                         _id: story._id,
                         authorID: story.authorID,
@@ -824,8 +824,8 @@ searchPublishedComicByInput = async (req, res) => {
             let pairs = [];
             for (let key in comicLists) {
                 let comic = comicLists[key];
-                if(comic.authorName.includes(req.query.searchInput.toUpperCase()) || comic.comicTitle.includes(req.query.searchInput.toUpperCase()) || 
-                comic.authorName.includes(req.query.searchInput.toLowerCase()) || comic.comicTitle.includes(req.query.searchInput.toLowerCase())){
+                if(comic.authorName.toUpperCase().includes(req.query.searchInput.toUpperCase()) || comic.comicTitle.toUpperCase().includes(req.query.searchInput.toUpperCase())  
+                ){
                     let pair = {
                         _id: comic._id,
                         authorID: comic.authorID,
