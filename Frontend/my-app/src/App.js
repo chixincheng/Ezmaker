@@ -16,7 +16,8 @@ function App() {
         <Route exact path="/dashboard/comic/home" element={<ComicHomePage/>}/>
         <Route exact path="/dashboard/story/home" element={<StoryHomePage/>}/>
         <Route path="*" element={<LandingPage/>}/>
-       
+        <Route path="/register/" exact component={RegisterScreen} />
+        <Route path="/login/" exact component={SignInSide} />
       </Routes>
     
   </Router>
