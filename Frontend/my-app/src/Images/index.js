@@ -3,10 +3,10 @@ import clock from '../Images/clock.png'
 import comicApp from '../Images/comicApp.png'
 import communityIcon from '../Images/communityIcon.png'
 import cover1 from '../Images/cover1.png'
-import easyToUse from '../Images/easyToUSe.png'
+import easyToUse from '../Images/easyToUse.png'
 import editInfo from '../Images/editInfo.png'
 import icon from '../Images/icon.png'
-import landingPageBackground from '../Images/landingPageBackground.png'
+import landingPageBackground from '../Images/landingPageBackground.jpg'
 import loginButton from '../Images/loginButton.png'
 import makingForEveryone from '../Images/makingForEveryone.png'
 import playlist from '../Images/playlist.png'
@@ -45,6 +45,7 @@ import colorChange from '../Images/colorChange.png'
 import highlighter from '../Images/highlighter.png'
 import italic from '../Images/italic.png'
 import underline from '../Images/underline.png'
+import addComic from "./addComic.png"
 
 
 
@@ -57,7 +58,7 @@ const images = {
     unlike, categoryAdd, comicsDetailSample, comicsDetailSample2,
     categoryTitle, deleteIcon, comicsDownload, dribbble, eraser, facebook,
     colorFill, instagram, textOrTextSize, removePage, pen, addPage, publish,
-    save, saveSuccessed, upload, bold, colorChange, highlighter, italic, underline
+    save, saveSuccessed, upload, bold, colorChange, highlighter, italic, underline, addComic
 }
 export default images
 
