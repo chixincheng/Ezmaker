@@ -72,21 +72,27 @@ commentArr[2].push("Sheng", "Wow I like it")
 
 var commentAuthorNameStyle = {
     fontSize: 16,
-    marginLef: "15px"
+    marginLeft: "5px",
+    height: "50px",
+    width: "100px",
+    justifyContent: "center"
 };
 var commentStyle = {
     fontSize: 16,
-    marginLef: "15px"
+    height: "50px",
+    width: "800px",
+    background: "rgba(250, 241, 194, 1)",
+    marginLeft: "40px"
 };
 let commentList = <List>
     {
         commentArr.map((text,index)=>(
-            <div>
+            <div style={{display: "flex", paddingBottom: "50px"}}>
                 <div style={commentAuthorNameStyle}>
-                    {text[0]}
+                    <p>{text[0]}:</p>
                 </div>
                 <div style={commentStyle}>
-                    {text[1]}
+                    <p style={{paddingLeft: "10px"}}>{text[1]}</p>
                 </div>
             </div>
         ))
@@ -112,10 +118,10 @@ const ComicDetailPage = () => {
             <div style={{display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
                 <div style={commentTitle}>Comment</div>
                 <div style={{height:"300px", width:"1000px", background : "white"}}></div>
-                <div style={commendSentStyle} onClick={addComment}></div>
-                <div style={{display: "flex", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
-                    {commentList}
-                </div>
+            </div>
+            <div style={commendSentStyle} onClick={addComment}></div>
+            <div style={{display: "flex", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
+                {commentList}
             </div>
         </div>
     );
