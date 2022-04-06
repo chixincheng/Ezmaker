@@ -5,6 +5,7 @@ import verify from "../Images/verify.png";
 import editInfo from "../Images/editInfo.png";
 import playlist from "../Images/playlist.png";
 import MyComic from "../Components/MyComic";
+import MyFavoriteComic from "../Components/MyFavoriteComic";
 
 const ComicHomePage = () => {
   return (
@@ -73,6 +74,7 @@ const ComicHomePage = () => {
           </div>
         </div>
         <MyComic></MyComic>
+        <MyFavoriteComic></MyFavoriteComic>
       </div>
     </Fragment>
   );

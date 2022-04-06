@@ -40,6 +40,7 @@ const MyComic = ({itemsPerPage}) => {
         padding: "2rem 1rem 2rem 1rem",
         background: "rgba(187, 241, 253, 1)",
         borderRadius: "1rem",
+        marginBottom:"1rem"
       }}
     >
       <div
@@ -57,7 +58,7 @@ const MyComic = ({itemsPerPage}) => {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(100px,500px))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(100px,300px))",
           justifyContent: "center",
         }}
       >

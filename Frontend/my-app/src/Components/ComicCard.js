@@ -28,7 +28,7 @@ const ComicCard = (props) => {
 
       <div>
         <div style={{ textAlign: "center" }}>
-          <b>Comic Title</b>
+          <b>Title</b>
         </div>
         {!props.publishedTime ? (
           <div style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
