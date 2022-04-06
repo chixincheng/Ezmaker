@@ -4,12 +4,12 @@
       "_id": {
         "$oid": "62168d57555f8ea9bda0dc69"
       },
-      "Author_ID": {
+      "authorID": {
         "$oid": "621689da555f8ea9bd80dc57"
       },
-      "Author_Name": "Ziming Li",
-      "Comic_Title": "Black Pink 2",
-      "Edited_Time": {
+      "authorName": "Ziming Li",
+      "comicTitle": "Black Pink 2",
+      "editedTime": {
         "$date": "2014-01-19T05:00:00Z"
       }
     },
@@ -17,12 +17,12 @@
       "_id": {
         "$oid": "62168d57555f8ea9bda0dc6a"
       },
-      "Author_ID": {
+      "authorID": {
         "$oid": "621689da555f8ea9bd80dc59"
       },
-      "Author_Name": "Sheng Chen",
-      "Comic_Title": "EXO",
-      "Edited_Time": {
+      "authorName": "Sheng Chen",
+      "comicTitle": "EXO",
+      "editedTime": {
         "$date": "2014-02-19T05:00:00Z"
       }
     },
@@ -30,12 +30,12 @@
       "_id": {
         "$oid": "62168d57555f8ea9bda0dc6b"
       },
-      "Author_ID": {
+      "authorID": {
         "$oid": "621689da555f8ea9bd80dc5a"
       },
-      "Author_Name": "Xin Chi",
-      "Comic_Title": "Big Bang",
-      "Edited_Time": {
+      "authorName": "Xin Chi",
+      "comicTitle": "Big Bang",
+      "editedTime": {
         "$date": "2014-03-19T05:00:00Z"
       }
     }

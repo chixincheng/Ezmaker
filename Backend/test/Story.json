@@ -1,41 +1,41 @@
-[{
-  "_id": {
-    "$oid": "62168d57555f8ea9bd80dc69"
+[
+  {
+    "_id": {
+      "$oid": "62168d57555f8ea9bd80dc69"
+    },
+    "authorID": {
+      "$oid": "621689da555f8ea9bd80dc57"
+    },
+    "authorName": "Ziming Li",
+    "storyTitle": "A New Life",
+    "editedTime": {
+      "$date": "2012-12-12T05:00:00Z"
+    }
   },
-  "Author_ID": {
-    "$oid": "621689da555f8ea9bd80dc57"
+  {
+    "_id": {
+      "$oid": "62168d57555f8ea9bd80dc6a"
+    },
+    "authorID": {
+      "$oid": "621689da555f8ea9bd80dc57"
+    },
+    "authorName": "Ziming Li",
+    "storyTitle": "A New Life 2",
+    "editedTime": {
+      "$date": "2013-12-12T05:00:00Z"
+    }
   },
-  "Author_Name": "Ziming Li",
-  "Story_Title": "A New Life",
-  "Edited_Time": {
-    "$date": "2012-12-12T05:00:00Z"
+  {
+    "_id": {
+      "$oid": "62168d57555f8ea9bd80dc6b"
+    },
+    "authorID": {
+      "$oid": "621689da555f8ea9bd80dc57"
+    },
+    "authorName": "Ziming Li",
+    "storyTitle": "A New Life 3",
+    "editedTime": {
+      "$date": "2014-12-12T05:00:00Z"
+    }
   }
-},
-{
-  "_id": {
-    "$oid": "62168d57555f8ea9bd80dc6a"
-  },
-  "Author_ID": {
-    "$oid": "621689da555f8ea9bd80dc57"
-  },
-  "Author_Name": "Ziming Li",
-  "Story_Title": "A New Life 2",
-  "Edited_Time": {
-    "$date": "2013-12-12T05:00:00Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "62168d57555f8ea9bd80dc6b"
-  },
-  "Author_ID": {
-    "$oid": "621689da555f8ea9bd80dc57"
-  },
-  "Author_Name": "Ziming Li",
-  "Story_Title": "A New Life 3",
-  "Edited_Time": {
-    "$date": "2014-12-12T05:00:00Z"
-  }
-}
-
 ]
