@@ -10,7 +10,7 @@ const ComicCard = (props) => {
 
   today = mm + "/" + dd + "/" + yyyy;
   return (
-    <div style={{ margin: "2rem" }}>
+    <div onClick={()=>{alert("hello");}} style={{ margin: "2rem", cursor:"pointer" }}>
       {/* <div
         style={{
           width: "100%",
