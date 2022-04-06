@@ -51,7 +51,9 @@ getLoggedIn = async (req, res) => {
                 email: loggedInUser.email,
                 userName: loggedInUser.userName,
                 authentication: loggedInUser.authentication,
-                profilePictureID: loggedInUser.profilePictureID
+                profilePictureID: {type: ObjectId, required: false},
+                favoredComics: {type: [ObjectId], required: false},
+                favoredStories: {type: [ObjectId], required: false},
             }
         }).send();
     })

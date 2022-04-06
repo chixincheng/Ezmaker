@@ -57,14 +57,44 @@ router.post('/createComment', auth.verify, EasyMakerController.createComment)
 // modify a partifuclar comment array in published comic/story
 router.put('/addComment', auth.verify, EasyMakerController.addComment)
 
-// modify a partifuclar like user, dislike user, view number in pushlied comic
-router.put('/editPublishedComic', auth.verify, EasyMakerController.editPublishedComic)
+// // modify a partifuclar like user, dislike user, view number in pushlied comic
+// router.put('/editPublishedComic', auth.verify, EasyMakerController.editPublishedComic)
 
-// modify a partifuclar like user, dislike user, view number in pushlied story
-router.put('/editPublishedStory', auth.verify, EasyMakerController.editPublishedStory)
+// // modify a partifuclar like user, dislike user, view number in pushlied story
+// router.put('/editPublishedStory', auth.verify, EasyMakerController.editPublishedStory)
+
+// update liked user list in a published comic when a user clicks like button
+router.put('/likeComic', auth.verify, EasyMakerController.likeComic)
+
+// undo update liked user list in a published comic when a user clicks like button
+router.put('/undoLikeComic', auth.verify, EasyMakerController.undoLikeComic)
+
+// update liked user list in a published story when a user clicks like button
+router.put('/likeStory', auth.verify, EasyMakerController.likeStory)
+
+// undo update liked user list in a published story when a user clicks like button
+router.put('/undoLikeStory', auth.verify, EasyMakerController.undoLikeStory)
+
+// increment view number of a published comic
+router.put('/incComicView', auth.verify, EasyMakerController.incComicView)
+
+// increment view number of a published story
+router.put('/incStoryView', auth.verify, EasyMakerController.incStoryView)
+
+// add a published comic to a user's favorite comic list
+router.put('/favorComic', auth.verify, EasyMakerController.favorComic)
+
+// undo add a published comic to a user's favorite comic list
+router.put('/undoFavorComic', auth.verify, EasyMakerController.undoFavorComic)
+
+// add a published story to a user's favorite story list
+router.put('/favorStory', auth.verify, EasyMakerController.favorStory)
+
+// undo add a published story to a user's favorite story list
+router.put('/undoFavorStory', auth.verify, EasyMakerController.undoFavorStory)
 
 // create a new published comic object in the published comic table
-router.post('/createPublishedComic', EasyMakerController.createPublishedComic)
+router.post('/createPublishedComic', auth.verify, EasyMakerController.createPublishedComic)
 
 // create a new published story object in the published story table
 router.post('/createPublishedStory', auth.verify, EasyMakerController.createPublishedStory)

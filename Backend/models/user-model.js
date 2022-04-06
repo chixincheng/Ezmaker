@@ -10,7 +10,9 @@ const UserSchema = new Schema(
         email: { type: String, required: true },
         passwordHash: { type: String, required: true },
         authentication: {type: Boolean, required: false},
-        profilePictureID: {type: ObjectId, required: false}
+        profilePictureID: {type: ObjectId, required: false},
+        favoredComics: {type: [ObjectId], required: false},
+        favoredStories: {type: [ObjectId], required: false},
     },
     { timestamps: true },
 )
