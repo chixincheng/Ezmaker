@@ -7,7 +7,6 @@ import rightimage from "../Images/comicsDetailSample.png";
 import leftimage from "../Images/comicsDetailSample2.png";
 import commentSend from "../Images/commentSend.png";
 import List from '@mui/material/List';
-import { textAlign } from "@mui/material/node_modules/@mui/system";
 
 
 var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(80vw - 40px)', backgroundImage: `url(${addFav})`,

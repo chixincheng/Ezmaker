@@ -43,3 +43,10 @@
 }
 @import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ribeye+Marrow&display=swap');
+
+#profilePage{
+  min-height: 100vh;
+  min-width: 100vh;
+  background-color: rgba(250, 241, 194, 1);
+  display: flex
+}

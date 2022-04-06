@@ -6,7 +6,7 @@ const DashboardPage = () => {
     const navigate = useNavigate();
 
     return (<div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", width: "100vw", height: "100vh" }}>
-        <button style={{ width: "500px", height: "500px", background: "" }} onClick={() => { navigate("/comic/detail"); }}>
+        <button style={{ width: "500px", height: "500px", background: "" }} onClick={() => { navigate("/profile"); }}>
             Comic App
         </button>
         <button style={{ width: "500px", height: "500px" }} onClick={() => { navigate("/dashboard/story/home"); }}>
