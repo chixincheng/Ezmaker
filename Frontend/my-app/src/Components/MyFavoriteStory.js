@@ -1,24 +1,21 @@
-
 import ComicCard from "./ComicCard";
 import { Fragment } from "react";
 import ReactPaginate from 'react-paginate';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-// require('dotenv').config();
-import Pagination from '@mui/material/Pagination';
 import images from "../Images/index.js";
+import Pagination from '@mui/material/Pagination';
 
 
 
 
 
 
-const MyComic = ({itemsPerPage}) => {
-  
+
+const MyFavoriteStory = ({itemsPerPage}) => {
+ 
   const [pageCount, setPageCount] = useState(5);
  
-
-  
 
   
   const handlePageClick = (event) => {
@@ -31,7 +28,6 @@ const MyComic = ({itemsPerPage}) => {
         padding: "2rem 1rem 2rem 1rem",
         background: "rgba(187, 241, 253, 1)",
         borderRadius: "1rem",
-        marginBottom:"1rem"
       }}
     >
       <div
@@ -42,8 +38,8 @@ const MyComic = ({itemsPerPage}) => {
           marginBottom: "2rem",
         }}
       >
-        <b>My Comics:</b>
-        <img style={{width:"100px", height:"auto", cursor:"pointer"}} onClick={()=>{alert(123);}} src={images.addComic}></img>
+        <b>My Favorite Storys:</b>
+        
       </div>
 
       <div
@@ -53,17 +49,19 @@ const MyComic = ({itemsPerPage}) => {
           justifyContent: "center",
         }}
       >
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
+        
+      <ComicCard></ComicCard>
+      <ComicCard></ComicCard>
+      <ComicCard></ComicCard>
+      <ComicCard></ComicCard>
+      <ComicCard></ComicCard>
 
-       
+      
       </div>
       <div style={{display:"flex",justifyContent:"center"}}><Pagination count={10} color="primary" /></div>
+      
     </div>
   );
 };
 
-export default MyComic;
+export default MyFavoriteStory;

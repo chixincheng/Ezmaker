@@ -9,7 +9,7 @@ const DashboardPage = () => {
         <button style={{ width: "500px", height: "500px", background: "" }} onClick={() => { navigate("/profile"); }}>
             Comic App
         </button>
-        <button style={{ width: "500px", height: "500px" }} onClick={() => { navigate("/dashboard/story/home"); }}>
+        <button style={{ width: "500px", height: "500px" }} onClick={() => { navigate("/story/home"); }}>
             Story App
         </button>
     </div>);

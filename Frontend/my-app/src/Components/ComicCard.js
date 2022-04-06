@@ -1,8 +1,10 @@
 import cover1 from "../Images/cover1.png";
 import clock from "../Images/clock.png";
 import check from "../Images/check.png";
+import { useNavigate } from "react-router-dom";
 
 const ComicCard = (props) => {
+  const navigate = useNavigate();
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
   var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -10,7 +12,7 @@ const ComicCard = (props) => {
 
   today = mm + "/" + dd + "/" + yyyy;
   return (
-    <div style={{ margin: "2rem" }}>
+    <div  onClick={()=>{navigate("/comic/detail");}} style={{ margin: "2rem", cursor:"pointer" }}>
       {/* <div
         style={{
           width: "100%",
@@ -28,7 +30,7 @@ const ComicCard = (props) => {
 
       <div>
         <div style={{ textAlign: "center" }}>
-          <b>Comic Title</b>
+          <b>Title</b>
         </div>
         {!props.publishedTime ? (
           <div style={{display:"flex", alignItems:"center", justifyContent:"center"}}>

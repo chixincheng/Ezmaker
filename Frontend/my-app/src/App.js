@@ -15,8 +15,8 @@ function App() {
       <Routes>
         <Route exact path="/" element={<LandingPage/>}/>
         <Route exact path="/dashboard" element={<DashboardPage/>}/>
-        <Route exact path="/dashboard/comic/home" element={<ComicHomePage/>}/>
-        <Route exact path="/dashboard/story/home" element={<StoryHomePage/>}/>
+        <Route exact path="/comic/home" element={<ComicHomePage/>}/>
+        <Route exact path="/story/home" element={<StoryHomePage/>}/>
         <Route exact path="/comic/detail" element={<ComicDetailPage/>}/>
         <Route exact path="/profile" element={<ProfilePage/>}/>
         <Route path="*" element={<LandingPage/>}/>
