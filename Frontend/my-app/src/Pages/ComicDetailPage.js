@@ -5,9 +5,9 @@ import download from "../Images/download.png";
 import Pagination from '@mui/material/Pagination';
 import rightimage from "../Images/comicsDetailSample.png";
 import leftimage from "../Images/comicsDetailSample2.png";
-import { fontSize } from "@mui/material/node_modules/@mui/system";
-import ReactPaginate from 'react-paginate';
-import React, { useEffect, useState } from 'react';
+import commentSend from "../Images/commentSend.png";
+import List from '@mui/material/List';
+import { textAlign } from "@mui/material/node_modules/@mui/system";
 
 
 var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(80vw - 40px)', backgroundImage: `url(${addFav})`,
@@ -42,6 +42,16 @@ var images2 = { height:"800px", width:"1000px", backgroundImage: `url(${rightima
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat'
 };
+var commentTitle = {
+    fontFamily: 'Ribeye Marrow',
+    fontSize: 36
+};
+var commendSentStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(125vh - 35px)", left: 'calc(7vw - 45px)',backgroundImage: `url(${commentSend})`,
+   backgroundPosition: 'right',
+   backgroundSize: 'contain',
+   backgroundRepeat: 'no-repeat',
+   cursor:"pointer"
+  };
 const addFavorite = ()=>{
     ;
 };
@@ -51,6 +61,37 @@ const removeFavorite = ()=>{
 const downloadComic = () => {
     ;
 }
+const addComment = () => {
+    ;
+}
+
+var commentArr = [[],[],[]];
+commentArr[0].push("Gank Owen", "Wow I like it")
+commentArr[1].push("Jamie Li", "Wow I like it")
+commentArr[2].push("Sheng", "Wow I like it")
+
+var commentAuthorNameStyle = {
+    fontSize: 16,
+    marginLef: "15px"
+};
+var commentStyle = {
+    fontSize: 16,
+    marginLef: "15px"
+};
+let commentList = <List>
+    {
+        commentArr.map((text,index)=>(
+            <div>
+                <div style={commentAuthorNameStyle}>
+                    {text[0]}
+                </div>
+                <div style={commentStyle}>
+                    {text[1]}
+                </div>
+            </div>
+        ))
+    }
+</List>;
 
 const ComicDetailPage = () => {
     return(
@@ -63,13 +104,18 @@ const ComicDetailPage = () => {
                 <div style={textStyle}>Naruto</div>
                 <div style={textStyle}>By Masashi Kishimoto</div>
             </div>
-            <div style={{background: "rgba(250, 241, 194, 1)", padding: "5rem 3rem 5rem 3rem", display: "flex"}}>
+            <div style={{background: "rgba(250, 241, 194, 1)", display: "flex"}}>
                 <div style={images1}></div>
                 <div style={images2}></div>
             </div>
-            <Pagination count={10} color="primary"/>
-            <div style={{background: "rgba(187,241,253,255)"}}>
-
+            <div style={{display:"flex",justifyContent:"center", background: "rgba(250, 241, 194, 1)"}}><Pagination count={10} color="primary" /></div>
+            <div style={{display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
+                <div style={commentTitle}>Comment</div>
+                <div style={{height:"300px", width:"1000px", background : "white"}}></div>
+                <div style={commendSentStyle} onClick={addComment}></div>
+                <div style={{display: "flex", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
+                    {commentList}
+                </div>
             </div>
         </div>
     );
