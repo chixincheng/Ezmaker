@@ -4,7 +4,8 @@ import { Fragment } from "react";
 import ReactPaginate from 'react-paginate';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-// require('dotenv').config();
+import images from "../Images/index.js";
+import Pagination from '@mui/material/Pagination';
 
 
 
@@ -17,21 +18,21 @@ const Items = ({ comics }) => {
 
 
 const MyComic = ({itemsPerPage}) => {
-  const items = null;
-  const [currentItems, setCurrentItems] = useState(null);
-  const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
+  // const items = null;
+  // const [currentItems, setCurrentItems] = useState(null);
+  const [pageCount, setPageCount] = useState(5);
+  // const [itemOffset, setItemOffset] = useState(0);
 
-  useEffect(() => {
-    const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(items.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(items.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage]);
+  // useEffect(() => {
+  //   const endOffset = itemOffset + itemsPerPage;
+  //   setCurrentItems(items.slice(itemOffset, endOffset));
+  //   setPageCount(Math.ceil(items.length / itemsPerPage));
+  // }, [itemOffset, itemsPerPage]);
 
   
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % items.length;
-    setItemOffset(newOffset);
+    // const newOffset = (event.selected * itemsPerPage) % items.length;
+    // setItemOffset(newOffset);
   };
 
   return (
@@ -51,7 +52,7 @@ const MyComic = ({itemsPerPage}) => {
         }}
       >
         <b>My Comics:</b>
-        <button>Add</button>
+        <img style={{width:"100px", height:"auto", cursor:"pointer"}} onClick={()=>{alert(123);}} src={images.addComic}></img>
       </div>
 
       <div
@@ -61,8 +62,8 @@ const MyComic = ({itemsPerPage}) => {
           justifyContent: "center",
         }}
       >
-        <Items comics={currentItems}></Items>
-        <ReactPaginate
+        {/* <Items comics={currentItems}></Items> */}
+        {/* <ReactPaginate
         breakLabel="..."
         nextLabel="next >"
         onPageChange={handlePageClick}
@@ -70,8 +71,17 @@ const MyComic = ({itemsPerPage}) => {
         pageCount={pageCount}
         previousLabel="< previous"
         renderOnZeroPageCount={null}
-      />
+      /> */}
+      <ComicCard></ComicCard>
+      <ComicCard></ComicCard>
+      <ComicCard></ComicCard>
+      <ComicCard></ComicCard>
+      <ComicCard></ComicCard>
+
+      
       </div>
+      <div style={{display:"flex",justifyContent:"center"}}><Pagination count={10} color="primary" /></div>
+      
     </div>
   );
 };
