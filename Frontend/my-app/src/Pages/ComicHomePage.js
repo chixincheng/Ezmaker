@@ -60,7 +60,7 @@ const ComicHomePage = () => {
             ></div>
             <b>Edit Info</b>
           </div>
-          <div style={{display:"flex", alignItems:"center"}}>
+          <div onClick={()=>{navigate("/comic/playlist");}} style={{display:"flex", alignItems:"center", cursor:"pointer"}}>
             {" "}
             <div
               style={{

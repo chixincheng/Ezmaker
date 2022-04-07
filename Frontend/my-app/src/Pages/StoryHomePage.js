@@ -6,8 +6,10 @@ import editInfo from "../Images/editInfo.png";
 import playlist from "../Images/playlist.png";
 import MyFavoriteStory from "../Components/MyFavoriteStory";
 import MyStory from "../Components/MyStory";
+import { useNavigate } from "react-router-dom";
 
 const StoryHomePage = () =>{
+  const navigate = useNavigate();
     return (
         <Fragment>
           <Header></Header>
@@ -58,7 +60,7 @@ const StoryHomePage = () =>{
                 ></div>
                 <b>Edit Info</b>
               </div>
-              <div style={{display:"flex", alignItems:"center"}}>
+              <div onClick={()=>{navigate("/story/playlist");}} style={{display:"flex", alignItems:"center", cursor:"pointer"}}>
                 {" "}
                 <div
                   style={{

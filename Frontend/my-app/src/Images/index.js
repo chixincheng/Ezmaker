@@ -46,6 +46,7 @@ import highlighter from '../Images/highlighter.png'
 import italic from '../Images/italic.png'
 import underline from '../Images/underline.png'
 import addComic from "./addComic.png"
+import playlistEdit from "./playlistEdit.png"
 
 
 
@@ -58,7 +59,7 @@ const images = {
     unlike, categoryAdd, comicsDetailSample, comicsDetailSample2,
     categoryTitle, deleteIcon, comicsDownload, dribbble, eraser, facebook,
     colorFill, instagram, textOrTextSize, removePage, pen, addPage, publish,
-    save, saveSuccessed, upload, bold, colorChange, highlighter, italic, underline, addComic
+    save, saveSuccessed, upload, bold, colorChange, highlighter, italic, underline, addComic, playlistEdit
 }
 export default images
 
