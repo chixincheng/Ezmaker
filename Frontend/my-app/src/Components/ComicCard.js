@@ -23,6 +23,9 @@ const ComicCard = (props) => {
     }
   };
 
+  var viewnumber = 222;
+
+  
   return (
     <div  onClick={cardOnClick} style={{ margin: "2rem", cursor:"pointer" }}>
       {/* <div
@@ -56,8 +59,13 @@ const ComicCard = (props) => {
                 backgroundSize: "contain",
                 backgroundRepeat: "no-repeat",
               }}
-            ></div>
-            <b style={{color:"orange", margin: "0 0.5rem 0 0.5rem"}}>Last Edited</b> on {today}
+            >
+            </div>
+            {location.pathname.includes("community") ?
+              <b style={{color:"orange", margin: "0 0.5rem 0 0.5rem"}}>View Number: {viewnumber}</b>
+              :
+              <b style={{color:"orange", margin: "0 0.5rem 0 0.5rem"}}>Last Edited on {today}</b>
+            }
           </div>
         ) : (
           <div style={{display:"flex"}}>
