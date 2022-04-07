@@ -48,7 +48,13 @@ import underline from '../Images/underline.png'
 import addComic from "./addComic.png"
 import playlistEdit from "./playlistEdit.png"
 
+import coconut from "./coconut.png"
+import faq from "./faq.png"
+import reddit from "./reddit.png"
+import twitter from "./twitter.png"
+import pinterest from "./pinterest.png"
 
+import bebo from "./bebo.png"
 
 
 const images = {
@@ -59,7 +65,8 @@ const images = {
     unlike, categoryAdd, comicsDetailSample, comicsDetailSample2,
     categoryTitle, deleteIcon, comicsDownload, dribbble, eraser, facebook,
     colorFill, instagram, textOrTextSize, removePage, pen, addPage, publish,
-    save, saveSuccessed, upload, bold, colorChange, highlighter, italic, underline, addComic, playlistEdit
+    save, saveSuccessed, upload, bold, colorChange, highlighter, italic, underline, addComic, playlistEdit,
+    coconut, faq, reddit, twitter, pinterest, bebo
 }
 export default images
 

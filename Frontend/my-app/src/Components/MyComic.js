@@ -7,14 +7,14 @@ import axios from 'axios';
 // require('dotenv').config();
 import Pagination from '@mui/material/Pagination';
 import images from "../Images/index.js";
-
+import { useNavigate } from "react-router-dom";
 
 
 
 
 
 const MyComic = ({itemsPerPage}) => {
-  
+  const navigate = useNavigate();
   const [pageCount, setPageCount] = useState(5);
  
 
@@ -43,7 +43,7 @@ const MyComic = ({itemsPerPage}) => {
         }}
       >
         <b>My Comics:</b>
-        <img style={{width:"100px", height:"auto", cursor:"pointer"}} onClick={()=>{alert(123);}} src={images.addComic}></img>
+        <img style={{width:"100px", height:"auto", cursor:"pointer"}} onClick={()=>{navigate("/comic/editing");}} src={images.addComic}></img>
       </div>
 
       <div
