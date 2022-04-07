@@ -42,8 +42,8 @@ const MyComic = ({itemsPerPage}) => {
           marginBottom: "2rem",
         }}
       >
-        <b>My Comics:</b>
-        <img style={{width:"100px", height:"auto", cursor:"pointer"}} onClick={()=>{navigate("/comic/editing");}} src={images.addComic}></img>
+        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>My Comics:</b>
+        <img style={{width:"100px", height:"auto", cursor:"pointer"}} onClick={()=>{alert(123);}} src={images.addComic}></img>
       </div>
 
       <div

@@ -25,7 +25,7 @@ const AvailableStory = ()=>{
             marginBottom: "1rem",
           }}
         >
-          <b style={{ marginRight: "1rem" }}>Available Story</b>
+          <b style={{ marginRight: "1rem", fontFamily:"Ribeye Marrow", fontSize: 20 }}>Available Story</b>
           
         </div>
   

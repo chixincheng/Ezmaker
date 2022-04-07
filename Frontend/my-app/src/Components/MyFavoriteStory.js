@@ -38,7 +38,7 @@ const MyFavoriteStory = ({itemsPerPage}) => {
           marginBottom: "2rem",
         }}
       >
-        <b>My Favorite Storys:</b>
+        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>My Favorite Storys:</b>
         
       </div>
 

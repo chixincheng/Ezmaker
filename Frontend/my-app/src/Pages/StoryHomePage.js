@@ -33,7 +33,7 @@ const StoryHomePage = () =>{
                     justifyContent: "space-evenly",
                   }}
                 >
-                  <b>David Lee</b>
+                  <b style={{fontWeight: 1000}}>David Lee</b>
                   <div
                     style={{
                       width: "50px",
@@ -46,7 +46,7 @@ const StoryHomePage = () =>{
                   ></div>
                 </div>
               </div>
-              <div style={{display:"flex", alignItems:"center"}}>
+              <div onClick={()=>{navigate("/profile");}} style={{display:"flex", alignItems:"center", cursor: "pointer"}}>
                 {" "}
                 <div
                   style={{

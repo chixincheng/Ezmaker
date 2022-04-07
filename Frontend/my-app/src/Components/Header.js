@@ -29,14 +29,12 @@ const Header = ()=>{
                 
             </input>
            
-                           
-           
-                           
          
-            <div>
-            <div onClick={communityIconOnClick} style={{  width:"50px", height:"50px" ,backgroundImage: `url(${communityIcon})`, backgroundPosition: 'center', backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat', marginLeft:"1rem", cursor:"pointer"}} ></div>
-            
+            <div style={{display:"flex", alignItems:"center", flexDirection:"column"}}>
+                <div onClick={communityIconOnClick} style={{  width:"50px", height:"50px" ,backgroundImage: `url(${communityIcon})`, backgroundPosition: 'center', backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat', marginLeft:"1rem", cursor:"pointer"}}>
+                </div>
+                <b style={{fontFamily:"Ribeye Marrow"}}>Community</b>
             </div>
         </div>
     );

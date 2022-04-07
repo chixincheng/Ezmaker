@@ -25,7 +25,7 @@ const AvailableComic = ()=>{
             marginBottom: "1rem",
           }}
         >
-          <b style={{ marginRight: "1rem" }}>Available Comic</b>
+          <b style={{ marginRight: "1rem", fontFamily:"Ribeye Marrow", fontSize: 20}}>Available Comic</b>
           
         </div>
   

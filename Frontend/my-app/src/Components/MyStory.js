@@ -40,7 +40,7 @@ const MyStory = ({itemsPerPage}) => {
           marginBottom: "2rem",
         }}
       >
-        <b>My Storys:</b>
+        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>My Storys:</b>
         <img style={{width:"100px", height:"auto", cursor:"pointer"}} onClick={()=>{navigate("/story/editing");}} src={images.addComic}></img>
       </div>
 

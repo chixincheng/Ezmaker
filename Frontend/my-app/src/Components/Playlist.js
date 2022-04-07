@@ -25,7 +25,7 @@ const Playlist = () => {
           marginBottom: "1rem",
         }}
       >
-        <b style={{ marginRight: "1rem" }}>Playlist A</b>
+        <b style={{ marginRight: "1rem", fontFamily: "Ribeye Marrow", fontSize: 20}}>Playlist A</b>
         <img
           style={{ width: "35px", height: "auto", cursor: "pointer" }}
           onClick={() => {
