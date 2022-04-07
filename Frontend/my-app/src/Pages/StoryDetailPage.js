@@ -7,6 +7,8 @@ import rightimage from "../Images/comicsDetailSample.png";
 import leftimage from "../Images/comicsDetailSample2.png";
 import commentSend from "../Images/commentSend.png";
 import List from '@mui/material/List';
+import likeIcon from "../Images/like.png";
+import dislikelikeIcon from "../Images/unlike.png";
 
 
 var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(80vw - 40px)', backgroundImage: `url(${addFav})`,
@@ -31,16 +33,19 @@ var textStyle = {
     fontFamily: 'Love Ya Like A Sister',
     fontSize: 36
 };
-var images1 = { height:"800px", width:"1000px",  backgroundImage: `url(${leftimage})`,
-    backgroundPosition: 'right',
+
+var likeButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(10vw - 100px)', backgroundImage: `url(${likeIcon})`,
+    backgroundPosition: 'left',
     backgroundSize: 'contain',
-    backgroundRepeat: 'no-repeat'
-};
-var images2 = { height:"800px", width:"1000px", backgroundImage: `url(${rightimage})`,
-    backgroundPosition: 'right',
-    backgroundSize: 'contain',
-    backgroundRepeat: 'no-repeat'
-};
+    backgroundRepeat: 'no-repeat',
+    cursor:"pointer"
+   };
+var dislikeButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(15vw - 70px)', backgroundImage: `url(${dislikelikeIcon})`,
+   backgroundPosition: 'left',
+   backgroundSize: 'contain',
+   backgroundRepeat: 'no-repeat',
+   cursor:"pointer"
+  };
 var commentTitle = {
     fontFamily: 'Ribeye Marrow',
     fontSize: 36
@@ -63,7 +68,13 @@ const downloadComic = () => {
 const addComment = () => {
     ;
 }
+const like = () => {
+    ;
+}
 
+const dislike = () => {
+    ;
+}
 var textSample = `Night slowly settled in a quiet manner and bright stars began to appear.
 
 On the hillside, a child about six years old was standing in a strange position. The child’s feet were stretched apart, toes touching the ground with the heels lifted, hands raised high above the head, his head tilted up, and faint spiritual energy constantly circled within his small body.
@@ -126,6 +137,8 @@ const StoryDetailPage = () => {
                 <div style={addFavButtonStyle} onClick={addFavorite}></div>
                 <div style={removeFavButtonStyle} onClick={removeFavorite}></div>
                 <div style={downloadButtonStyle} onClick={downloadComic}></div>
+                <div style={likeButtonStyle} onClick={like}></div>
+                <div style={dislikeButtonStyle} onClick={dislike}></div>
                 <div style={textStyle}>Naruto</div>
                 <div style={textStyle}>By Masashi Kishimoto</div>
             </div>

@@ -1,5 +1,5 @@
 import { letterSpacing } from "@mui/material";
-import ProfileHeader from "../Components/ProfileHeader";
+import Header from "../Components/Header";
 import userIcon from "../Images/icon.png"
 
 
@@ -42,7 +42,7 @@ var gender ="Male";
 const ProfilePage = () => {
     return(
         <div>
-            <ProfileHeader></ProfileHeader>
+            <Header></Header>
             <div id="profilePage">
                 <div style={{width: "60vh"}}>
                     <div style={{display: "flex", justifyContent: "space-between", paddingTop:"20px"}}>

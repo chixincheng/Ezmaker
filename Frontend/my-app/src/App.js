@@ -33,7 +33,8 @@ function App() {
         <Route exact path="/story/editing" element={<StoryEditingPage/>}/>
         <Route exact path="/comic/editing" element={<ComicEditingPage/>}/>
 
-        <Route exact path="/profile" element={<ProfilePage/>}/>
+        <Route exact path="/comic/profile" element={<ProfilePage/>}/>
+        <Route exact path="/story/profile" element={<ProfilePage/>}/>
         <Route path="*" element={<LandingPage/>}/>
         {/* <Route path="/register/" exact component={RegisterScreen} />
         <Route path="/login/" exact component={SignInSide} /> */}

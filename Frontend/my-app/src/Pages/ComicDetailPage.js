@@ -7,6 +7,8 @@ import rightimage from "../Images/comicsDetailSample.png";
 import leftimage from "../Images/comicsDetailSample2.png";
 import commentSend from "../Images/commentSend.png";
 import List from '@mui/material/List';
+import likeIcon from "../Images/like.png";
+import dislikelikeIcon from "../Images/unlike.png";
 
 
 var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(80vw - 40px)', backgroundImage: `url(${addFav})`,
@@ -31,16 +33,7 @@ var textStyle = {
     fontFamily: 'Love Ya Like A Sister',
     fontSize: 36
 };
-var images1 = { height:"800px", width:"1000px",  backgroundImage: `url(${leftimage})`,
-    backgroundPosition: 'right',
-    backgroundSize: 'contain',
-    backgroundRepeat: 'no-repeat'
-};
-var images2 = { height:"800px", width:"1000px", backgroundImage: `url(${rightimage})`,
-    backgroundPosition: 'right',
-    backgroundSize: 'contain',
-    backgroundRepeat: 'no-repeat'
-};
+
 var commentTitle = {
     fontFamily: 'Ribeye Marrow',
     fontSize: 36
@@ -61,6 +54,14 @@ const downloadComic = () => {
     ;
 }
 const addComment = () => {
+    ;
+}
+
+const like = () => {
+    ;
+}
+
+const dislike = () => {
     ;
 }
 
@@ -98,6 +99,19 @@ let commentList = <List>
     }
 </List>;
 
+var likeButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(10vw - 100px)', backgroundImage: `url(${likeIcon})`,
+    backgroundPosition: 'left',
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    cursor:"pointer"
+   };
+var dislikeButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(15vw - 70px)', backgroundImage: `url(${dislikelikeIcon})`,
+   backgroundPosition: 'left',
+   backgroundSize: 'contain',
+   backgroundRepeat: 'no-repeat',
+   cursor:"pointer"
+  };
+
 const ComicDetailPage = () => {
     return(
         <div  style={{background:"rgba(250, 241, 194, 1)"}} >
@@ -106,6 +120,10 @@ const ComicDetailPage = () => {
                 <div style={addFavButtonStyle} onClick={addFavorite}></div>
                 <div style={removeFavButtonStyle} onClick={removeFavorite}></div>
                 <div style={downloadButtonStyle} onClick={downloadComic}></div>
+                
+                <div style={likeButtonStyle} onClick={like}></div>
+                <div style={dislikeButtonStyle} onClick={dislike}></div>
+               
                 <div style={textStyle}>Naruto</div>
                 <div style={textStyle}>By Masashi Kishimoto</div>
             </div>

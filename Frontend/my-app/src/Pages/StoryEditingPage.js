@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import ProfileHeader from "../Components/ProfileHeader";
 import Playlist from "../Components/Playlist";
 import Header from "../Components/Header";
 import icon from "../Images/icon.png";
@@ -15,7 +14,7 @@ import images from "../Images";
 const StoryEditingPage = () => {
   return (
     <Fragment>
-      <ProfileHeader></ProfileHeader>
+      <Header></Header>
       <div
         style={{
           padding: "5rem 3rem 5rem 3rem",

@@ -46,7 +46,7 @@ const ComicHomePage = () => {
               ></div>
             </div>
           </div>
-          <div onClick={()=>{navigate("/profile");}} style={{display:"flex", alignItems:"center", cursor:"pointer"}}>
+          <div onClick={()=>{navigate("/comic/profile");}} style={{display:"flex", alignItems:"center", cursor:"pointer"}}>
             {" "}
             <div
               style={{

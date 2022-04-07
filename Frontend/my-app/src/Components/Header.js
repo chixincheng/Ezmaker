@@ -2,6 +2,9 @@ import  Form  from 'react-bootstrap/Form';
 import easyToUse from "../Images/easyToUse.png"
 import communityIcon from "../Images/communityIcon.png"
 import {useNavigate, useLocation} from "react-router-dom"
+import userIcon from "../Images/icon.png"
+import { Fragment } from 'react';
+
 const Header = ()=>{
     const navigate = useNavigate();
     const location = useLocation();
@@ -16,6 +19,15 @@ const Header = ()=>{
         }
     };
 
+    const userIconOnClick =() =>{
+        if( location.pathname.includes("comic") ){
+            navigate("/comic/home");
+        }
+        else if(location.pathname.includes("story")){
+            navigate("/story/home");
+        }
+    }
+
     return(
         <div style={{display:"flex", alignItems:"center",justifyContent:"space-between", padding:"1rem", background:"rgba(209, 247, 255, 1)"}}>
             <div onClick={()=>{navigate("/");}} style={{display:"flex", alignItems:"center", cursor:"pointer"}}>
@@ -24,17 +36,25 @@ const Header = ()=>{
     backgroundRepeat: 'no-repeat', marginLeft:"1rem"}} ></div>
             </div>
             
-            
-            <input placeholder='Search' style={{width:"500px", height:"20px", borderRadius:"0.3rem", border:"none", background:"rgba(168, 158, 171, 0.23)", outline:"none"}}>
-                
-            </input>
-           
-         
-            <div style={{display:"flex", alignItems:"center", flexDirection:"column"}}>
-                <div onClick={communityIconOnClick} style={{  width:"50px", height:"50px" ,backgroundImage: `url(${communityIcon})`, backgroundPosition: 'center', backgroundSize: 'contain',
-                    backgroundRepeat: 'no-repeat', marginLeft:"1rem", cursor:"pointer"}}>
+            {(location.pathname.includes("home") || location.pathname.includes("community")) ?
+                (<input placeholder='Search' style={{width:"500px", height:"20px", borderRadius:"0.3rem", border:"none",
+                background:"rgba(168, 158, 171, 0.23)", outline:"none"}}/>)
+                :
+                <Fragment></Fragment>
+            }    
+            <div style={{display: "flex", justifyContent: "space-between"}}>
+                <div style={{display:"flex", alignItems:"center", flexDirection:"column", marginRight: "2rem"}}>
+                    <div onClick={userIconOnClick} style={{  width:"50px", height:"50px" ,backgroundImage: `url(${userIcon})`, backgroundPosition: 'center', backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat', marginLeft:"1rem", cursor:"pointer"}}>
+                    </div>
+                    <b style={{fontFamily:"Ribeye Marrow"}}>Home</b>
                 </div>
-                <b style={{fontFamily:"Ribeye Marrow"}}>Community</b>
+                <div style={{display:"flex", alignItems:"center", flexDirection:"column"}}>
+                    <div onClick={communityIconOnClick} style={{  width:"50px", height:"50px" ,backgroundImage: `url(${communityIcon})`, backgroundPosition: 'center', backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat', marginLeft:"1rem", cursor:"pointer"}}>
+                    </div>
+                    <b style={{fontFamily:"Ribeye Marrow"}}>Community</b>
+                </div>
             </div>
         </div>
     );

@@ -46,7 +46,7 @@ const StoryHomePage = () =>{
                   ></div>
                 </div>
               </div>
-              <div onClick={()=>{navigate("/profile");}} style={{display:"flex", alignItems:"center", cursor: "pointer"}}>
+              <div onClick={()=>{navigate("/story/profile");}} style={{display:"flex", alignItems:"center", cursor: "pointer"}}>
                 {" "}
                 <div
                   style={{
