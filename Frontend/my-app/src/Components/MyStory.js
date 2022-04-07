@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import images from "../Images/index.js";
 import Pagination from '@mui/material/Pagination';
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -13,7 +14,7 @@ import Pagination from '@mui/material/Pagination';
 
 
 const MyStory = ({itemsPerPage}) => {
-  
+  const navigate = useNavigate();
   const [pageCount, setPageCount] = useState(5);
  
 
@@ -40,7 +41,7 @@ const MyStory = ({itemsPerPage}) => {
         }}
       >
         <b>My Storys:</b>
-        <img style={{width:"100px", height:"auto", cursor:"pointer"}} onClick={()=>{alert(123);}} src={images.addComic}></img>
+        <img style={{width:"100px", height:"auto", cursor:"pointer"}} onClick={()=>{navigate("/story/editing");}} src={images.addComic}></img>
       </div>
 
       <div

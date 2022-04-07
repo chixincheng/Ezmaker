@@ -12,6 +12,7 @@ import StoryCommunityPage from "./Pages/StoryCommunityPage";
 import StoryDetailPage from "./Pages/StoryDetailPage";
 import ComicPlaylistPage from "./Pages/ComicPlaylistPage";
 import StoryPlaylistPage from "./Pages/StoryPlaylistPage";
+import StoryEditingPage from "./Pages/StoryEditingPage";
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
         <Route exact path="/comic/playlist" element={<ComicPlaylistPage/>}/>
         <Route exact path="/story/community" element={<StoryCommunityPage/>}/>
         <Route exact path="/story/playlist" element={<StoryPlaylistPage/>}/>
+        <Route exact path="/story/editing" element={<StoryEditingPage/>}/>
+
         <Route exact path="/profile" element={<ProfilePage/>}/>
         <Route path="*" element={<LandingPage/>}/>
         {/* <Route path="/register/" exact component={RegisterScreen} />
