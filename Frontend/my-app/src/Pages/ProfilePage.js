@@ -1,4 +1,4 @@
-import { letterSpacing } from "@mui/material/node_modules/@mui/system";
+import { letterSpacing } from "@mui/material";
 import ProfileHeader from "../Components/ProfileHeader";
 import userIcon from "../Images/icon.png"
 

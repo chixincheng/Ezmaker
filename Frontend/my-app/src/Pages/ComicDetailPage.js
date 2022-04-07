@@ -100,7 +100,7 @@ let commentList = <List>
 
 const ComicDetailPage = () => {
     return(
-        <div >
+        <div  style={{background:"rgba(250, 241, 194, 1)"}} >
             <Header></Header>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "5rem 3rem 5rem 3rem", background: "rgba(250, 241, 194, 1)", height:`clac(100vh -  )` }}>
                 <div style={addFavButtonStyle} onClick={addFavorite}></div>
@@ -109,17 +109,17 @@ const ComicDetailPage = () => {
                 <div style={textStyle}>Naruto</div>
                 <div style={textStyle}>By Masashi Kishimoto</div>
             </div>
-            <div style={{background: "rgba(250, 241, 194, 1)", display: "flex"}}>
-                <div style={images1}></div>
-                <div style={images2}></div>
+            <div style={{background: "rgba(250, 241, 194, 1)", display: "flex", padding:"1rem"}}>
+                <img style={{width:"50%"}} src={leftimage}></img>
+                <img style={{width:"50%"}} src={rightimage}></img>
             </div>
-            <div style={{display:"flex",justifyContent:"center", background: "rgba(250, 241, 194, 1)"}}><Pagination count={10} color="primary" /></div>
+            <div style={{display:"flex",justifyContent:"center", background: "rgba(250, 241, 194, 1)", marginBottom:"1rem"}}><Pagination count={10} color="primary" /></div>
             <div style={{display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
                 <div style={commentTitle}>Comment</div>
                 <div style={{height:"300px", width:"1000px", background : "white"}}></div>
             </div>
             <div style={commendSentStyle} onClick={addComment}></div>
-            <div style={{display: "flex", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
+            <div style={{display: "flex", justifyContent:"center" ,background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
                 {commentList}
             </div>
         </div>

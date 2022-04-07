@@ -6,8 +6,10 @@ import editInfo from "../Images/editInfo.png";
 import playlist from "../Images/playlist.png";
 import MyComic from "../Components/MyComic";
 import MyFavoriteComic from "../Components/MyFavoriteComic";
+import { useNavigate } from "react-router-dom";
 
 const ComicHomePage = () => {
+  const navigate = useNavigate();
   return (
     <Fragment>
       <Header></Header>
@@ -44,7 +46,7 @@ const ComicHomePage = () => {
               ></div>
             </div>
           </div>
-          <div style={{display:"flex", alignItems:"center"}}>
+          <div onClick={()=>{navigate("/profile");}} style={{display:"flex", alignItems:"center", cursor:"pointer"}}>
             {" "}
             <div
               style={{
