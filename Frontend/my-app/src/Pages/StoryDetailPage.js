@@ -136,7 +136,7 @@ const StoryDetailPage = () => {
             
             <div style={{display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
                 <div style={commentTitle}>Comment</div>
-                <div style={{height:"300px", width:"1000px", background : "white", position:"relative"}}><div style={commendSentStyle} onClick={addComment}></div></div>
+                <div style={{height:"300px", width:"100%", background : "white", position:"relative"}}><div style={commendSentStyle} onClick={addComment}></div></div>
                 
             </div>
             
