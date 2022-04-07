@@ -1,9 +1,11 @@
 import cover1 from "../Images/cover1.png";
 import clock from "../Images/clock.png";
 import check from "../Images/check.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+
 
 const ComicCard = (props) => {
+  const location = useLocation();
   const navigate = useNavigate();
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
@@ -11,8 +13,18 @@ const ComicCard = (props) => {
   var yyyy = today.getFullYear();
 
   today = mm + "/" + dd + "/" + yyyy;
+
+  const cardOnClick = ()=>{
+    if( location.pathname.includes("comic") ){
+      navigate("/comic/detail");
+    }
+    else if( location.pathname.includes("story") ){
+      navigate("/story/detail");
+    }
+  };
+
   return (
-    <div  onClick={()=>{navigate("/comic/detail");}} style={{ margin: "2rem", cursor:"pointer" }}>
+    <div  onClick={cardOnClick} style={{ margin: "2rem", cursor:"pointer" }}>
       {/* <div
         style={{
           width: "100%",
