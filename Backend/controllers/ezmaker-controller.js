@@ -8,8 +8,8 @@ const {cloudinary} = require("../cloudinary");
 const { findOneAndUpdate } = require('../models/comic-model');
 
 
-function resErrWith400 (err) {
-    return res.status(400).json({
+function resError (errCode, err) {
+    return res.status(errCode).json({
         success: false,
         message: err
     })
@@ -19,12 +19,10 @@ function resErrWith400 (err) {
 getCommunityComics = async (req, res) => {
     await PublishedComic.find({}, (err, publishedComicList) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err })
+            return resError(400, err)
         }
         if (!publishedComicList.length) {
-            return res
-                .status(404)
-                .json({ success: false, error: `Published comic list not found` })
+            return resError(404, 'Published comic list not found')
         }
         return res.status(200).json({ success: true, data: publishedComicList })
     }).catch(err => console.log(err))
@@ -34,12 +32,10 @@ getCommunityComics = async (req, res) => {
 getCommunityStories = async (req, res) => {
     await PublishedStory.find({}, (err, publishedStoryList) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err })
+            return resError(400, err)
         }
         if (!publishedStoryList.length) {
-            return res
-                .status(404)
-                .json({ success: false, error: `Published story list not found` })
+            return resError(404, 'Published story list not found')
         }
         return res.status(200).json({ success: true, data: publishedStoryList })
     }).catch(err => console.log(err))
@@ -50,16 +46,13 @@ createComic = (req, res) => {
     console.log(req.files);
     const body = req.query;
     if (!body) {
-        return res.status(400).json({
-            success: false,
-            error: 'You must provide a comic object',
-        })
+        return resError(400, 'You must provide a comic object')
     }
 
     const comic = new Comic(body);
     
     if (!comic) {
-        return res.status(400).json({ success: false, error: err })
+        return resError(400, 'Comic Object Creation Failed in JavaScript')
     }
 
     comic
@@ -72,10 +65,7 @@ createComic = (req, res) => {
             })
         })
         .catch(error => {
-            return res.status(400).json({
-                error,
-                message: 'Comic Not Created!'
-            })
+            return resError(400, 'Comic Not Created!')
         })
 }
 
@@ -84,19 +74,16 @@ editComic = async (req, res) => {
     const body = req.query
     console.log("updateComic: " + JSON.stringify(body));
     if (!body || !body.id) {
-        return res.status(400).json({
-            success: false,
-            error: 'You must provide a body to update',
-        })
+        return resError(400, 'You must provide a body to update')
     }
 
     await Comic.findOne({ _id: req.query.id }, (err, comic) => {
         console.log("comic found: " + JSON.stringify(comic));
         if (err) {
-            return res.status(404).json({
-                err,
-                message: 'Comic not found!',
-            })
+            return resError(400, err)
+        }
+        if (!comic) {
+            return resError(404, 'Comic not found!')
         }
 
         comic.comicTitle = body.comicTitle
@@ -113,24 +100,21 @@ editComic = async (req, res) => {
             })
             .catch(error => {
                 console.log("FAILURE: " + JSON.stringify(error));
-                return res.status(404).json({
-                    error,
-                    message: 'Comic not updated!',
-                })
+                return resError(400, 'Comic not updated!')
             })
     })
 }
 
 //delete the comic by id 
 deleteComic = async (req, res) => {
-    await Comic.findById({ _id: req.query.id }, async (err, comic) => {
+    await Comic.findById({ _id: req.query.id }, (err, comic) => {
         if (err) {
-            return res.status(404).json({
-                err,
-                message: 'Comic not found!',
-            })
+            return resError(400, err)
         }
-        await Comic.findOneAndDelete({ _id: req.query.id }, () => {
+        if (!comic) {
+            return resError(404, 'Comic not found!')
+        }
+        Comic.findOneAndDelete({ _id: req.query.id }, () => {
             return res.status(200).json({ success: true, data: comic })
         }).catch(err => console.log(err))
     })
@@ -141,16 +125,13 @@ deleteComic = async (req, res) => {
 createStory = (req, res) => {
     const body = req.query;
     if (!body) {
-        return res.status(400).json({
-            success: false,
-            error: 'You must provide a story object',
-        })
+        return resError(400, 'You must provide a story object')
     }
 
     const story = new Story(body);
     console.log("creating story: " + JSON.stringify(story));
     if (!story) {
-        return res.status(400).json({ success: false, error: err })
+        return resError(400, 'Story Object Creation Failed in JavaScript')
     }
 
     story
@@ -163,10 +144,7 @@ createStory = (req, res) => {
             })
         })
         .catch(error => {
-            return res.status(400).json({
-                error,
-                message: 'Story Not Created!'
-            })
+            return resError(400, 'Story Not Created!')
         })
 }
 
@@ -175,19 +153,16 @@ editStory = async (req, res) => {
     const body = req.query
     console.log("updateStory: " + JSON.stringify(body));
     if (!body || !body.id) {
-        return res.status(400).json({
-            success: false,
-            error: 'You must provide a body to update',
-        })
+        return resError(400, 'You must provide a body to update')
     }
 
     Story.findOne({ _id: req.query.id }, (err, story) => {
         console.log("Story found: " + JSON.stringify(story));
         if (err) {
-            return res.status(404).json({
-                err,
-                message: 'Story not found!',
-            })
+            return resError(400, err)
+        }
+        if (!story) {
+            return resError(404, 'Story not found!')
         }
 
         story.storyTitle = body.storyTitle
@@ -204,22 +179,19 @@ editStory = async (req, res) => {
             })
             .catch(error => {
                 console.log("FAILURE: " + JSON.stringify(error));
-                return res.status(404).json({
-                    error,
-                    message: 'Story not updated!',
-                })
+                return resError(400, 'Story not updated!')
             })
     })
 }
 
 //delete the story by id 
 deleteStory = async (req, res) => {
-    Story.findById({ _id: req.query.id }, (err, story) => {
+    await Story.findById({ _id: req.query.id }, (err, story) => {
         if (err) {
-            return res.status(404).json({
-                err,
-                message: 'Story not found!',
-            })
+            return resError(400, err)
+        }
+        if (!story) {
+            return resError(404, 'Story not found!')
         }
         Story.findOneAndDelete({ _id: req.query.id }, () => {
             return res.status(200).json({ success: true, data: story })
@@ -231,9 +203,12 @@ deleteStory = async (req, res) => {
 getComicByID = async (req, res) => {
     await Comic.findById({ _id: req.query.id }, (err, comic) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err });
+            return resError(400, err)
         }
-        return res.status(200).json({ success: true, story: comic })
+        if (!comic) {
+            return resError(404, 'Comic not found!')
+        }
+        return res.status(200).json({ success: true, comic: comic })
     }).catch(err => console.log(err))
 }
 
@@ -241,7 +216,10 @@ getComicByID = async (req, res) => {
 getStoryByID = async (req, res) => {
     await Story.findById({ _id: req.query.id }, (err, story) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err });
+            return resError(400, err)
+        }
+        if (!story) {
+            return resError(404, 'Story not found!')
         }
         return res.status(200).json({ success: true, story: story })
     }).catch(err => console.log(err))
@@ -251,13 +229,10 @@ getStoryByID = async (req, res) => {
 getAllUserUnpublishedComics = async (req, res) => {
     await Comic.find({ }, (err, comicLists) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err })
+            return resError(400, err)
         }
         if (!comicLists) {
-            console.log("!comicLists.length");
-            return res
-                .status(404)
-                .json({ success: false, error: 'Comic not found' })
+            return resError(404, 'Comic not found')
         }
         else {
             // PUT ALL THE LISTS INTO ID, NAME PAIRS
@@ -284,13 +259,10 @@ getAllUserUnpublishedComics = async (req, res) => {
 getAllUserUnpublishedStories = async (req, res) => {
     await Story.find({ }, (err, storyLists) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err })
+            return resError(400, err)
         }
         if (!storyLists) {
-            console.log("!storyLists.length");
-            return res
-                .status(404)
-                .json({ success: false, error: 'Story not found' })
+            return resError(404, 'Story not found')
         }
         else {
             // PUT ALL THE LISTS INTO ID, NAME PAIRS
@@ -317,13 +289,10 @@ getAllUserUnpublishedStories = async (req, res) => {
 getAllUserPublishedComics = async (req, res) => {
     await PublishedComic.find({ }, (err, comicLists) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err })
+            return resError(400, err)
         }
         if (!comicLists) {
-            console.log("!comicLists.length");
-            return res
-                .status(404)
-                .json({ success: false, error: 'Published comic not found' })
+            return resError(404, 'Published comic not found')
         }
         else {
             // PUT ALL THE LISTS INTO ID, NAME PAIRS
@@ -354,13 +323,10 @@ getAllUserPublishedComics = async (req, res) => {
 getAllUserPublishedStories = async (req, res) => {
     await PublishedStory.find({ }, (err, storyLists) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err })
+            return resError(400, err)
         }
         if (!storyLists) {
-            console.log("!storyLists.length");
-            return res
-                .status(404)
-                .json({ success: false, error: 'Story not found' })
+            return resError(404, 'Story not found')
         }
         else {
             // PUT ALL THE LISTS INTO ID, NAME PAIRS
@@ -391,15 +357,12 @@ getAllUserPublishedStories = async (req, res) => {
 createComment = (req,res) =>{
     const body = req.query;
     if (!body) {
-        return res.status(400).json({
-            success: false,
-            error: 'You must provide a comment object',
-        })
+        return resError(400, 'You must provide a comment object')
     }
     const comment = new Comment(body);
     console.log("creating comment: " + JSON.stringify(comment));
     if (!comment) {
-        return res.status(400).json({ success: false, error: err })
+        return resError(400, 'Comment Object Creation Failed in JavaScript')
     }
     comment
         .save()
@@ -411,10 +374,7 @@ createComment = (req,res) =>{
             })
         })
         .catch(error => {
-            return res.status(400).json({
-                error,
-                message: 'Comment Not Created!'
-            })
+            return resError(400, 'Comment Not Created!')
         })
 }
 
@@ -422,7 +382,10 @@ createComment = (req,res) =>{
 getCommentByID = async (req, res) => {
     await Comment.findById({ _id: req.query._id }, (err, comment) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err });
+            return resError(400, err)
+        }
+        if (!comment) {
+            return resError(404, 'Comment Not Found!')
         }
         return res.status(200).json({ success: true, comment: comment })
     }).catch(err => console.log(err))
@@ -432,19 +395,16 @@ addRepliedComment = async (req,res) => {
     const body = req.query
     console.log("add replied comment: " + JSON.stringify(body));
     if (!body) {
-        return res.status(400).json({
-            success: false,
-            error: 'You must provide a body to update',
-        })
+        return resError(400, 'You must provide a body to update')
     }
     Comment.findOne({ _id: req.query.id }, (err, replyComment) => {
         console.log("Comment found: " + JSON.stringify(replyComment));
         if (err) {
             // ID is not found in published story and in published comic
-            return res.status(404).json({
-                err,
-                message: 'Comment not found!',
-            })
+            return resError(400, err)
+        }
+        if (!replyComment) {
+            return resError(404, 'Comment Not Found!')
         }
         // ID found in published Comic table
         replyComment.replies.push(body.commentID);
@@ -461,10 +421,7 @@ addRepliedComment = async (req,res) => {
             })
             .catch(error => {
                 console.log("FAILURE: " + JSON.stringify(error));
-                return res.status(404).json({
-                    error,
-                    message: 'Comment not updated!',
-                })
+                return resError(400, 'Comment not updated!')
             })
     })
 }
@@ -474,10 +431,7 @@ addComment = async (req, res) => {
     const body = req.query
     console.log("add Comment: " + JSON.stringify(body));
     if (!body) {
-        return res.status(400).json({
-            success: false,
-            error: 'You must provide a body to update',
-        })
+        return resError(400, 'You must provide a body to update')
     }
     PublishedStory.findOne({ _id: req.query.id }, (err, publishedStory) => {
         console.log("PublishedStory found: " + JSON.stringify(publishedStory));
@@ -487,10 +441,10 @@ addComment = async (req, res) => {
                 console.log("PublishedComic found: " + JSON.stringify(publishedComic));
                 if (err) {
                     // ID is not found in published story and in published comic
-                    return res.status(404).json({
-                        err,
-                        message: 'PublishedComic and PublishedStory not found!',
-                    })
+                    return resError(400, err)
+                }
+                if (!publishedComic) {
+                    return resError(400, 'PublishedComic and PublishedStory not found!')
                 }
                 // ID found in published Comic table
                 publishedComic.comments.push(body.commentID);
@@ -507,10 +461,7 @@ addComment = async (req, res) => {
                     })
                     .catch(error => {
                         console.log("FAILURE: " + JSON.stringify(error));
-                        return res.status(404).json({
-                            error,
-                            message: 'PublishedComic not updated!',
-                        })
+                        return resError(400, 'PublishedComic not updated!')
                     })
             })
         }
@@ -530,138 +481,37 @@ addComment = async (req, res) => {
                 })
                 .catch(error => {
                     console.log("FAILURE: " + JSON.stringify(error));
-                    return res.status(404).json({
-                        error,
-                        message: 'PublishedStory not updated!',
-                    })
+                    return resError(400, 'PublishedStory not updated!')
                 })
         }
         
     })
 }
-// // Update like user, dislike user, view number in pushlied story
-// editPublishedStory = async (req, res) => {
-//     const body = req.query
-//     console.log("editPublishedStory: " + JSON.stringify(body));
-//     if (!body) {
-//         return res.status(400).json({
-//             success: false,
-//             error: 'You must provide a body to update',
-//         })
-//     }
 
-//     PublishedStory.findOne({ _id: req.query.id }, (err, publishedStory) => {
-//         console.log("comic found: " + JSON.stringify(publishedStory));
-//         if (err) {
-//             return res.status(404).json({
-//                 err,
-//                 message: 'Published Story not found!',
-//             })
-//         }
-
-//         publishedStory.dislikedUser = body.dislikedUser
-//         publishedStory.likedUser = body.likedUser
-//         publishedStory.viewNumber = body.viewNumber
-
-//         publishedStory
-//             .save()
-//             .then(() => {
-//                 console.log("SUCCESS!!!");
-//                 return res.status(200).json({
-//                     success: true,
-//                     id: publishedStory._id,
-//                     message: 'PublishedStory updated!',
-//                 })
-//             })
-//             .catch(error => {
-//                 console.log("FAILURE: " + JSON.stringify(error));
-//                 return res.status(404).json({
-//                     error,
-//                     message: 'PublishedStory not updated!',
-//                 })
-//             })
-//     })
-// }
-// // Update like user, dislike user, view number in pushlied comic
-// editPublishedComic = async (req, res) => {
-//     const body = req.query
-//     console.log("editPublishedComic: " + JSON.stringify(body));
-//     if (!body) {
-//         return res.status(400).json({
-//             success: false,
-//             error: 'You must provide a body to update',
-//         })
-//     }
-
-//     PublishedComic.findOne({ _id: req.query.id }, (err, publishedComic) => {
-//         console.log("comic found: " + JSON.stringify(publishedComic));
-//         if (err) {
-//             return res.status(404).json({
-//                 err,
-//                 message: 'Published Story not found!',
-//             })
-//         }
-
-//         publishedComic.dislikedUser = body.dislikedUser
-//         publishedComic.likedUser = body.likedUser
-//         publishedComic.viewNumber = body.viewNumber
-
-//         publishedComic
-//             .save()
-//             .then(() => {
-//                 console.log("SUCCESS!!!");
-//                 return res.status(200).json({
-//                     success: true,
-//                     id: publishedComic._id,
-//                     message: 'PublishedComic updated!',
-//                 })
-//             })
-//             .catch(error => {
-//                 console.log("FAILURE: " + JSON.stringify(error));
-//                 return res.status(404).json({
-//                     error,
-//                     message: 'PublishedComic not updated!',
-//                 })
-//             })
-//     })
-// }
-
-
-
+// update liked user list in a published comic when a user clicks like button
 likeComic = async (req, res) =>{
     const body = req.query;
     await User.findById(body.userID, (err, user) => {
         if (err) {
-            console.log(err)
-            return resErrWith400(err)
+            return resError(400, err)
         }
         if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: 'UserID Not Found'
-            })
+            return resError(404, 'UserID Not Found')
         }
         PublishedComic.findById(body.comicID, (err, comic) => {
             if (err) {
-                console.log(err)
-                return resErrWith400(err)
+                return resError(400, err)
             }
             if (!comic) {
-                return res.status(404).json({
-                    success: false,
-                    message: 'comicID Not Found'
-                })
+                return resError(404, 'comicID Not Found')
             }
             if (comic.likedUser.includes(body.userID)) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'User Already Liked The Comic'
-                })
+                return resError(400, 'User Already Liked The Comic')
             }
             comic.likedUser.push(body.userID)
             comic.save((err) => {
                 if (err) {
-                    return resErrWith400(err)
+                    return resError(400, err)
                 }
                 return res.status(200).json({
                     success: true,
@@ -674,30 +524,24 @@ likeComic = async (req, res) =>{
     })
 }
 
+// undo update liked user list in a published comic when a user clicks like button
 undoLikeComic = async (req, res) =>{
     const body = req.query;
     await PublishedComic.findById(body.comicID, (err, comic) => {
         if (err) {
-            console.log(err)
-            resErrWith400 (err)
+            return resError(400, err)
         }
         if (!comic) {
-            return res.status(404).json({
-                success: false,
-                message: 'comicID Not Found'
-            })
+            return resError(404, 'comicID Not Found')
         }
         let oldLen = comic.likedUser.length
         comic.likedUser.pull(body.userID)
         if (oldLen == comic.likedUser.length) {
-            return res.status(404).json({
-                success: false,
-                message: 'userID Not Found in liked users list in the published comic'
-            })
+            return resError(404, 'userID Not Found in liked users list in the published comic')
         }
         comic.save((err) => {
             if (err) {
-                return resErrWith400(err)
+                return resError(400, err)
             }
             return res.status(200).json({
                 success: true,
@@ -710,40 +554,30 @@ undoLikeComic = async (req, res) =>{
     })
 }
 
+// update liked user list in a published story when a user clicks like button
 likeStory = async (req, res) =>{
     const body = req.query;
     await User.findById(body.userID, (err, user) => {
         if (err) {
-            console.log(err)
-            return resErrWith400(err)
+            return resError(400, err)
         }
         if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: 'UserID Not Found'
-            })
+            return resError(404, 'UserID Not Found')
         }
         PublishedStory.findById(body.storyID, (err, story) => {
             if (err) {
-                console.log(err)
-                return resErrWith400(err)
+                return resError(400, err)
             }
             if (!story) {
-                return res.status(404).json({
-                    success: false,
-                    message: 'storyID Not Found'
-                })
+                return resError(404, 'storyID Not Found')
             }
             if (story.likedUser.includes(body.userID)) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'User Already Liked The Story'
-                })
+                return resError(400, 'User Already Liked The Story')
             }
             story.likedUser.push(body.userID)
             story.save((err) => {
                 if (err) {
-                    return resErrWith400(err)
+                    return resError(400, err)
                 }
                 return res.status(200).json({
                     success: true,
@@ -756,30 +590,24 @@ likeStory = async (req, res) =>{
     })
 }
 
+// undo update liked user list in a published story when a user clicks like button
 undoLikeStory = async (req, res) =>{
     const body = req.query;
     await PublishedStory.findById(body.storyID, (err, story) => {
         if (err) {
-            console.log(err)
-            resErrWith400 (err)
+            return resError(400, err)
         }
         if (!story) {
-            return res.status(404).json({
-                success: false,
-                message: 'storyID Not Found'
-            })
+            return resError(404, 'storyID Not Found')
         }
         let oldLen = story.likedUser.length
         story.likedUser.pull(body.userID)
         if (oldLen == story.likedUser.length) {
-            return res.status(404).json({
-                success: false,
-                message: 'userID Not Found in liked users list in the published story'
-            })
+            return resError(404, 'userID Not Found in liked users list in the published story')
         }
         story.save((err) => {
             if (err) {
-                return resErrWith400(err)
+                return resError(400, err)
             }
             return res.status(200).json({
                 success: true,
@@ -792,18 +620,15 @@ undoLikeStory = async (req, res) =>{
     })
 }
 
+// increment view number of a published comic
 incComicView = async (req, res) => {
     const body = req.query;
     await PublishedComic.findByIdAndUpdate(body.comicID, {$inc: { viewNumber: 1}}, (err, comic) => {
         if (err) {
-            console.log(err)
-            return resErrWith400(err)
+            return resError(400, err)
         }
         if (!comic) {
-            return res.status(404).json({
-                success: false,
-                message: 'comicID Not Found'
-            })
+            return resError(404, 'comicID Not Found')
         }
         return res.status(200).json({
             success: true,
@@ -813,19 +638,16 @@ incComicView = async (req, res) => {
     })
 }
 
-
+// increment view number of a published story
 incStoryView = async (req, res) =>{
     const body = req.query;
     await PublishedStory.findByIdAndUpdate(body.storyID, {$inc: { viewNumber: 1}}, (err, story) => {
         if (err) {
             console.log(err)
-            return resErrWith400(err)
+            return resError(400, err)
         }
         if (!story) {
-            return res.status(404).json({
-                success: false,
-                message: 'storyID Not Found'
-            })
+            return resError(404, 'storyID Not Found')
         }
         return res.status(200).json({
             success: true,
@@ -835,41 +657,32 @@ incStoryView = async (req, res) =>{
     })
 }
 
-
+// add a published comic to a user's favorite comic list
 favorComic = async (req, res) => {
     const body = req.query;
     await PublishedComic.findById(body.comicID, (err, comic) => {
         if (err) {
             console.log(err)
-            return resErrWith400(err)
+            return resError(400, err)
         }
         if (!comic) {
-            return res.status(404).json({
-                success: false,
-                message: 'comicID Not Found'
-            })
+            return resError(404, 'comicID Not Found')
         }
         User.findById(body.userID, (err, user) => {
             if (err) {
                 console.log(err)
-                return resErrWith400(err)
+                return resError(400, err)
             }
             if (!user) {
-                return res.status(404).json({
-                    success: false,
-                    message: 'userID Not Found'
-                })
+                return resError(404, 'userID Not Found')
             }
             if (user.favoredComics.includes(body.comicID)) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'User Already Favored The Comic'
-                })
+                return resError(400, 'User Already Favored The Comic')
             }
             user.favoredComics.push(body.comicID)
             user.save((err) => {
                 if (err) {
-                    return resErrWith400(err)
+                    return resError(400, err)
                 }
                 return res.status(200).json({
                     success: true,
@@ -882,31 +695,24 @@ favorComic = async (req, res) => {
     })
 }
 
-
+// undo add a published comic to a user's favorite comic list
 undoFavorComic = async (req, res) =>{
     const body = req.query;
     await User.findById(body.userID, (err, user) => {
         if (err) {
-            console.log(err)
-            resErrWith400 (err)
+            return resError(400, err)
         }
         if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: 'userID Not Found'
-            })
+            return resError(404, 'userID Not Found')
         }
         let oldLen = user.favoredComics.length
         user.favoredComics.pull(body.comicID)
         if (oldLen == user.favoredComics.length) {
-            return res.status(404).json({
-                success: false,
-                message: 'comicID Not Found in user\'s favored comics list'
-            })
+            return resError(404, 'comicID Not Found in user\'s favored comics list')
         }
         user.save((err) => {
             if (err) {
-                return resErrWith400(err)
+                return resError(400, err)
             }
             return res.status(200).json({
                 success: true,
@@ -919,41 +725,30 @@ undoFavorComic = async (req, res) =>{
     })
 }
 
-
+// add a published story to a user's favorite story list
 favorStory = async (req, res) => {
     const body = req.query;
     await PublishedStory.findById(body.storyID, (err, story) => {
         if (err) {
-            console.log(err)
-            return resErrWith400(err)
+            return resError(400, err)
         }
         if (!story) {
-            return res.status(404).json({
-                success: false,
-                message: 'storyID Not Found'
-            })
+            return resError(404, 'storyID Not Found')
         }
         User.findById(body.userID, (err, user) => {
             if (err) {
-                console.log(err)
-                return resErrWith400(err)
+                return resError(400, err)
             }
             if (!user) {
-                return res.status(404).json({
-                    success: false,
-                    message: 'userID Not Found'
-                })
+                return resError(404, 'userID Not Found')
             }
             if (user.favoredStories.includes(body.storyID)) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'User Already Favored The Story'
-                })
+                return resError(400, 'User Already Favored The Story')
             }
             user.favoredStories.push(body.storyID)
             user.save((err) => {
                 if (err) {
-                    return resErrWith400(err)
+                    return resError(400, err)
                 }
                 return res.status(200).json({
                     success: true,
@@ -966,31 +761,24 @@ favorStory = async (req, res) => {
     })
 }
 
-
+// undo add a published story to a user's favorite story list
 undoFavorStory = async (req, res) =>{
     const body = req.query;
     await User.findById(body.userID, (err, user) => {
         if (err) {
-            console.log(err)
-            resErrWith400 (err)
+            return resError(400, err)
         }
         if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: 'userID Not Found'
-            })
+            return resError(404, 'userID Not Found')
         }
         let oldLen = user.favoredStories.length
         user.favoredStories.pull(body.storyID)
         if (oldLen == user.favoredStories.length) {
-            return res.status(404).json({
-                success: false,
-                message: 'storyID Not Found in user\'s favored stories list'
-            })
+            return resError(404, 'storyID Not Found in user\'s favored stories list')
         }
         user.save((err) => {
             if (err) {
-                return resErrWith400(err)
+                return resError(400, err)
             }
             return res.status(200).json({
                 success: true,
@@ -1008,15 +796,12 @@ undoFavorStory = async (req, res) =>{
 createPublishedComic = async (req, res) =>{
     const body = req.query;
     if (!body) {
-        return res.status(400).json({
-            success: false,
-            error: 'You must provide a published comic object',
-        })
+        return resError(400, 'You must provide a published comic object')
     }
     const publishedComic = new PublishedComic(body);
     console.log("creating published comic: " + JSON.stringify(publishedComic));
     if (!publishedComic) {
-        return res.status(400).json({ success: false, error: err })
+        return resError(400, 'PublishedComic Object Creation Failed in JavaScript')
     }
 
     publishedComic
@@ -1029,10 +814,7 @@ createPublishedComic = async (req, res) =>{
             })
         })
         .catch(error => {
-            return res.status(400).json({
-                error,
-                message: 'Published Comic Not Created!'
-            })
+            return resError(400, 'Published Comic Not Created!')
         })
 }
 
@@ -1040,16 +822,13 @@ createPublishedComic = async (req, res) =>{
 createPublishedStory = async (req, res) =>{
     const body = req.query;
     if (!body) {
-        return res.status(400).json({
-            success: false,
-            error: 'You must provide a published story object',
-        })
+        return resError(400, 'You must provide a published story object')
     }
 
     const publishedStory = new PublishedStory(body);
     console.log("creating published story: " + JSON.stringify(publishedStory));
     if (!publishedStory) {
-        return res.status(400).json({ success: false, error: err })
+        return resError(400, 'PublishedStory Object Creation Failed in JavaScript')
     }
 
     publishedStory
@@ -1062,10 +841,7 @@ createPublishedStory = async (req, res) =>{
             })
         })
         .catch(error => {
-            return res.status(400).json({
-                error,
-                message: 'Published Story Not Created!'
-            })
+            return resError(400, 'Published Story Not Created!')
         })
 }
 
@@ -1073,9 +849,12 @@ createPublishedStory = async (req, res) =>{
 getPublishedComicByID = async (req, res) => {
     await PublishedComic.findById({ _id: req.query._id }, (err, comic) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err });
+            return resError(400, err)
         }
-        return res.status(200).json({ success: true, story: comic })
+        if (!comic) {
+            return resError(400, 'Comic not found!')
+        }
+        return res.status(200).json({ success: true, comic: comic })
     }).catch(err => console.log(err))
 }
 
@@ -1083,155 +862,14 @@ getPublishedComicByID = async (req, res) => {
 getPublishedStoryByID = async (req, res) => {
     await PublishedStory.findById({ _id: req.query._id }, (err, story) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err });
+            return resError(400, err)
+        }
+        if (!story) {
+            return resError(404, 'Story not found!')
         }
         return res.status(200).json({ success: true, story: story })
     }).catch(err => console.log(err))
 }
-
-// // search author name or comic title by user input in comic table
-// searchComicByInput = async (req,res) => {
-//     await Comic.find({ }, (err, comicLists) => {
-//         if (err) {
-//             return res.status(400).json({ success: false, error: err })
-//         }
-//         if (!comicLists) {
-//             console.log("!comicLists.length");
-//             return res
-//                 .status(404)
-//                 .json({ success: false, error: 'Comic not found' })
-//         }
-//         else {
-//             // PUT ALL THE LISTS INTO ID, NAME PAIRS
-//             let pairs = [];
-//             for (let key in comicLists) {
-//                 let comic = comicLists[key];
-//                 if(comic.authorName.toUpperCase().includes(req.query.searchInput.toUpperCase()) || comic.comicTitle.toUpperCase().includes(req.query.searchInput.toUpperCase()) 
-//                 ){
-//                     let pair = {
-//                         _id: comic._id,
-//                         authorID: comic.authorID,
-//                         authorName: comic.authorName,
-//                         comicTitle: comic.comicTitle,
-//                         editedTime: comic.editedTime,
-//                     };
-//                     pairs.push(pair);
-//                 }
-//             }
-//             return res.status(200).json({ success: true, idNamePairs: pairs })
-//         }
-//     }).catch(err => console.log(err))
-// }
-
-// // search author name or story title by user input in story table
-// searchStoryByInput = async (req,res) => {
-//     await Story.find({ }, (err, storyLists) => {
-//         if (err) {
-//             return res.status(400).json({ success: false, error: err })
-//         }
-//         if (!storyLists) {
-//             console.log("!storyLists.length");
-//             return res
-//                 .status(404)
-//                 .json({ success: false, error: 'Story not found' })
-//         }
-//         else {
-//             // PUT ALL THE LISTS INTO ID, NAME PAIRS
-//             let pairs = [];
-//             for (let key in storyLists) {
-//                 let story = storyLists[key];
-//                 if(story.authorName.toUpperCase().includes(req.query.searchInput.toUpperCase()) || story.storyTitle.toUpperCase().includes(req.query.searchInput.toUpperCase())
-//                 ){
-//                     let pair = {
-//                         _id: story._id,
-//                         authorID: story.authorID,
-//                         authorName: story.authorName,
-//                         storyTitle: story.storyTitle,
-//                         editedTime: story.editedTime,
-//                     };
-//                     pairs.push(pair);
-//                 }
-//             }
-//             return res.status(200).json({ success: true, idNamePairs: pairs })
-//         }
-//     }).catch(err => console.log(err))
-// }
-
-// // search author name or story title by user input in published story table
-// searchPublishedStoryByInput = async (req, res) => {
-//     await PublishedStory.find({ }, (err, storyLists) => {
-//         if (err) {
-//             return res.status(400).json({ success: false, error: err })
-//         }
-//         if (!storyLists) {
-//             console.log("!storyLists.length");
-//             return res
-//                 .status(404)
-//                 .json({ success: false, error: 'Story not found' })
-//         }
-//         else {
-//             // PUT ALL THE LISTS INTO ID, NAME PAIRS
-//             let pairs = [];
-//             for (let key in storyLists) {
-//                 let story = storyLists[key];
-//                 if(story.authorName.toUpperCase().includes(req.query.searchInput.toUpperCase()) || story.storyTitle.toUpperCase().includes(req.query.searchInput.toUpperCase())  
-//                 ){
-//                     let pair = {
-//                         _id: story._id,
-//                         authorID: story.authorID,
-//                         authorName: story.authorName,
-//                         storyTitle: story.storyTitle,
-//                         comments: story.comments,
-//                         dislikedUser: story.dislikedUser,
-//                         likedUser: story.likedUser,
-//                         publishedTime: story.publishedTime,
-//                         viewNumber: story.viewNumber
-//                     };
-//                     pairs.push(pair);
-//                 }
-//             }
-//             return res.status(200).json({ success: true, idNamePairs: pairs })
-//         }
-//     }).catch(err => console.log(err))
-// }
-
-// // search author name or comic title by user input in published comic table
-// searchPublishedComicByInput = async (req, res) => {
-//     await PublishedComic.find({ }, (err, comicLists) => {
-//         if (err) {
-//             return res.status(400).json({ success: false, error: err })
-//         }
-//         if (!comicLists) {
-//             console.log("!comicLists.length");
-//             return res
-//                 .status(404)
-//                 .json({ success: false, error: 'Published comic not found' })
-//         }
-//         else {
-//             // PUT ALL THE LISTS INTO ID, NAME PAIRS
-//             let pairs = [];
-//             for (let key in comicLists) {
-//                 let comic = comicLists[key];
-//                 if(comic.authorName.toUpperCase().includes(req.query.searchInput.toUpperCase()) || comic.comicTitle.toUpperCase().includes(req.query.searchInput.toUpperCase())  
-//                 ){
-//                     let pair = {
-//                         _id: comic._id,
-//                         authorID: comic.authorID,
-//                         authorName: comic.authorName,
-//                         comicTitle: comic.comicTitle,
-//                         comments: comic.comments,
-//                         dislikedUser: comic.dislikedUser,
-//                         likedUser: comic.likedUser,
-//                         publishedTime: comic.publishedTime,
-//                         viewNumber: comic.viewNumber
-//                     };
-//                     pairs.push(pair);
-//                 }
-//             }
-//             return res.status(200).json({ success: true, idNamePairs: pairs })
-//         }
-//     }).catch(err => console.log(err))
-// }
 
 
 // get unpublished comics by input
@@ -1239,7 +877,7 @@ searchComicByInput = async (req, res) => {
     const body = req.query
     await Comic.find({$or:[{comicTitle: { "$regex": body.searchInput, "$options": "i" }},{authorName: { "$regex": body.searchInput, "$options": "i" }}]}, (err, comic) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err });
+            return resError(400, err)
         }
         return res.status(200).json({ success: true, comic: comic })
     }).catch(err => console.log(err))
@@ -1251,7 +889,7 @@ searchStoryByInput = async (req, res) => {
     const body = req.query
     await Story.find({$or:[{storyTitle: { "$regex": body.searchInput, "$options": "i" }},{authorName: { "$regex": body.searchInput, "$options": "i" }}]}, (err, story) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err });
+            return resError(400, err)
         }
         return res.status(200).json({ success: true, story: story })
     }).catch(err => console.log(err))
@@ -1263,7 +901,7 @@ searchPublishedComicByInput = async (req, res) => {
     const body = req.query
     await PublishedComic.find({$or:[{comicTitle: { "$regex": body.searchInput, "$options": "i" }},{authorName: { "$regex": body.searchInput, "$options": "i" }}]}, (err, comic) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err });
+            return resError(400, err)
         }
         return res.status(200).json({ success: true, comic: comic })
     }).catch(err => console.log(err))
@@ -1275,7 +913,7 @@ searchPublishedStoryByInput = async (req, res) => {
     const body = req.query
     await PublishedStory.find({$or:[{storyTitle: { "$regex": body.searchInput, "$options": "i" }},{authorName: { "$regex": body.searchInput, "$options": "i" }}]}, (err, story) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err });
+            return resError(400, err)
         }
         return res.status(200).json({ success: true, story: story })
     }).catch(err => console.log(err))
@@ -1301,8 +939,6 @@ module.exports = {
     getAllUserPublishedStories,
     createComment,
     addComment,
-    // editPublishedStory,
-    // editPublishedComic,
     likeComic,
     undoLikeComic,
     likeStory,

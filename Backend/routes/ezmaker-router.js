@@ -57,12 +57,6 @@ router.post('/createComment', auth.verify, EasyMakerController.createComment)
 // modify a partifuclar comment array in published comic/story
 router.put('/addComment', auth.verify, EasyMakerController.addComment)
 
-// // modify a partifuclar like user, dislike user, view number in pushlied comic
-// router.put('/editPublishedComic', auth.verify, EasyMakerController.editPublishedComic)
-
-// // modify a partifuclar like user, dislike user, view number in pushlied story
-// router.put('/editPublishedStory', auth.verify, EasyMakerController.editPublishedStory)
-
 // update liked user list in a published comic when a user clicks like button
 router.put('/likeComic', auth.verify, EasyMakerController.likeComic)
 
