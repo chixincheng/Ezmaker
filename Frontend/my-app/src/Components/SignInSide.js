@@ -12,24 +12,12 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useContext } from 'react';
-import AuthContext from '../auth'
-import Copyright from './Copyright'
-import { GlobalStoreContext } from '../store'
 
 const theme = createTheme();
 
-export default function SignInSide() {
-  const { auth } = useContext(AuthContext);
-  const { store } = useContext(GlobalStoreContext)
-
+const SignInSide = () => {
   const handleSubmit = (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    auth.loginUser({
-        email: formData.get('emailorusername'),
-        password: formData.get('password')
-    }, store);
+    ;
   };
 
   return (
@@ -106,16 +94,16 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href='/register/' variant="body2">
+                  <Link href='/register' variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>
       </Grid>
     </ThemeProvider>
   )
-}
+};
+export default SignInSide;

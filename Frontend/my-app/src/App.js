@@ -14,6 +14,9 @@ import ComicPlaylistPage from "./Pages/ComicPlaylistPage";
 import StoryPlaylistPage from "./Pages/StoryPlaylistPage";
 import StoryEditingPage from "./Pages/StoryEditingPage";
 import ComicEditingPage from "./Pages/ComicEditingPage";
+import SignInSide from "./Components/SignInSide";
+import RegisterScreen from "./Components/RegisterScreen";
+
 
 function App() {
   return (
@@ -36,8 +39,8 @@ function App() {
         <Route exact path="/comic/profile" element={<ProfilePage/>}/>
         <Route exact path="/story/profile" element={<ProfilePage/>}/>
         <Route path="*" element={<LandingPage/>}/>
-        {/* <Route path="/register/" exact component={RegisterScreen} />
-        <Route path="/login/" exact component={SignInSide} /> */}
+        <Route exact path="/register" element={<RegisterScreen/>} />
+        <Route exact path="/login" element={<SignInSide/>} />
 
       </Routes>
   </Router>

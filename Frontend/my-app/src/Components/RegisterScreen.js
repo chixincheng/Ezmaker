@@ -1,6 +1,4 @@
-import { useContext } from 'react';
-import AuthContext from '../auth'
-import Copyright from './Copyright'
+
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -11,23 +9,12 @@ import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { GlobalStoreContext } from '../store'
 
 export default function RegisterScreen() {
-    const { auth } = useContext(AuthContext);
-    const { store } = useContext(GlobalStoreContext)
+
 
     const handleSubmit = (event) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        auth.registerUser({
-            firstName: formData.get('firstName'),
-            lastName: formData.get('lastName'),
-            email: formData.get('email'),
-            password: formData.get('password'),
-            passwordVerify: formData.get('passwordVerify'),
-            userName: formData.get('userName')
-        }, store);
+       ;
     };
 
     return (
@@ -130,7 +117,6 @@ export default function RegisterScreen() {
                         </Grid>
                     </Box>
                 </Box>
-                <Copyright sx={{ mt: 5 }} />
             </Container>
     );
 }
