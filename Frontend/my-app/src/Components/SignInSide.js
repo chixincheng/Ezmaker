@@ -12,12 +12,23 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useContext } from 'react';
+import AuthContext from '../auth'
+import { GlobalStoreContext } from '../store'
 
 const theme = createTheme();
 
 const SignInSide = () => {
+  const { auth } = useContext(AuthContext);
+  const { store } = useContext(GlobalStoreContext)
+
   const handleSubmit = (event) => {
-    ;
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    auth.loginUser({
+        email: formData.get('emailorusername'),
+        password: formData.get('password')
+    }, store);
   };
 
   return (

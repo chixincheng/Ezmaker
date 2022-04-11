@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import api from '../api'
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
@@ -22,7 +22,7 @@ function AuthContextProvider(props) {
         loggedIn: false,
         guest: false
     });
-    const history = useHistory();
+    const history = useNavigate();
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
 
