@@ -19,12 +19,19 @@ import StoryEditingPage from "./Pages/StoryEditingPage";
 import ComicEditingPage from "./Pages/ComicEditingPage";
 import SignInSide from "./Components/SignInSide";
 import RegisterScreen from "./Components/RegisterScreen";
-
+import LoadingPage from "./Pages/LoadingPage";
+import { useContext } from "react";
+import AuthContext from "./auth";
+import { Fragment } from "react";
 
 function App() {
+  const ctx = useContext(AuthContext);
+  if( ctx.isLoading ){
+    return(<LoadingPage/>);
+  }
+
   return (
-    <Router>
-      <AuthContextProvider>
+    <Fragment>
         <GlobalStoreContextProvider>
           <Routes>
             <Route exact path="/" element={<LandingPage/>}/>
@@ -48,8 +55,7 @@ function App() {
 
           </Routes>
         </GlobalStoreContextProvider>
-      </AuthContextProvider>
-  </Router>
+        </Fragment>
   );
 }
 

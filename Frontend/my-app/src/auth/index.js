@@ -17,6 +17,7 @@ export const AuthActionType = {
 }
 
 function AuthContextProvider(props) {
+    const [isLoading, setIsLoading] = useState(true);
     const [auth, setAuth] = useState({
         user: null,
         loggedIn: false,
@@ -86,15 +87,21 @@ function AuthContextProvider(props) {
 
     auth.getLoggedIn = async function () {
         const response = await api.getLoggedIn();
+        console.log(response);
         if (response.status === 200) {
+            console.log("true");
             authReducer({
-                type: AuthActionType.SET_LOGGED_IN,
+                type: AuthActionType.GET_LOGGED_IN,
                 payload: {
                     loggedIn: response.data.loggedIn,
                     user: response.data.user
                 }
             });
         }
+        else{
+            console.log("not logged in");
+        }
+        setIsLoading(false);
     }
     auth.loginstatus = function () {
         return auth.loggedIn;
@@ -150,7 +157,8 @@ function AuthContextProvider(props) {
 
     return (
         <AuthContext.Provider value={{
-            auth
+            auth,
+            isLoading: isLoading
         }}>
             {props.children}
             <Dialog

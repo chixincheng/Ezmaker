@@ -4,7 +4,7 @@ import makingForEveryone from "../Images/makingForEveryone.png"
 import weAllAreListening from "../Images/weAllAreListening.png"
 import {useNavigate} from "react-router-dom"
 import AuthContext from "../auth"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 
 const LandingPage =  () =>{
     const navigate = useNavigate();
@@ -20,9 +20,13 @@ const LandingPage =  () =>{
         navigate("/login");
    };
 
-   if( ctx.loggedIn ){
-        navigate("/dashboard");
-   }
+   console.log(ctx);
+   useEffect(()=>{
+    if( ctx.auth.loggedIn ){
+      navigate("/dashboard");
+ }
+   },[]);
+  
 
   return (
     <div style={{backgroundImage: `url(${landPageBackground})`, width:"100vw", height:"100vh", backgroundPosition: 'center',
