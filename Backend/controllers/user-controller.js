@@ -51,17 +51,7 @@ getLoggedIn = async (req, res) => {
         else{
             return res.status(200).json({
                 loggedIn: true,
-                user: {
-                    firstName: loggedInUser.firstName,
-                    lastName: loggedInUser.lastName,
-                    userName: loggedInUser.userName,
-                    email: loggedInUser.email,
-                    userName: loggedInUser.userName,
-                    authentication: loggedInUser.authentication,
-                    profilePictureID: {type: loggedInUser._id, required: false},
-                    favoredComics: {type: [loggedInUser._id], required: false},
-                    favoredStories: {type: [loggedInUser._id], required: false},
-                }
+                user: loggedInUser
             });
         }
 
