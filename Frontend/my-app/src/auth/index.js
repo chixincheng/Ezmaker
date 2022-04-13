@@ -115,7 +115,7 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             })
-            navigate("/");
+            navigate("/dashboard");
         }
         else {
             setMessage(response.data.errorMessage);
@@ -137,7 +137,7 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             })
-            navigate("/");
+            navigate("/login");
             store.loadIdNamePairs();
         }
         else {

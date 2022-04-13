@@ -14,7 +14,7 @@ const LandingPage =  () =>{
    };
 
    const loginOnClick = ()=>{
-        navigate("/dashboard");
+        navigate("/login");
    };
   return (
     <div style={{backgroundImage: `url(${landPageBackground})`, width:"100vw", height:"100vh", backgroundPosition: 'center',

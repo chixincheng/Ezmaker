@@ -51,9 +51,9 @@ getLoggedIn = async (req, res) => {
                 email: loggedInUser.email,
                 userName: loggedInUser.userName,
                 authentication: loggedInUser.authentication,
-                profilePictureID: {type: ObjectId, required: false},
-                favoredComics: {type: [ObjectId], required: false},
-                favoredStories: {type: [ObjectId], required: false},
+                profilePictureID: {type: loggedInUser._id, required: false},
+                favoredComics: {type: [loggedInUser._id], required: false},
+                favoredStories: {type: [loggedInUser._id], required: false},
             }
         }).send();
     })
@@ -100,16 +100,28 @@ loginUser = async(req, res) => {
               throw err;
             }
 
-            // LOGIN THE USER
-            const token = auth.signToken(response);
-            await res.cookie("token", token, {
-                httpOnly: true,
-                secure: true,
-                sameSite: "none"
-            }).status(200).json({
-                success: true,
-                user: response
-            }).send();
+            if( result ){
+                // LOGIN THE USER
+                const token = auth.signToken(response);
+                await res.cookie("token", token, {
+                                httpOnly: true,
+                                secure: true,
+                                sameSite: "none"
+                            }).status(200).json({
+                        success: true,
+                    user: response
+                        }).send();
+            }
+            else{
+                return res
+                .status(201)
+                .json({
+                    success: false,
+                    errorMessage: "Password not correct!"
+                });
+            }
+
+            
         });
        
 
