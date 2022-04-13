@@ -240,7 +240,7 @@ updateUser = async (req, res) => {
         user.userName = body.userName;
         user.email = body.email;
         if( !body.password ){
-            user.passwordHash = passwordHash;
+            user.passwordHash = body.passwordHash;
         }
         else{
             user.passwordHash = await bcrypt.hash(body.password, 8);
