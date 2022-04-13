@@ -256,6 +256,7 @@ updateUser = async (req, res) => {
                     success: true,
                     id: user._id,
                     message: 'User updated!',
+                    user: user
                 })
             })
             .catch(error => {

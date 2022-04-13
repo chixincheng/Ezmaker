@@ -164,7 +164,8 @@ function AuthContextProvider(props) {
     return (
         <AuthContext.Provider value={{
             auth,
-            isLoading: isLoading
+            isLoading: isLoading,
+            setAuth: setAuth
         }}>
             {props.children}
             <Dialog

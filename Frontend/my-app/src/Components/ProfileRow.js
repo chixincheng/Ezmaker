@@ -1,10 +1,12 @@
 import api from "../api";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import AuthContext from "../auth";
 
 const ProfileRow = (props)=>{
     console.log(props);
     const [editing, setEditing] = useState(false);
     const [currentValue, setCurrentValue] = useState(props.value);
+    const ctx = useContext(AuthContext);
 
     return(<div style={{display: "flex", justifyContent: "space-between", marginTop:"60px"}}>
     <div style={{display: "flex"}}>
@@ -20,6 +22,11 @@ const ProfileRow = (props)=>{
          const response = await api.updateUserById(props._id, props.user );
          if(response.status === 200){
             alert("Editing succeeded.");
+            ctx.setAuth({
+                user: response.data.user,
+                loggedIn: true,
+                guest: false
+            });
          }
          else{
              alert("Editing failed.");
