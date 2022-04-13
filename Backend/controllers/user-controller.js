@@ -124,7 +124,7 @@ loginUser = async(req, res) => {
 registerUser = async (req, res) => {
     try {
         res.send("--------"+req);
-        const { firstName, lastName, userName, email, password, passwordVerify } = req.body;
+        const { firstName, lastName, userName, email, password, passwordVerify } = req.query;
         console.log(firstName);
         if (!firstName || !lastName || !email || !password || !passwordVerify || !userName) {
             return res.status(201)

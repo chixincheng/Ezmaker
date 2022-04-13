@@ -28,7 +28,7 @@ export const getAllUserPublishedComics = () => api.get(`/getAllUserPublishedComi
 
 
 export const getLoggedIn = () => api.get(`/loggedIn/`);
-export const registerUser = (payload) => api.post(`/register/`, payload)
+export const registerUser = (payload) => api.post(`/register`,null, {params: payload} )
 export const loginUser = (payload) => api.post(`/login/`, payload)
 export const logoutUser = () => api.get(`/logout/`)
 export const getUserById = (id) => api.get(`/user/${id}`)

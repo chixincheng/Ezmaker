@@ -22,7 +22,7 @@ function AuthContextProvider(props) {
         loggedIn: false,
         guest: false
     });
-    const history = useNavigate();
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
 
@@ -102,7 +102,7 @@ function AuthContextProvider(props) {
             type: AuthActionType.LOGOUT_USER,
             payload: {}
         })
-        history.push("/");
+        navigate("/");
         window.location.reload();
     }
     auth.loginUser = async function(userData, store){
@@ -115,7 +115,7 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             })
-            history.push("/");
+            navigate("/");
         }
         else {
             setMessage(response.data.errorMessage);
@@ -137,7 +137,7 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             })
-            history.push("/");
+            navigate("/");
             store.loadIdNamePairs();
         }
         else {
