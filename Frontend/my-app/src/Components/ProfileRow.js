@@ -11,7 +11,7 @@ const ProfileRow = (props)=>{
     return(<div style={{display: "flex", justifyContent: "space-between", marginTop:"60px"}}>
     <div style={{display: "flex"}}>
         <p style={{fontSize: 16, fontFamily: "Ribeye Marrow", marginRight: "20px", marginLeft: "20px"}}>{props.label}:</p>
-        { editing ? <input defaultValue={props.value} onChange={(e)=>{ setCurrentValue(e.target.value); }} style={{background:"transparent"}} ></input>: <p style={{fontSize: 16, fontWeight: 700}}>{props.value}</p>  }
+        { editing ? <input defaultValue={ props.field==="password" ? "":props.value} onChange={(e)=>{ setCurrentValue(e.target.value); }} style={{background:"transparent"}} ></input>: <p style={{fontSize: 16, fontWeight: 700}}>{props.value}</p>  }
         
     </div>
     

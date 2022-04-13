@@ -112,13 +112,14 @@ function AuthContextProvider(props) {
     auth.loginstatus = function () {
         return auth.loggedIn;
     }
-    auth.logoutUser = function (){
+    auth.logoutUser = async function (){
+        const response = await api.logoutUser();
         authReducer({
             type: AuthActionType.LOGOUT_USER,
             payload: {}
         })
         navigate("/");
-        window.location.reload();
+       
     }
     auth.loginUser = async function(userData, store){
         console.log(userData);

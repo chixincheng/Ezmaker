@@ -50,7 +50,7 @@ const ProfilePage = () => {
     const [editingProfilePic, setEditingProfilePic] = useState(false);
 
     const ctx = useContext(AuthContext);
-    const { firstName, LastName, email, username, password, profilePic, _id } = ctx.auth.user;
+    const { firstName, lastName, email, userName, passwordHash, profilePic, _id } = ctx.auth.user;
     console.log(ctx);
     return(
         <Fragment>
@@ -58,6 +58,10 @@ const ProfilePage = () => {
             <div id="profilePage">
                 <div style={{width: "60vw"}}>
                    <ProfileRow label="First Name" value={firstName} _id={_id} user={ctx.auth.user} field="firstName" ></ProfileRow>
+                   <ProfileRow label="Last Name" value={lastName} _id={_id} user={ctx.auth.user} field="lastName" ></ProfileRow>
+                   <ProfileRow label="Username" value={userName} _id={_id} user={ctx.auth.user} field="userName" ></ProfileRow>
+                   <ProfileRow label="Email" value={email} _id={_id} user={ctx.auth.user} field="email" ></ProfileRow>
+                   <ProfileRow label="Password" value={passwordHash} _id={_id} user={ctx.auth.user} field="password" ></ProfileRow>
                     
                 
                 </div>
