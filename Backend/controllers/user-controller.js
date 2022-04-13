@@ -123,9 +123,9 @@ loginUser = async(req, res) => {
 // check
 registerUser = async (req, res) => {
     try {
-        console.log(req.query);
-        console.log(req.query);
-        const { firstName, lastName, userName, email, password, passwordVerify } = req.query;
+        res.send("--------"+req);
+        const { firstName, lastName, userName, email, password, passwordVerify } = req.body;
+        console.log(firstName);
         if (!firstName || !lastName || !email || !password || !passwordVerify || !userName) {
             return res.status(201)
                         .json({ errorMessage: "Please enter all required fields." });
