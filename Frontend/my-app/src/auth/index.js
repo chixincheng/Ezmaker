@@ -128,6 +128,7 @@ function AuthContextProvider(props) {
         })
     }
     auth.registerUser = async function(userData, store) {
+        console.log(userData)
         const response = await api.registerUser(userData);      
         if (response.status === 200) {
             authReducer({
