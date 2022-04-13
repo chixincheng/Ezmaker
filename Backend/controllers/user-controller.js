@@ -42,6 +42,13 @@ resetPassword = async (req, res) =>{
 getLoggedIn = async (req, res) => {
     auth.verify(req, res, async function () {
         const loggedInUser = await User.findOne({ _id: req.cookies._id });
+        if (!loggedInUser){
+            return res.status(201).json({
+                loggedIn: false,
+                errorMessage:"User with given token not exist."
+            });
+        }
+
         return res.status(200).json({
             loggedIn: true,
             user: {
