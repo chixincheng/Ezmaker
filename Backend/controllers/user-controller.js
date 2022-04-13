@@ -51,17 +51,7 @@ getLoggedIn = async (req, res) => {
         else{
             return res.status(200).json({
                 loggedIn: true,
-                user: {
-                    firstName: loggedInUser.firstName,
-                    lastName: loggedInUser.lastName,
-                    userName: loggedInUser.userName,
-                    email: loggedInUser.email,
-                    userName: loggedInUser.userName,
-                    authentication: loggedInUser.authentication,
-                    profilePictureID: {type: loggedInUser._id, required: false},
-                    favoredComics: {type: [loggedInUser._id], required: false},
-                    favoredStories: {type: [loggedInUser._id], required: false},
-                }
+                user: loggedInUser
             });
         }
 
@@ -249,8 +239,12 @@ updateUser = async (req, res) => {
         user.lastName = body.lastName;
         user.userName = body.userName;
         user.email = body.email;
-        let passwordHash = await bcrypt.hash(body.password, 8);
-        user.passwordHash = passwordHash;
+        if( !body.password ){
+            user.passwordHash = body.passwordHash;
+        }
+        else{
+            user.passwordHash = await bcrypt.hash(body.password, 8);
+        }
         user.authication = body.authentication;
         user.profilePictureID = body.profilePictureID;
 
@@ -262,6 +256,7 @@ updateUser = async (req, res) => {
                     success: true,
                     id: user._id,
                     message: 'User updated!',
+                    user: user
                 })
             })
             .catch(error => {

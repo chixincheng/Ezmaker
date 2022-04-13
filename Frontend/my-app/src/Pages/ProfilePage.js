@@ -1,9 +1,10 @@
 import { letterSpacing } from "@mui/material";
 import Header from "../Components/Header";
 import userIcon from "../Images/icon.png"
-
-
-
+import { useState, useContext } from "react";
+import AuthContext from "../auth";
+import { Fragment } from "react";
+import ProfileRow from "../Components/ProfileRow";
 const editProfilePicture = () => {
     ;
 }
@@ -40,91 +41,37 @@ var gender ="Male";
 
 
 const ProfilePage = () => {
+
+    const [editingFirstName, setEditingFirstName] = useState(false);
+    const [editingLastName, setEditingLastName] = useState(false);
+    const [editingEmail, setEditingEmail] = useState(false);
+    const [editingUsername, setEditingUsername] = useState(false);
+    const [editingPassword, setEditingPassword] = useState(false);
+    const [editingProfilePic, setEditingProfilePic] = useState(false);
+
+    const ctx = useContext(AuthContext);
+    const { firstName, lastName, email, userName, passwordHash, profilePic, _id } = ctx.auth.user;
+    console.log(ctx);
     return(
-        <div>
+        <Fragment>
             <Header></Header>
             <div id="profilePage">
-                <div style={{width: "60vh"}}>
-                    <div style={{display: "flex", justifyContent: "space-between", paddingTop:"20px"}}>
-                        <div style={{display: "flex"}}>
-                            <p style={{fontSize: 16, fontFamily: "Ribeye Marrow", marginRight: "20px", marginLeft: "20px"}}>Profile Picture:</p>
-                            <div style={{  width:"50px", height:"50px" ,backgroundImage: `url(${userIcon})`, backgroundPosition: 'center', backgroundSize: 'cover',
-                                    backgroundRepeat: 'no-repeat', cursor:"pointer"}} >
-                            </div>
-                        </div>
-                        <div style={{fontSize:26, background: "rgba(187,241,253,255)", width: "120px",height: "40px", textAlign: "center", marginTop: "10px",marginLeft:"160px"}}
-                            onClick={editProfilePicture}
-                        >
-                            Edit</div>
-                    </div>
-                    <div style={{display: "flex", justifyContent: "space-between", paddingTop:"60px"}}>
-                        <div style={{display: "flex"}}>
-                            <p style={{fontSize: 16, fontFamily: "Ribeye Marrow", marginRight: "20px", marginLeft: "20px"}}>Name:</p>
-                            <p style={{fontSize: 16, fontWeight: 700}}>{name}</p>
-                        </div>
-                        <div style={{fontSize:26, background: "rgba(187,241,253,255)", width: "120px",height: "40px", textAlign: "center", marginTop: "10px",marginLeft:"160px"}}
-                            onClick={editName}
-                        >
-                            Edit</div>
-                    </div>
-                    <div style={{display: "flex", justifyContent: "space-between", paddingTop:"60px"}}>
-                        <div style={{display: "flex"}}>
-                            <p style={{fontSize: 16, fontFamily: "Ribeye Marrow", marginRight: "20px", marginLeft: "20px"}}>Email Address:</p>
-                            <p style={{fontSize: 16, fontWeight: 700}}>{email}</p>
-                        </div>
-                        <div style={{fontSize:26, background: "rgba(187,241,253,255)", width: "120px",height: "40px", textAlign: "center", marginTop: "10px",marginLeft:"160px"}}
-                            onClick={editName}
-                        >
-                            Edit</div>
-                    </div>
-                    <div style={{display: "flex", justifyContent: "space-between", paddingTop:"60px"}}>
-                        <div style={{display: "flex"}}>
-                            <p style={{fontSize: 16, fontFamily: "Ribeye Marrow", marginRight: "20px", marginLeft: "20px"}}>User Name:</p>
-                            <p style={{fontSize: 16, fontWeight: 700}}>{username}</p>
-                        </div>
-                        <div style={{fontSize:26, background: "rgba(187,241,253,255)", width: "120px",height: "40px", textAlign: "center", marginTop: "10px",marginLeft:"160px"}}
-                            onClick={editName}
-                        >
-                            Edit</div>
-                    </div>
-                    <div style={{display: "flex", justifyContent: "space-between", paddingTop:"60px"}}>
-                        <div style={{display: "flex"}}>
-                            <p style={{fontSize: 16, fontFamily: "Ribeye Marrow", marginRight: "20px", marginLeft: "20px"}}>Password:</p>
-                            <p style={{fontSize: 16, fontWeight: 700}}>{password}</p>
-                        </div>
-                        <div style={{fontSize:26, background: "rgba(187,241,253,255)", width: "120px",height: "40px", textAlign: "center", marginTop: "10px",marginLeft:"160px"}}
-                            onClick={editName}
-                        >
-                            Edit</div>
-                    </div>
-                    <div style={{display: "flex", justifyContent: "space-between", paddingTop:"60px"}}>
-                        <div style={{display: "flex"}}>
-                            <p style={{fontSize: 16, fontFamily: "Ribeye Marrow", marginRight: "20px", marginLeft: "20px"}}>DOB:</p>
-                            <p style={{fontSize: 16, fontWeight: 700}}>{DOB}</p>
-                        </div>
-                        <div style={{fontSize:26, background: "rgba(187,241,253,255)", width: "120px",height: "40px", textAlign: "center", marginTop: "10px",marginLeft:"160px"}}
-                            onClick={editName}
-                        >
-                            Edit</div>
-                    </div>
-                    <div style={{display: "flex", justifyContent: "space-between", paddingTop:"60px"}}>
-                        <div style={{display: "flex"}}>
-                            <p style={{fontSize: 16, fontFamily: "Ribeye Marrow", marginRight: "20px", marginLeft: "20px"}}>Gender:</p>
-                            <p style={{fontSize: 16, fontWeight: 700}}>{gender}</p>
-                        </div>
-                        <div style={{fontSize:26, background: "rgba(187,241,253,255)", width: "120px",height: "40px", textAlign: "center", marginTop: "10px",marginLeft:"160px"}}
-                            onClick={editName}
-                        >
-                            Edit</div>
-                    </div>
+                <div style={{width: "60vw"}}>
+                   <ProfileRow label="First Name" value={firstName} _id={_id} user={ctx.auth.user} field="firstName" ></ProfileRow>
+                   <ProfileRow label="Last Name" value={lastName} _id={_id} user={ctx.auth.user} field="lastName" ></ProfileRow>
+                   <ProfileRow label="Username" value={userName} _id={_id} user={ctx.auth.user} field="userName" ></ProfileRow>
+                   <ProfileRow label="Email" value={email} _id={_id} user={ctx.auth.user} field="email" ></ProfileRow>
+                   <ProfileRow label="Password" value={passwordHash} _id={_id} user={ctx.auth.user} field="password" ></ProfileRow>
+                    
+                
                 </div>
-                <div style={{width: "40vh", float:"right", marginTop: "10vh"}}>
+                <div style={{width: "40vw", float:"right", marginTop: "10vh"}}>
                     <div style={{height:"40vh" ,backgroundImage: `url(${userIcon})`, backgroundPosition: 'center', backgroundSize: 'contain',
                                     backgroundRepeat: 'no-repeat', cursor:"pointer"}} >
                     </div>
                 </div>
             </div>
-        </div>
+        </Fragment>
     );
 };   
 

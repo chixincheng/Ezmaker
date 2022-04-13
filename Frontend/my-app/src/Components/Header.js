@@ -9,12 +9,16 @@ import { Box } from '@mui/system';
 import { MenuItem, TextField } from '@mui/material';
 import { Select } from '@mui/material'
 import { Autocomplete } from '@mui/material'
+import images from '../Images';
+import AuthContext from '../auth';
+import { useContext } from 'react';
 
 const Header = ()=>{
     const navigate = useNavigate();
     const location = useLocation();
     const { store,searchResult } = useContext(GlobalStoreContext);
     const [option,setOption] = React.useState('user');
+    const ctx = useContext(AuthContext);
 
     const communityIconOnClick = ()=>{
         console.log(location.pathname); 
@@ -47,6 +51,10 @@ const Header = ()=>{
     function handleNavigate (event){
         //store.searchNavigate(event.target.value);
     }
+    const logoutIconOnClick = ()=>{
+        ctx.auth.logoutUser();
+    }
+
     return(
         <div style={{display:"flex", alignItems:"center",justifyContent:"space-between", padding:"1rem", background:"rgba(209, 247, 255, 1)"}}>
             <div onClick={()=>{navigate("/");}} style={{display:"flex", alignItems:"center", cursor:"pointer"}}>
@@ -87,17 +95,23 @@ const Header = ()=>{
                 <Fragment></Fragment>
             }    
             <div style={{display: "flex", justifyContent: "space-between"}}>
-                <div style={{display:"flex", alignItems:"center", flexDirection:"column", marginRight: "2rem"}}>
+                <div style={{display:"flex", alignItems:"center", flexDirection:"column", marginRight: "2rem", cursor:"pointer"}}>
                     <div onClick={userIconOnClick} style={{  width:"50px", height:"50px" ,backgroundImage: `url(${userIcon})`, backgroundPosition: 'center', backgroundSize: 'contain',
-                        backgroundRepeat: 'no-repeat', marginLeft:"1rem", cursor:"pointer"}}>
+                        backgroundRepeat: 'no-repeat', marginLeft:"1rem"}}>
                     </div>
                     <b style={{fontFamily:"Ribeye Marrow"}}>Home</b>
                 </div>
-                <div style={{display:"flex", alignItems:"center", flexDirection:"column"}}>
+                <div style={{display:"flex", alignItems:"center", flexDirection:"column", marginRight: "2rem", cursor:"pointer"}}>
                     <div onClick={communityIconOnClick} style={{  width:"50px", height:"50px" ,backgroundImage: `url(${communityIcon})`, backgroundPosition: 'center', backgroundSize: 'contain',
-                        backgroundRepeat: 'no-repeat', marginLeft:"1rem", cursor:"pointer"}}>
+                        backgroundRepeat: 'no-repeat', marginLeft:"1rem"}}>
                     </div>
                     <b style={{fontFamily:"Ribeye Marrow"}}>Community</b>
+                </div>
+                <div style={{display:"flex", alignItems:"center", flexDirection:"column", cursor:"pointer"}}>
+                    <div onClick={logoutIconOnClick} style={{  width:"50px", height:"50px" ,backgroundImage: `url(${images.logout})`, backgroundPosition: 'center', backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat', marginLeft:"1rem"}}>
+                    </div>
+                    <b style={{fontFamily:"Ribeye Marrow"}}>Log Out</b>
                 </div>
             </div>
         </div>

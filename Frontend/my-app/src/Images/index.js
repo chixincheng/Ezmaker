@@ -53,7 +53,7 @@ import faq from "./faq.png"
 import reddit from "./reddit.png"
 import twitter from "./twitter.png"
 import pinterest from "./pinterest.png"
-
+import logout from "./logout.png"
 import bebo from "./bebo.png"
 
 
@@ -66,7 +66,7 @@ const images = {
     categoryTitle, deleteIcon, comicsDownload, dribbble, eraser, facebook,
     colorFill, instagram, textOrTextSize, removePage, pen, addPage, publish,
     save, saveSuccessed, upload, bold, colorChange, highlighter, italic, underline, addComic, playlistEdit,
-    coconut, faq, reddit, twitter, pinterest, bebo
+    coconut, faq, reddit, twitter, pinterest, bebo, logout
 }
 export default images
 
