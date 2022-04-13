@@ -91,7 +91,7 @@ loginUser = async(req, res) => {
             
         }
         else{
-            response = await User.findOne({ userName: username  });
+            response = await User.findOne({ userName: email  });
         }
 
 

@@ -25,10 +25,10 @@ import AuthContext from "./auth";
 import { Fragment } from "react";
 
 function App() {
-  const ctx = useContext(AuthContext);
-  if( ctx.isLoading ){
-    return(<LoadingPage/>);
-  }
+  // const ctx = useContext(AuthContext);
+  // if( ctx.isLoading ){
+  //   return(<LoadingPage/>);
+  // }
 
   return (
     <Fragment>

@@ -117,6 +117,10 @@ router.get('/searchPublishedComicByInput', auth.verify, EasyMakerController.sear
 // get all the search result by user input in published story table
 router.get('/searchPublishedStoryByInput', auth.verify, EasyMakerController.searchPublishedStoryByInput)
 
+//get the search result for user
+router.get('/searchUserName', auth.verify, EasyMakerController.searchUserName)
+
+
 
 //===================================================USER========================================================
 // Handle's new user registration requests

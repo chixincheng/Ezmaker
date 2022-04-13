@@ -871,6 +871,16 @@ getPublishedStoryByID = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
+//get the search result for user
+searchUserName = async(req,res) => {
+    const body = req.query
+    await User.find({userName: { "$regex": body.searchInput, "$options": "i" }}, (err, user) => {
+        if (err) {
+            return resError(400, err)
+        }
+        return res.status(200).json({ success: true, user: user })
+    }).catch(err => console.log(err))
+}
 
 // get unpublished comics by input
 searchComicByInput = async (req, res) => {
@@ -958,5 +968,6 @@ module.exports = {
     searchComicByInput,
     searchStoryByInput,
     searchPublishedStoryByInput,
-    searchPublishedComicByInput
+    searchPublishedComicByInput,
+    searchUserName
 }

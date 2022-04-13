@@ -1,9 +1,8 @@
    
 import { createContext, useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import {useNavigate, useLocation} from "react-router-dom"
 import api from '../api'
 import AuthContext from '../auth'
-
 
 // THIS IS THE CONTEXT WE'LL USE TO SHARE OUR STORE
 export const GlobalStoreContext = createContext({});
@@ -43,7 +42,11 @@ function GlobalStoreContextProvider(props) {
         sortbyview: false
     });
     const history = useNavigate();
-    const [searchKeyWord, setSearch] = useState("");
+    const [searchKeyWord, setSearchKeyword] = useState("");
+    const [searchOption, setSearchOption] = useState("user");
+    const location = useLocation();
+    const searchResult =[];
+
     // SINCE WE'VE WRAPPED THE STORE IN THE AUTH CONTEXT WE CAN ACCESS THE USER HERE
     const { auth } = useContext(AuthContext);
     const storeReducer = (action) => {
@@ -89,13 +92,47 @@ function GlobalStoreContextProvider(props) {
             console.log("API FAILED TO GET THE UNPUBLISHED COMIC PAIR");
         }
     }
+    store.setSearchKey = function (key) {
+        //how to search immediately
+        //use (use effect)
+        setSearchKeyword(key);
+    }
+
+    store.searchNavigate = function(result){
+
+    }
+
+    useEffect( async()=>{
+        if(searchOption === "user"){//search user
+            async function asyncSearchUser(){
+                const response = await api.searchUserName(searchKeyWord);
+                if(response.data.success){
+                    searchResult = response.data.user;
+                }
+            }
+            asyncSearchUser();
+        }
+        else{//search comic/story
+            if(location.pathname.includes("comic")){//search comic
+
+            }
+            else{//search story
+
+            }
+        }
+    },[searchKeyWord])
+
+    store.setSearchOption = function(option) {
+        setSearchOption(option);
+    }
 
 
-
+    //store.searchkey = searchKeyWord;
+    //store.setSearchOption = searchOption;
 
     return (
         <GlobalStoreContext.Provider value={{
-            store
+            store,searchResult
         }}>
             {props.children}
         </GlobalStoreContext.Provider>

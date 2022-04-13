@@ -1,13 +1,20 @@
-import  Form  from 'react-bootstrap/Form';
+import React, { useContext,useState } from 'react'
+import { GlobalStoreContext } from '../store'
 import easyToUse from "../Images/easyToUse.png"
 import communityIcon from "../Images/communityIcon.png"
 import {useNavigate, useLocation} from "react-router-dom"
 import userIcon from "../Images/icon.png"
 import { Fragment } from 'react';
+import { Box } from '@mui/system';
+import { MenuItem, TextField } from '@mui/material';
+import { Select } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 
 const Header = ()=>{
     const navigate = useNavigate();
     const location = useLocation();
+    const { store,searchResult } = useContext(GlobalStoreContext);
+    const [option,setOption] = React.useState('user');
 
     const communityIconOnClick = ()=>{
         console.log(location.pathname); 
@@ -28,6 +35,18 @@ const Header = ()=>{
         }
     }
 
+    function handleSearchKeyWord (event){
+        store.setSearchKey(event.target.value);
+    }
+
+    function handleSearchOption (event){
+        store.setSearchOption(event.target.value);
+        setOption(event.target.value);
+    }
+
+    function handleNavigate (event){
+        //store.searchNavigate(event.target.value);
+    }
     return(
         <div style={{display:"flex", alignItems:"center",justifyContent:"space-between", padding:"1rem", background:"rgba(209, 247, 255, 1)"}}>
             <div onClick={()=>{navigate("/");}} style={{display:"flex", alignItems:"center", cursor:"pointer"}}>
@@ -37,8 +56,33 @@ const Header = ()=>{
             </div>
             
             {(location.pathname.includes("home") || location.pathname.includes("community")) ?
-                (<input placeholder='Search' style={{width:"500px", height:"20px", borderRadius:"0.3rem", border:"none",
-                background:"rgba(168, 158, 171, 0.23)", outline:"none"}}/>)
+                (<Box style={{width: "45%", display: "flex",alignItems:"center"}}>
+                    <Select
+                        label="user"
+                        value = {option}
+                        onChange={handleSearchOption}
+                        style = {{ background: "white"}}
+                    >
+                        <MenuItem value = "user">User</MenuItem>
+                        <MenuItem value ="cs">Comic/Story</MenuItem>
+                    </Select>
+                    <Autocomplete
+                        fullWidth
+                        disablePortal
+                        options={searchResult}
+                        onInputChange={handleNavigate}
+                        renderInput={(params) => <TextField {...params}
+                            fullWidth
+                            id = "search-key"
+                            label = "search"
+                            margin = "none"
+                            onChange = {handleSearchKeyWord}
+                            style = {{ background: "white", top: "13%"}}
+                        >
+                        </TextField>}
+                    >
+                    </Autocomplete>
+                </Box>)
                 :
                 <Fragment></Fragment>
             }    

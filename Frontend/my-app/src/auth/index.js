@@ -103,9 +103,11 @@ function AuthContextProvider(props) {
         }
         setIsLoading(false);
     }
+
     auth.loginstatus = function () {
         return auth.loggedIn;
     }
+    
     auth.logoutUser = function (){
         authReducer({
             type: AuthActionType.LOGOUT_USER,

@@ -25,7 +25,7 @@ const api = axios.create({
 
 export const getAllUserUnpublishedComics = () => api.get(`/getAllUserUnpublishedComics/`)
 export const getAllUserPublishedComics = () => api.get(`/getAllUserPublishedComics/`)
-
+export const searchUserName = (searchInput) => api.get(`/searchUserName/${searchInput}`)
 
 export const getLoggedIn = () => api.get(`/loggedIn/`);
 export const registerUser = (payload) => api.post(`/register`,null, {params: payload} )
@@ -37,7 +37,7 @@ export const updateUserById = (id, payload) => api.put(`/user/${id}`, payload)
 const apis = {
     getAllUserUnpublishedComics,
     getAllUserPublishedComics,
-    
+    searchUserName,
 
     getLoggedIn,
     registerUser,
