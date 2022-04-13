@@ -278,7 +278,7 @@ updateUser = async (req, res) => {
 
 logoutUser = async (req,res)=>{
     res.clearCookie("token", { httpOnly: true, sameSite: 'none', secure: true } );
-
+    res.clearCookie("_id", { httpOnly: true, sameSite: 'none', secure: true } );
     res.send({
       authenticated: false,
       token: null,
