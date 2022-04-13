@@ -239,8 +239,12 @@ updateUser = async (req, res) => {
         user.lastName = body.lastName;
         user.userName = body.userName;
         user.email = body.email;
-        let passwordHash = await bcrypt.hash(body.password, 8);
-        user.passwordHash = passwordHash;
+        if( !body.password ){
+            user.passwordHash = passwordHash;
+        }
+        else{
+            user.passwordHash = await bcrypt.hash(body.password, 8);
+        }
         user.authication = body.authentication;
         user.profilePictureID = body.profilePictureID;
 
