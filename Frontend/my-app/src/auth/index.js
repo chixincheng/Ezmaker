@@ -33,10 +33,12 @@ function AuthContextProvider(props) {
       setOpen(false);
     };
 
+   
+
     useEffect(() => {
-        if(auth.loggedIn){
-            auth.getLoggedIn();
-        }
+       
+        auth.getLoggedIn();
+        
     }, []);
 
     const authReducer = (action) => {

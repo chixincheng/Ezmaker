@@ -3,9 +3,12 @@ import loginButtonBackground from "../Images/loginButton.png"
 import makingForEveryone from "../Images/makingForEveryone.png"
 import weAllAreListening from "../Images/weAllAreListening.png"
 import {useNavigate} from "react-router-dom"
+import AuthContext from "../auth"
+import { useContext } from "react"
 
 const LandingPage =  () =>{
     const navigate = useNavigate();
+    const ctx = useContext(AuthContext);
     var buttonStyle = {height:"100px", width:"200px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(50vw - 100px)', backgroundImage: `url(${loginButtonBackground})`,
     backgroundPosition: 'center',
     backgroundSize: 'contain',
@@ -16,6 +19,11 @@ const LandingPage =  () =>{
    const loginOnClick = ()=>{
         navigate("/login");
    };
+
+   if( ctx.loggedIn ){
+        navigate("/dashboard");
+   }
+
   return (
     <div style={{backgroundImage: `url(${landPageBackground})`, width:"100vw", height:"100vh", backgroundPosition: 'center',
     backgroundSize: 'cover',

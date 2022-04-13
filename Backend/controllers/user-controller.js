@@ -41,7 +41,7 @@ resetPassword = async (req, res) =>{
 
 getLoggedIn = async (req, res) => {
     auth.verify(req, res, async function () {
-        const loggedInUser = await User.findOne({ _id: req.userId });
+        const loggedInUser = await User.findOne({ _id: req.cookies._id });
         return res.status(200).json({
             loggedIn: true,
             user: {
@@ -107,7 +107,9 @@ loginUser = async(req, res) => {
                                 httpOnly: true,
                                 secure: true,
                                 sameSite: "none"
-                            }).status(200).json({
+                            }).cookie("_id",response._id,{httpOnly: true,
+                                secure: true,
+                                sameSite: "none"}).status(200).json({
                         success: true,
                     user: response
                         }).send();
