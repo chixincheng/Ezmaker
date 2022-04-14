@@ -79,8 +79,8 @@ getLoggedIn = async (req, res) => {
 loginUser = async(req, res) => {
     try {
         console.log(req.query);
-        const { email, username ,password } = req.query;
-        if( !email && !username ){
+        const { email,password } = req.query;
+        if( !email){
             return res.status(201)
                         .json({ errorMessage: "Please enter email or username." });
         }
@@ -89,20 +89,13 @@ loginUser = async(req, res) => {
                         .json({ errorMessage: "Please enter password." });
         }
       
-       
         
-        var response = null;
-        if( email ){
-            response = await User.findOne({ email: email });
-            
-        }
-        else{
-            response = await User.findOne({ userName: email  });
+        var user = await User.findOne({ email: email });
+        if(!user){
+            user = await User.findOne({ userName: email  });
         }
 
-
-        
-        if ( !response ) {
+        if ( !user ) {
             return res
                 .status(201)
                 .json({
@@ -111,23 +104,23 @@ loginUser = async(req, res) => {
                 });
         }
 
-        bcrypt.compare(password, response.passwordHash, async (err, result) => {
+        bcrypt.compare(password, user.passwordHash, async (err, result) => {
             if (err) {
               throw err;
             }
 
             if( result ){
                 // LOGIN THE USER
-                const token = auth.signToken(response);
+                const token = auth.signToken(user);
                 await res.cookie("token", token, {
                                 httpOnly: true,
                                 secure: true,
                                 sameSite: "none"
-                            }).cookie("_id",response._id,{httpOnly: true,
+                            }).cookie("_id",user._id,{httpOnly: true,
                                 secure: true,
                                 sameSite: "none"}).status(200).json({
                         success: true,
-                    user: response
+                    user: user
                         }).send();
             }
             else{
@@ -138,12 +131,7 @@ loginUser = async(req, res) => {
                     errorMessage: "Password not correct!"
                 });
             }
-
-            
         });
-       
-
-        
     } catch (err) {
         console.error(err);
         res.status(500).send();
