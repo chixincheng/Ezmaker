@@ -55,6 +55,8 @@ import logout from "./logout.png"
 import bebo from "./bebo.png"
 import addComic from "./addComic.png"
 import playlistEdit from "./playlistEdit.png"
+import back from "./back.png"
+import sort from "./sort.png"
 
 const images = {
     check, clock, comicApp, communityIcon, cover1, easyToUse,
@@ -65,7 +67,7 @@ const images = {
     categoryTitle, deleteIcon, comicsDownload, dribbble, eraser, facebook,
     colorFill, instagram, textOrTextSize, removePage, pen, addPage, publish,
     save, saveSuccessed, upload, bold, colorChange, highlighter, italic, underline, addComic, playlistEdit,
-    coconut, faq, reddit, twitter, pinterest, bebo, logout, signInBackground
+    coconut, faq, reddit, twitter, pinterest, bebo, logout, signInBackground, back, sort
 }
 export default images
 
