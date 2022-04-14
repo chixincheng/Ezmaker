@@ -25,7 +25,7 @@ export default function RegisterScreen() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         console.log("handlesubmit triggered");
-        const response = await auth.registerUser({
+        auth.registerUser({
             firstName: formData.get('firstName'),
             lastName: formData.get('lastName'),
             email: formData.get('email'),
@@ -34,13 +34,7 @@ export default function RegisterScreen() {
             userName: formData.get('userName'),
             profilePicture: "https://res.cloudinary.com/daufq6nuh/image/upload/v1649969124/Ezmaker/icon_k0hron.png"
         }, store);
-        if( response === true ){
-            console.log("hello");
-            // navigate("/login");
-        }
-        else{
-            alert(response);
-        }
+      
     };
 
     return (

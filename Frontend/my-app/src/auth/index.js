@@ -154,16 +154,16 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             })
-            // navigate("/login");
+            navigate("/login");
 
-            // store.loadIdNamePairs();
-            return true;
+            store.loadIdNamePairs();
+            
         }
         else {
-            // alert(response.data.errorMessage);
-            // setMessage(response.data.errorMessage);
-            // handleOpen();
-            return response.data.errorMessage;
+          
+            setMessage(response.data.errorMessage);
+            handleOpen();
+           
         }
     }
 
