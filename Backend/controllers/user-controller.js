@@ -161,11 +161,21 @@ function ValidateEmail(input) {
 registerUser = async (req, res) => {
     try {
         
-        const { firstName, lastName, userName, email, password, passwordVerify } = req.query;
+        const { firstName, lastName, userName, email, password, passwordVerify, profilePicture } = req.query;
         console.log(firstName);
         if (!firstName || !lastName || !email || !password || !passwordVerify || !userName) {
             return res.status(201)
                         .json({ errorMessage: "Please enter all required fields." });
+        }
+
+        if( userName === password  ){
+            return res.status(201)
+                        .json({ errorMessage: "Username can not be same as password." });
+        }
+
+        if( email === password  ){
+            return res.status(201)
+                        .json({ errorMessage: "Email can not be same as password." });
         }
 
         if( !ValidateEmail(email) ){
@@ -209,7 +219,7 @@ registerUser = async (req, res) => {
         
         let passwordHash = await bcrypt.hash(password, 8);
         const newUser = new User({
-            firstName, lastName, userName, email, passwordHash
+            firstName, lastName, userName, email, passwordHash, profilePicture
         });
         const savedUser = await newUser.save();
 
