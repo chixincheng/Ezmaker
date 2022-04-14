@@ -14,16 +14,13 @@ const HisStoryPlaylistPage = (props)=>{
         <Fragment>
             <Header></Header>
             <div style={{ padding: "5rem 3rem 5rem 3rem", background: "rgba(250, 241, 194, 1)", height:`clac(100vh -  )` }}>
-            <div onClick={()=>{ navigate(`/story/user/${names[names.length-1]}`); }} style={{ display: "flex", cursor:"pointer" }}>
-              <div
-                style={{
-                  width: "100px",
+            <div >
+              <div onClick={()=>{ navigate(`/story/user/${names[names.length-1]}`); }} style={{ display: "flex", cursor:"pointer", width: "100px",
                   height: "100px",
                   backgroundImage: `url(${icon})`,
                   backgroundPosition: "center",
                   backgroundSize: "contain",
-                  backgroundRepeat: "no-repeat",
-                }}
+                  backgroundRepeat: "no-repeat"}}
               ></div>
               <div
                 style={{
