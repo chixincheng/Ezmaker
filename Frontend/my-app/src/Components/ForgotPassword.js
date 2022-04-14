@@ -23,18 +23,28 @@ const ForgotPassword = ()=>{
         var newPassword = Date.now();
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const response =  await api.resetPassword({
-            email: formData.get('email'),
-            subject: "Password Reset",
-            newPassword: newPassword,
-            text:'Your new password is '+newPassword
+        const    response =  await api.resetPassword({
+                email: formData.get('email'),
+                subject: "Password Reset",
+                newPassword: newPassword,
+                text:'Your new password is '+newPassword
         });
-        if( response.status === 200 ){
+        
+        if(  response.status === 200 ){
             alert( response.data.message );
         }
         else{
-            alert("Email sent failed, please try again.");
+            
+            alert(response.data.errorMessage);
         }
+        
+       
+        
+
+        
+        
+
+       
 
     }
 
@@ -80,7 +90,7 @@ const ForgotPassword = ()=>{
             </Button>
             <Grid container justifyContent="flex-end">
                 <Grid item>
-                    <Link href="/login/" variant="body2">
+                    <Link href="/login" variant="body2">
                         Already have an account? Sign in
                     </Link>
                 </Grid>

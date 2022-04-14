@@ -30,7 +30,11 @@ resetPassword = async (req, res) =>{
      await User.findOne({ email: email }, async (err, user)=>{
          if (err) throw err;
 
-         
+         if( !user ){
+            return res.status(201)
+                      .json({ errorMessage: "User with given email not found." });
+         }
+
          let newHashPassword = await bcrypt.hash(req.query.newPassword, 8);
          user.passwordHash = newHashPassword;
          user.save().then(()=>{
@@ -39,7 +43,7 @@ resetPassword = async (req, res) =>{
                   console.log(error);
                   return res.status(400).json({
                     success: false,
-                    error: error,
+                    errorMessage: error,
                   })
                 } else {
                   console.log('Email sent: ' + info.response);
