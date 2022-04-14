@@ -23,7 +23,7 @@ const ForgotPassword = ()=>{
         var newPassword = Date.now();
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const response =  await api.forgotPassword({
+        const response =  await api.resetPassword({
            
             email: formData.get('email'),
             subject: "Password Reset",
