@@ -22,21 +22,37 @@ resetPassword = async (req, res) =>{
         text: req.query.text
       };
       
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-          return res.status(400).json({
-            success: false,
-            error: error,
-          })
-        } else {
-          console.log('Email sent: ' + info.response);
-          return res.status(200).json({
-            success: true,
-            message: 'Email sent!'
-          })
-        }
-      });
+      const { email } = req.query;
+      if( !email  ){
+          return res.status(201)
+                      .json({ errorMessage: "Please enter email." });
+      }
+     await User.findOne({ email: email }, async (err, user)=>{
+         if (err) throw err;
+
+         
+         let newHashPassword = await bcrypt.hash(req.query.newPassword, 8);
+         user.passwordHash = newHashPassword;
+         user.save().then(()=>{
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                  console.log(error);
+                  return res.status(400).json({
+                    success: false,
+                    error: error,
+                  })
+                } else {
+                  console.log('Email sent: ' + info.response);
+                  return res.status(200).json({
+                    success: true,
+                    message: 'Email sent!'
+                  })
+                }
+              });
+         });
+
+     } );
+      
 }
 
 getLoggedIn = async (req, res) => {
