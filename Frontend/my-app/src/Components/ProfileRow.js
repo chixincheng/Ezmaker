@@ -19,7 +19,7 @@ const ProfileRow = (props)=>{
     <div style={{fontSize:26, background: "rgba(187,241,253,255)", width: "120px",height: "40px", textAlign: "center", marginTop: "10px",marginLeft:"160px", cursor:"pointer"}}
     onClick={ async ()=>{  
          props.user[props.field] = currentValue
-         const response = await api.updateUserById(props._id, props.user );
+         const response = await api.updateUserById(props._id, props.user, null );
          if(response.status === 200){
             alert("Editing succeeded.");
             ctx.setAuth({

@@ -1,20 +1,35 @@
 import { letterSpacing } from "@mui/material";
 import Header from "../Components/Header";
 import userIcon from "../Images/icon.png"
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import AuthContext from "../auth";
 import { Fragment } from "react";
 import ProfileRow from "../Components/ProfileRow";
-
+import api from "../api";
 
 
 const ProfilePage = () => {
 
+    const fileUploaderRef = useRef();
  
 
     const ctx = useContext(AuthContext);
-    const { firstName, lastName, email, userName, passwordHash, profilePic, _id } = ctx.auth.user;
+    const { firstName, lastName, email, userName, passwordHash, profilePicture, _id } = ctx.auth.user;
     console.log(ctx);
+
+
+    const fileUploadOnClick = async ()=>{
+        const formData = new FormData();
+        formData.append('imgFile', fileUploaderRef.current.files[0] );
+        const response = await api.updateUserById(_id, ctx.auth.user, formData );
+        if ( response.status===200 ){
+            alert("Successfully updated profile picture.");
+        }
+        else{
+            alert("Failed to updat profile picture.");
+        }
+    }
+
     return(
         <Fragment>
             <Header></Header>
@@ -28,10 +43,18 @@ const ProfilePage = () => {
                     
                 
                 </div>
-                <div style={{width: "40vw", float:"right", marginTop: "10vh"}}>
-                    <div style={{height:"40vh" ,backgroundImage: `url(${userIcon})`, backgroundPosition: 'center', backgroundSize: 'contain',
-                                    backgroundRepeat: 'no-repeat', cursor:"pointer"}} >
-                    </div>
+                <div style={{width: "40vw", float:"right", marginTop: "10vh", display:"flex", flexDirection:"column", alignItems:"center"}}>
+                    {/* <div onClick={()=>{}} style={{height:"40vh" ,width:"40vw",backgroundImage: `url(${profilePicture})`, backgroundPosition: 'center', backgroundSize: 'contain',
+                                    backgroundRepeat: 'no-repeat', cursor:"pointer", marginBottom:"5rem", borderRadius:"5rem"}} >
+                    </div> */}
+                  
+                    <img alt="Avatar" src={profilePicture} style={{width:"50%", height:"auto", borderRadius:"50%"}}>
+                    </img>
+                 
+                    <label for="img">Select icon image:</label>
+                    <input type="file" id="img" name="img"  ref={fileUploaderRef} accept="image/*"/>
+                    <input onClick={fileUploadOnClick} type="submit"/>
+                    
                 </div>
             </div>
         </Fragment>

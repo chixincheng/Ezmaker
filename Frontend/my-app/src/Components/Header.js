@@ -108,7 +108,7 @@ const Header = ()=>{
             }    
             <div style={{display: "flex", justifyContent: "space-between"}}>
                 <div style={{display:"flex", alignItems:"center", flexDirection:"column", marginRight: "2rem", cursor:"pointer"}}>
-                    <div onClick={userIconOnClick} style={{  width:"50px", height:"50px" ,backgroundImage: `url(${userIcon})`, backgroundPosition: 'center', backgroundSize: 'contain',
+                    <div onClick={userIconOnClick} style={{  width:"50px", height:"50px" , borderRadius:"50%" ,backgroundImage: `url(${ctx.auth.user.profilePicture})`, backgroundPosition: 'center', backgroundSize: 'cover',
                         backgroundRepeat: 'no-repeat', marginLeft:"1rem"}}>
                     </div>
                     <b style={{fontFamily:"Ribeye Marrow"}}>Home</b>

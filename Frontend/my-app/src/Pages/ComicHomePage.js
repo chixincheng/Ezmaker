@@ -9,8 +9,11 @@ import MyFavoriteComic from "../Components/MyFavoriteComic";
 import { useNavigate } from "react-router-dom";
 import SortButton from "../Components/SortButton";
 
+import AuthContext from "../auth";
+import { useContext } from "react";
 const ComicHomePage = () => {
   const navigate = useNavigate();
+  const ctx = useContext(AuthContext);
   return (
     <Fragment>
       <Header></Header>
@@ -22,10 +25,11 @@ const ComicHomePage = () => {
               style={{
                 width: "100px",
                 height: "100px",
-                backgroundImage: `url(${icon})`,
+                backgroundImage: `url(${ctx.auth.user.profilePicture})`,
                 backgroundPosition: "center",
-                backgroundSize: "contain",
+                backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
+                borderRadius:"50%"
               }}
             ></div>
             <div

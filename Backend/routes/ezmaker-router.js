@@ -150,7 +150,7 @@ router.get('/logout', UserController.logoutUser)
 // Get user by id
 router.get('/user/:id', UserController.getUserById)
 // Update user by id (password reset and user information change)
-router.put('/user/:id', UserController.updateUser)
+router.put('/user/:id',  auth.verify ,imgUpload.array("imgFile", 1)  ,UserController.updateUser)
 
 router.delete('/deleteUser', auth.verify, UserController.deleteUser)
 

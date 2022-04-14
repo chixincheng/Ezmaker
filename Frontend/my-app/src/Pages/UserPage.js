@@ -8,13 +8,37 @@ import HisComic from "../Components/HisComic";
 import HisFavoriteComic from "../Components/HisFavoriteComic";
 import HisStory from "../Components/HisStory";
 import HisFavoriteStory from "../Components/HisFavoriteStory";
+import { GlobalStoreContext } from '../store';
+import React, { useContext,useState, useEffect } from 'react';
+import LoadingPage from "../Pages/LoadingPage"
 
 
 const UserPage = ()=>{
     const navigate = useNavigate();
     const location = useLocation();
-
+    const { store,searchResult } = useContext(GlobalStoreContext);
     var names = location.pathname.split("/");
+    const [currentUser, setCurrentUser] = useState(null);
+
+    useEffect(()=>{
+      if( searchResult.length <1 ){
+         store.setSearchKey(names.at(-1));
+      }
+      else if( currentUser === null ){
+          for( const user of searchResult   ){
+              if( user["userName"] === names.at(-1) ){
+                  setCurrentUser(user);
+              }
+          }
+      }
+     
+    },[ searchResult ]);
+
+
+
+    if( currentUser === null ){
+        return (<LoadingPage></LoadingPage>);
+    }
 
     return(<Fragment>
         <Header></Header>
@@ -25,10 +49,11 @@ const UserPage = ()=>{
                 style={{
                   width: "100px",
                   height: "100px",
-                  backgroundImage: `url(${icon})`,
+                  backgroundImage: `url(${currentUser.profilePicture})`,
                   backgroundPosition: "center",
-                  backgroundSize: "contain",
+                  backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
+                  borderRadius:"50%"
                 }}
               ></div>
               <div
