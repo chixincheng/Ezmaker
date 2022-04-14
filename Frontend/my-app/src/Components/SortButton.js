@@ -4,6 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SortIcon from '@mui/icons-material/Sort';
 import { IconButton } from '@mui/material'
+import images from '../Images';
 
 
 const SortButton = ()=>{
@@ -70,7 +71,7 @@ const SortButton = ()=>{
                 <MenuItem onClick={handleSortByDislikes}>Dislikes</MenuItem>
         </Menu>
     );
-
+//<SortIcon/>
     return (
         <div style={{background: "rgba(250, 241, 194, 1)", float:"right", paddingTop: "15px", paddingRight: "15px"}}>
             <IconButton
@@ -82,7 +83,7 @@ const SortButton = ()=>{
                     size = "large"
                     onClick={handleProfileMenuOpen}
                 >
-                    Sort<SortIcon/>
+                    Sort <img style={{width:"50px", height:"auto"}} src={images.sort}></img>
             </IconButton>
             {menulist}
         </div>
