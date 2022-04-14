@@ -258,7 +258,7 @@ getUserById = async (req, res) => {
 //==change password and password reset can be handled here
 updateUser = async (req, res) => {
     const body = req.query
-    console.log( req.files[0] );
+   
    
     if (!body) {
         return res.status(400).json({
