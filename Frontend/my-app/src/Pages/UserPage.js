@@ -1,15 +1,14 @@
-
 import { Fragment } from "react";
 import Header from "../Components/Header";
 import icon from "../Images/icon.png";
 import verify from "../Images/verify.png";
-import editInfo from "../Images/editInfo.png";
 import playlist from "../Images/playlist.png";
-import MyComic from "../Components/MyComic";
-import MyFavoriteComic from "../Components/MyFavoriteComic";
 import { useNavigate, useLocation } from "react-router-dom";
 import HisComic from "../Components/HisComic";
 import HisFavoriteComic from "../Components/HisFavoriteComic";
+import HisStory from "../Components/HisStory";
+import HisFavoriteStory from "../Components/HisFavoriteStory";
+
 
 const UserPage = ()=>{
     const navigate = useNavigate();
@@ -52,8 +51,8 @@ const UserPage = ()=>{
                 ></div>
               </div>
             </div>
-          
-            <div onClick={()=>{navigate(`/comic/playlist/user/${names[names.length-1]}`);}} style={{display:"flex", alignItems:"center", cursor:"pointer"}}>
+                  
+            <div onClick={()=>{navigate(`/${names[1]}/playlist/user/${names[names.length-1]}`);}} style={{display:"flex", alignItems:"center", cursor:"pointer"}}>
               {" "}
               <div
                 style={{
@@ -68,8 +67,17 @@ const UserPage = ()=>{
               <b>Playlist</b>
             </div>
           </div>
-          <HisComic ></HisComic>
-          <HisFavoriteComic></HisFavoriteComic>
+          {location.pathname.includes("comic")?
+            <Fragment>
+              <HisComic ></HisComic>
+              <HisFavoriteComic></HisFavoriteComic>
+            </Fragment>
+            :
+            <Fragment>
+              <HisStory ></HisStory>
+              <HisFavoriteStory></HisFavoriteStory>
+            </Fragment>
+          }
         </div>
       </Fragment>);
 };

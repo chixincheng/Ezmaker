@@ -1,8 +1,12 @@
 import ComicCard from "./ComicCard";
 import React, { useEffect, useState } from 'react';
+// require('dotenv').config();
 import Pagination from '@mui/material/Pagination';
+import { useNavigate } from "react-router-dom";
 
-const HisComic = ({itemsPerPage}) => {
+
+const HisStory = ({itemsPerPage}) => {
+
   return (
     <div
       style={{
@@ -20,7 +24,7 @@ const HisComic = ({itemsPerPage}) => {
           marginBottom: "2rem",
         }}
       >
-        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>His Comics:</b>
+        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>His Stories:</b>
         
       </div>
 
@@ -44,4 +48,4 @@ const HisComic = ({itemsPerPage}) => {
   );
 };
 
-export default HisComic;
+export default HisStory;

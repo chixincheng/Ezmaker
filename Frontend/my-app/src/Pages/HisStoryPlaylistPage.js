@@ -5,7 +5,7 @@ import verify from "../Images/verify.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import HisPlaylist from "../Components/HisPlaylist";
 
-const HisComicPlaylistPage = (props)=>{
+const HisStoryPlaylistPage = (props)=>{
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -14,7 +14,7 @@ const HisComicPlaylistPage = (props)=>{
         <Fragment>
             <Header></Header>
             <div style={{ padding: "5rem 3rem 5rem 3rem", background: "rgba(250, 241, 194, 1)", height:`clac(100vh -  )` }}>
-            <div onClick={()=>{ navigate(`/comic/user/${names[names.length-1]}`); }} style={{ display: "flex", cursor:"pointer" }}>
+            <div onClick={()=>{ navigate(`/story/user/${names[names.length-1]}`); }} style={{ display: "flex", cursor:"pointer" }}>
               <div
                 style={{
                   width: "100px",
@@ -53,4 +53,4 @@ const HisComicPlaylistPage = (props)=>{
         </Fragment>
     );
 };
-export default HisComicPlaylistPage;
+export default HisStoryPlaylistPage;

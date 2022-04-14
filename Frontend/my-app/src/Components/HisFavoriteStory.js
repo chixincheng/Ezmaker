@@ -2,14 +2,15 @@ import ComicCard from "./ComicCard";
 import React, { useEffect, useState } from 'react';
 import Pagination from '@mui/material/Pagination';
 
-const HisComic = ({itemsPerPage}) => {
+const HisFavoriteStory = ({itemsPerPage}) => {
+
+
   return (
     <div
       style={{
         padding: "2rem 1rem 2rem 1rem",
         background: "rgba(187, 241, 253, 1)",
         borderRadius: "1rem",
-        marginBottom:"1rem"
       }}
     >
       <div
@@ -20,7 +21,7 @@ const HisComic = ({itemsPerPage}) => {
           marginBottom: "2rem",
         }}
       >
-        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>His Comics:</b>
+        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>His Favorite Stories:</b>
         
       </div>
 
@@ -31,17 +32,19 @@ const HisComic = ({itemsPerPage}) => {
           justifyContent: "center",
         }}
       >
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
+        
+      <ComicCard></ComicCard>
+      <ComicCard></ComicCard>
+      <ComicCard></ComicCard>
+      <ComicCard></ComicCard>
+      <ComicCard></ComicCard>
 
-       
+      
       </div>
       <div style={{display:"flex",justifyContent:"center"}}><Pagination count={10} color="primary" /></div>
+      
     </div>
   );
 };
 
-export default HisComic;
+export default HisFavoriteStory;
