@@ -102,7 +102,7 @@ function GlobalStoreContextProvider(props) {
 
     }
 
-    useEffect( async()=>{
+    useEffect( ()=>{
         if(searchOption === "user"){//search user
             async function asyncSearchUser(){
                 const response = await api.searchUserName(searchKeyWord);
