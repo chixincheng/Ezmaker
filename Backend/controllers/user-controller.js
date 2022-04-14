@@ -24,14 +24,14 @@ resetPassword = async (req, res) =>{
       
       const { email } = req.query;
       if( !email  ){
-          return res.status(403)
+          return res.status(400)
                       .json({ errorMessage: "Please enter email." });
       }
      await User.findOne({ email: email }, async (err, user)=>{
          if (err) throw err;
 
          if( !user ){
-            return res.status(403)
+            return res.status(400)
                       .json({ errorMessage: "User with given email not found." });
          }
 

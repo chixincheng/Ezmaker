@@ -19,23 +19,34 @@ import api from '../api';
 const ForgotPassword = ()=>{
     const {auth} = useContext(AuthContext);
 
-    const handleOnSubmit = async (event)=>{
+    const handleOnSubmit =  (event)=>{
         var newPassword = Date.now();
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const response =  await api.resetPassword({
+
+        async function temp(){
+            console.log("asd");
+            const response =  await api.resetPassword({
            
-            email: formData.get('email'),
-            subject: "Password Reset",
-            newPassword: newPassword,
-            text:'Your new password is '+newPassword
-        });
-        if( response.status === 200 ){
-            alert( response.data.message );
-        }
-        else{
+                email: formData.get('email'),
+                subject: "Password Reset",
+                newPassword: newPassword,
+                text:'Your new password is '+newPassword
+            });
+            
+        if( !response || response.status != 200 ){
             alert("Email sent failed, please try again.");
         }
+        else{
+            alert( response.data.message );
+        }
+        }
+        temp();
+
+        
+        
+
+       
 
     }
 
