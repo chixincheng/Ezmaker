@@ -13,17 +13,19 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { GlobalStoreContext } from '../store'
 import { height } from '@mui/system';
 import images from '../Images';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function RegisterScreen() {
     const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext)
+    const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         console.log("handlesubmit triggered");
-         auth.registerUser({
+        const response = await auth.registerUser({
             firstName: formData.get('firstName'),
             lastName: formData.get('lastName'),
             email: formData.get('email'),
@@ -32,6 +34,13 @@ export default function RegisterScreen() {
             userName: formData.get('userName'),
             profilePicture: "https://res.cloudinary.com/daufq6nuh/image/upload/v1649969124/Ezmaker/icon_k0hron.png"
         }, store);
+        if( response === true ){
+            console.log("hello");
+            // navigate("/login");
+        }
+        else{
+            alert(response);
+        }
     };
 
     return (

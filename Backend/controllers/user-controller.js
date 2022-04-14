@@ -141,17 +141,38 @@ loginUser = async(req, res) => {
         res.status(500).send();
     }
 }
+
+function ValidateEmail(input) {
+
+    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  
+    if (input.match(validRegex)) {
+  
+      return true;
+  
+    } else {
+      return false;
+  
+    }
+  
+  }
 // register a new user based on the given information
 // check
 registerUser = async (req, res) => {
     try {
-        res.send("--------"+req);
+        
         const { firstName, lastName, userName, email, password, passwordVerify } = req.query;
         console.log(firstName);
         if (!firstName || !lastName || !email || !password || !passwordVerify || !userName) {
             return res.status(201)
                         .json({ errorMessage: "Please enter all required fields." });
         }
+
+        if( !ValidateEmail(email) ){
+            return res.status(201)
+                        .json({ errorMessage: "Please enter a valid email." });
+        }
+
         if (password.length < 8) {
             return res.status(201)
                     .json({
@@ -210,6 +231,7 @@ registerUser = async (req, res) => {
             }
         }).send();
     } catch (err) {
+        console.log("error: ");
         console.error(err);
         res.status(500).send();
     }
