@@ -7,12 +7,14 @@ import playlist from "../Images/playlist.png";
 import MyFavoriteStory from "../Components/MyFavoriteStory";
 import MyStory from "../Components/MyStory";
 import { useNavigate } from "react-router-dom";
+import SortButton from "../Components/SortButton";
 
 const StoryHomePage = () =>{
   const navigate = useNavigate();
     return (
         <Fragment>
           <Header></Header>
+          <SortButton></SortButton>
           <div style={{ padding: "5rem 3rem 5rem 3rem", background: "rgba(250, 241, 194, 1)", height:`clac(100vh -  )` }}>
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
               <div style={{ display: "flex" }}>

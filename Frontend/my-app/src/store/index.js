@@ -104,6 +104,26 @@ function GlobalStoreContextProvider(props) {
 
     }
 
+    store.sortByDislikes = function(){
+
+    }
+
+    store.sortByLikes = function(){
+
+    }
+
+    store.sortByNewest = function(){
+
+    }
+
+    store.sortByOldest = function(){
+        
+    }
+
+    store.sortByViews = function(){
+        
+    }
+
     useEffect( ()=>{
         if(searchOption === "user"){//search user
             async function searchUser(){

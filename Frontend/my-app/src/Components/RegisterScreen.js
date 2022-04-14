@@ -38,7 +38,7 @@ export default function RegisterScreen() {
             <CssBaseline />
             <Box
                 sx={{
-                    marginTop: 0,
+                    paddingTop: 8,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',

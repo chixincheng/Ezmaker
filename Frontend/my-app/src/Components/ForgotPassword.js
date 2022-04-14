@@ -1,5 +1,3 @@
-
-
 import { useContext } from 'react';
 import AuthContext from '../auth';
 import Avatar from '@mui/material/Avatar';
@@ -11,9 +9,8 @@ import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { GlobalStoreContext } from '../store'
 import api from '../api';
+import images from '../Images';
 
 
 const ForgotPassword = ()=>{
@@ -37,30 +34,20 @@ const ForgotPassword = ()=>{
             
             alert(response.data.errorMessage);
         }
-        
-       
-        
-
-        
-        
-
-       
-
     }
 
-    return( <Container component="main" maxWidth="xs">
+    return( <Container component="main" maxWidth="xxl" style={{ background: "rgba(209, 247, 255, 1)", height: "100vh"}}>
     <CssBaseline />
     <Box
         sx={{
-            marginTop: 8,
+            paddingTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
         }}
     >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-        </Avatar>
+        <Avatar variant='square' src={images.easyToUse}/>
+        
         <Typography component="h1" variant="h5">
             Forgot Password
         </Typography>
@@ -70,6 +57,7 @@ const ForgotPassword = ()=>{
                
                 <Grid item xs={12}>
                     <TextField
+                        style={{background:"white"}}
                         required
                         fullWidth
                         id="email"
