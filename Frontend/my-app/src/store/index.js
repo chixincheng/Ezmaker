@@ -45,7 +45,12 @@ function GlobalStoreContextProvider(props) {
     const [searchKeyWord, setSearchKeyword] = useState("");
     const [searchOption, setSearchOption] = useState("user");
     const location = useLocation();
+<<<<<<< HEAD
     const [searchResult, setSearchResult] =useState([]);
+=======
+    
+    const [searchResult, setSearchResult] = useState([]);
+>>>>>>> 25dc860987b3ff5d90105f0eb2d1365ada11aca6
 
     // SINCE WE'VE WRAPPED THE STORE IN THE AUTH CONTEXT WE CAN ACCESS THE USER HERE
     const { auth } = useContext(AuthContext);
@@ -108,8 +113,7 @@ function GlobalStoreContextProvider(props) {
             async function searchUser(){
                 const response = await api.searchUserName(searchKeyWord);
                 if(response.data.success){
-                    setSearchResult(response.data.user);
-                    console.log(response.data.user);
+                    setSearchResult(response.data.user); 
                 }
             }searchUser();
         }

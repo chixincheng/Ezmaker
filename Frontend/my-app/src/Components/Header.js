@@ -49,6 +49,7 @@ const Header = ()=>{
     }
 
     function handleNavigate (event){
+       
         //store.searchNavigate(event.target.value);
     }
     const logoutIconOnClick = ()=>{
@@ -77,8 +78,18 @@ const Header = ()=>{
                     <Autocomplete
                         fullWidth
                         disablePortal
-                        options={searchResult}
+                        options={ searchResult.map((item)=> item["userName"] ) }
                         onInputChange={handleNavigate}
+                        onChange={(e,value)=>{ 
+                            console.log(value);
+                            if( location.pathname.includes("comic") ){
+                                navigate(`/comic/user/${value}`); 
+                            }
+                            else if(location.pathname.includes("story")){
+                                navigate(`/story/user/${value}`); 
+                            }
+                            
+                        }}
                         renderInput={(params) => <TextField {...params}
                             fullWidth
                             id = "search-key"
@@ -86,6 +97,7 @@ const Header = ()=>{
                             margin = "none"
                             onChange = {handleSearchKeyWord}
                             style = {{ background: "white", top: "13%"}}
+                           
                         >
                         </TextField>}
                     >
