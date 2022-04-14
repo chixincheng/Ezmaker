@@ -4,7 +4,7 @@ import { React } from 'react'
 import LandingPage from "./Pages/LandingPage";
 import { AuthContextProvider } from './auth';
 import { GlobalStoreContextProvider } from './store'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes, UNSAFE_LocationContext, useLocation, useNavigate } from 'react-router-dom'
 import DashboardPage from "./Pages/DashboardPage";
 import ComicHomePage from "./Pages/ComicHomePage";
 import StoryHomePage from "./Pages/StoryHomePage";
@@ -35,11 +35,19 @@ function App() {
   // if( ctx.isLoading ){
   //   return(<LoadingPage/>);
   // }
+  const location = useLocation();
+  const navigate = useNavigate();
   const ctx = useContext(AuthContext);
   if( ctx.isLoading ){
     return(<LoadingPage/>);
   }
   
+  if(   !ctx.auth.loggedIn ){
+    if(location.pathname !== "/" && location.pathname !== "/register" && location.pathname !== "/login" && location.pathname !== "/forgotPassword" ){
+      navigate("/");
+    }
+    
+  }
 
   return (
     <Fragment>

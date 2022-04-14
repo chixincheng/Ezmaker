@@ -12,7 +12,7 @@ const app = express()
 // SETUP THE MIDDLEWARE
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: ["https://ezmaker-bfcd6.web.app"],
+    origin: ["https://ezmaker-bfcd6.web.app", "http://localhost:3000"],
     credentials: true
 }))
 app.use(express.json())
