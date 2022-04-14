@@ -38,12 +38,13 @@ const HisStoryPlaylistPage = (props)=>{
         <Fragment>
             <Header></Header>
             <div style={{ padding: "5rem 3rem 5rem 3rem", background: "rgba(250, 241, 194, 1)", height:`clac(100vh -  )` }}>
-            <div >
+            <div style={{display:"flex", flexDirection:"column", alignItems:"center"}} >
               <div onClick={()=>{ navigate(`/story/user/${names[names.length-1]}`); }} style={{ display: "flex", cursor:"pointer", width: "100px",
                   height: "100px",
                   backgroundImage: `url(${currentUser.profilePicture})`,
                   backgroundPosition: "center",
-                  backgroundSize: "contain",
+                  backgroundSize: "cover",
+                  borderRadius:"50%",
                   backgroundRepeat: "no-repeat"}}
               ></div>
               <div
@@ -51,6 +52,7 @@ const HisStoryPlaylistPage = (props)=>{
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-evenly",
+                  alignItems:"center"
                 }}
               >
                 <b>{names[names.length-1]}</b>

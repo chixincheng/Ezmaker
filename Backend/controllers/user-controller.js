@@ -162,7 +162,7 @@ registerUser = async (req, res) => {
     try {
         
         const { firstName, lastName, userName, email, password, passwordVerify, profilePicture } = req.query;
-        console.log(firstName);
+        
         if (!firstName || !lastName || !email || !password || !passwordVerify || !userName) {
             return res.status(201)
                         .json({ errorMessage: "Please enter all required fields." });
@@ -258,12 +258,22 @@ getUserById = async (req, res) => {
 //==change password and password reset can be handled here
 updateUser = async (req, res) => {
     const body = req.query
-   
+    console.log(body);
+    var existingUser = true;
+    var validateEmail = false;
+       
+        //email must be unique
+        if( body.email ){
+            existingUser = await User.findOne({ email: body.email });
+             validateEmail = ValidateEmail(body.email);
+        }
+       
+        
    
     if (!body) {
         return res.status(400).json({
             success: false,
-            error: 'You must provide a body to update',
+            errorMessage: 'You must provide a body to update',
         })
     }
 
@@ -272,27 +282,98 @@ updateUser = async (req, res) => {
         if (err) {
             return res.status(404).json({
                 err,
-                message: 'User not found!',
+                errorMessage: 'User not found!',
             })
         }
 
-        user.firstName = body.firstName;
-        user.lastName = body.lastName;
-        user.userName = body.userName;
-        user.email = body.email;
-        if( !body.password ){
-            user.passwordHash = body.passwordHash;
+      
+        if( body["firstName"] !== undefined  ){
+            if( body.firstName.length < 1 ){
+                return res.status(201).json({
+                    
+                    errorMessage: 'First name can not be empty.'
+                })
+            }
+            else{
+                user.firstName = body.firstName;
+            }
+            
         }
-        else{
-            user.passwordHash = await bcrypt.hash(body.password, 8);
+
+        if( body["lastName"] !== undefined   ){
+            if( body.lastName.length < 1 ){
+                return res.status(201).json({
+                    
+                    errorMessage: 'Last name can not be empty.'
+                })
+            }
+            else{
+                user.lastName = body.lastName;
+            }
+            
         }
-        user.authication = body.authentication;
+
+        
+
+        if( body["password"] !== undefined  ){
+            if( body.password.length < 8  ){
+                return res.status(201).json({
+                    
+                    errorMessage: 'Please enter a password of at least 8 characters.'
+                })
+            }
+            else if( body.email === body.password ){
+                return res.status(201)
+                .json({ errorMessage: "Password can not be same as email." });
+            }
+            else if( body.userName === body.password ){
+                return res.status(201)
+                .json({ errorMessage: "Password can not be same as username." });
+            }
+            else{
+                user.passwordHash = await bcrypt.hash(body.password, 8);
+            }
+            
+        }
+
+
+        if(  body["email"] !== undefined  ){
+          
+            if( body.email.length < 1  ){
+                return res.status(201).json({
+                    
+                    errorMessage: 'Email can not be empty.'
+                })
+            }
+            else if(existingUser){
+                return res
+                .status(201)
+                .json({
+                    success: false,
+                    errorMessage: "An account with this email address already exists."
+                })
+            }
+            else if( !validateEmail ){
+                return res
+                .status(201)
+                .json({
+                    success: false,
+                    errorMessage: "Not a valid email."
+                })
+            }
+            else{
+                user.email = body.email;
+            }
+            
+        }
+       
+       
+        
+        
         if( req.files && req.files.length > 0 ){
             user.profilePicture = req.files[0].path;
         }
-        else{
-            user.profilePicture = body.profilePicture;
-        }
+      
         
 
         user
@@ -310,7 +391,7 @@ updateUser = async (req, res) => {
                 console.log("FAILURE: " + JSON.stringify(error));
                 return res.status(404).json({
                     error,
-                    message: 'User not updated!',
+                    errorMessage: 'User not updated!',
                 })
             })
     })
