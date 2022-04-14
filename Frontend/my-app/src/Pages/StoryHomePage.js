@@ -8,9 +8,12 @@ import MyFavoriteStory from "../Components/MyFavoriteStory";
 import MyStory from "../Components/MyStory";
 import { useNavigate } from "react-router-dom";
 import SortButton from "../Components/SortButton";
+import AuthContext from "../auth";
+import { useContext } from "react";
 
 const StoryHomePage = () =>{
   const navigate = useNavigate();
+  const ctx = useContext(AuthContext);
     return (
         <Fragment>
           <Header></Header>
@@ -22,10 +25,11 @@ const StoryHomePage = () =>{
                   style={{
                     width: "100px",
                     height: "100px",
-                    backgroundImage: `url(${icon})`,
+                    backgroundImage: `url(${ctx.auth.user.profilePicture})`,
                     backgroundPosition: "center",
-                    backgroundSize: "contain",
+                    backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
+                    borderRadius:"50%"
                   }}
                 ></div>
                 <div
@@ -35,7 +39,7 @@ const StoryHomePage = () =>{
                     justifyContent: "space-evenly",
                   }}
                 >
-                  <b style={{fontWeight: 1000}}>David Lee</b>
+                  <b style={{fontWeight: 1000}}>{ctx.auth.user.userName}</b>
                   <div
                     style={{
                       width: "50px",
@@ -44,6 +48,7 @@ const StoryHomePage = () =>{
                       backgroundPosition: "center",
                       backgroundSize: "contain",
                       backgroundRepeat: "no-repeat",
+                      
                     }}
                   ></div>
                 </div>

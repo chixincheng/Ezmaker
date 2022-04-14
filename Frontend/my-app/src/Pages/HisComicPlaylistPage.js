@@ -1,15 +1,41 @@
-import { Fragment } from "react";
 import Header from "../Components/Header";
 import icon from "../Images/icon.png";
 import verify from "../Images/verify.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import HisPlaylist from "../Components/HisPlaylist";
+import { Fragment } from "react";
+import { GlobalStoreContext } from '../store';
+import React, { useContext,useState, useEffect } from 'react';
+import LoadingPage from "../Pages/LoadingPage"
 
 const HisComicPlaylistPage = (props)=>{
-    const navigate = useNavigate();
-    const location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { store,searchResult } = useContext(GlobalStoreContext);
+  var names = location.pathname.split("/");
+  const [currentUser, setCurrentUser] = useState(null);
 
-    var names = location.pathname.split("/");
+
+  useEffect(()=>{
+    if( searchResult.length <1 ){
+       store.setSearchKey(names.at(-1));
+    }
+    else if( currentUser === null ){
+        for( const user of searchResult   ){
+            if( user["userName"] === names.at(-1) ){
+                setCurrentUser(user);
+            }
+        }
+    }
+   
+  },[ searchResult ]);
+
+
+
+  if( currentUser === null ){
+      return (<LoadingPage></LoadingPage>);
+  }
+    
     return(
         <Fragment>
             <Header></Header>
@@ -17,7 +43,7 @@ const HisComicPlaylistPage = (props)=>{
             <div>
               <div onClick={()=>{ navigate(`/comic/user/${names[names.length-1]}`); }} style={{ display: "flex", cursor:"pointer", width: "100px",
                   height: "100px",
-                  backgroundImage: `url(${icon})`,
+                  backgroundImage: `url(${currentUser.profilePicture})`,
                   backgroundPosition: "center",
                   backgroundSize: "contain",
                   backgroundRepeat: "no-repeat"}}

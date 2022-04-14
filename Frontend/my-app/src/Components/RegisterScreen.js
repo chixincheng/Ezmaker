@@ -23,13 +23,14 @@ export default function RegisterScreen() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         console.log("handlesubmit triggered");
-        auth.registerUser({
+         auth.registerUser({
             firstName: formData.get('firstName'),
             lastName: formData.get('lastName'),
             email: formData.get('email'),
             password: formData.get('password'),
             passwordVerify: formData.get('passwordVerify'),
-            userName: formData.get('userName')
+            userName: formData.get('userName'),
+            profilePicture: "https://res.cloudinary.com/daufq6nuh/image/upload/v1649969124/Ezmaker/icon_k0hron.png"
         }, store);
     };
 
@@ -93,6 +94,7 @@ export default function RegisterScreen() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                type="email"
                             />
                         </Grid>
                         <Grid item xs={12}>

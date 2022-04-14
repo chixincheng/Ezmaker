@@ -158,6 +158,7 @@ function AuthContextProvider(props) {
             store.loadIdNamePairs();
         }
         else {
+            alert(response.data.errorMessage);
             setMessage(response.data.errorMessage);
             handleOpen();
         }

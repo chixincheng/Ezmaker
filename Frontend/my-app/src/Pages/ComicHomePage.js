@@ -39,7 +39,7 @@ const ComicHomePage = () => {
                 justifyContent: "space-evenly",
               }}
             >
-              <b>David Lee</b>
+              <b>{ctx.auth.user.userName}</b>
               <div
                 style={{
                   width: "50px",
