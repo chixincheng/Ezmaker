@@ -873,7 +873,7 @@ getPublishedStoryByID = async (req, res) => {
 
 //get the search result for user
 searchUserName = async(req,res) => {
-    const body = req.query
+    const body = req.params
     await User.find({userName: { "$regex": body.searchInput, "$options": "i" }}, (err, user) => {
         if (err) {
             return resError(res,400, err)

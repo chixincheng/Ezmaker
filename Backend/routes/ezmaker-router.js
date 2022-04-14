@@ -118,7 +118,7 @@ router.get('/searchPublishedComicByInput', auth.verify, EasyMakerController.sear
 router.get('/searchPublishedStoryByInput', auth.verify, EasyMakerController.searchPublishedStoryByInput)
 
 //get the search result for user
-router.get('/searchUserName', auth.verify, EasyMakerController.searchUserName)
+router.get('/searchUserName/:searchInput', auth.verify, EasyMakerController.searchUserName)
 
 
 

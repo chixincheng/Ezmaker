@@ -23,12 +23,18 @@ import LoadingPage from "./Pages/LoadingPage";
 import { useContext } from "react";
 import AuthContext from "./auth";
 import { Fragment } from "react";
+import ForgotPassword from "./Components/ForgotPassword";
 
 function App() {
   // const ctx = useContext(AuthContext);
   // if( ctx.isLoading ){
   //   return(<LoadingPage/>);
   // }
+  const ctx = useContext(AuthContext);
+  if( ctx.isLoading ){
+    return(<LoadingPage/>);
+  }
+  
 
   return (
     <Fragment>
@@ -52,7 +58,7 @@ function App() {
             <Route path="*" element={<LandingPage/>}/>
             <Route exact path="/register" element={<RegisterScreen/>} />
             <Route exact path="/login" element={<SignInSide/>} />
-
+            <Route exact path="/forgotPassword" element={<ForgotPassword></ForgotPassword>}/>
           </Routes>
         </GlobalStoreContextProvider>
         </Fragment>
