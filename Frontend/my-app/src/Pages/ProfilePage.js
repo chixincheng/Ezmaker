@@ -5,49 +5,12 @@ import { useState, useContext } from "react";
 import AuthContext from "../auth";
 import { Fragment } from "react";
 import ProfileRow from "../Components/ProfileRow";
-const editProfilePicture = () => {
-    ;
-}
 
-const editName = () => {
-    ;
-}
-
-const editEmailAddress = () => {
-    ;
-}
-
-const editUserName = () => {
-    ;
-}
-
-const editPassword = () => {
-    ;
-}
-
-const editDOB = () => {
-    ;
-}
-
-const editGender = () => {
-    ;
-}
-var name = "David lee";
-var email ="davidlee@gmail.com";
-var username ="Lee";
-var password ="**********";
-var DOB ="01/11/1999";
-var gender ="Male";
 
 
 const ProfilePage = () => {
 
-    const [editingFirstName, setEditingFirstName] = useState(false);
-    const [editingLastName, setEditingLastName] = useState(false);
-    const [editingEmail, setEditingEmail] = useState(false);
-    const [editingUsername, setEditingUsername] = useState(false);
-    const [editingPassword, setEditingPassword] = useState(false);
-    const [editingProfilePic, setEditingProfilePic] = useState(false);
+ 
 
     const ctx = useContext(AuthContext);
     const { firstName, lastName, email, userName, passwordHash, profilePic, _id } = ctx.auth.user;

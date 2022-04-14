@@ -24,6 +24,8 @@ import { useContext } from "react";
 import AuthContext from "./auth";
 import { Fragment } from "react";
 import ForgotPassword from "./Components/ForgotPassword";
+import UserPage from "./Pages/UserPage";
+import HisComicPlaylistPage from "./Pages/HisComicPlaylistPage";
 
 function App() {
   // const ctx = useContext(AuthContext);
@@ -52,6 +54,11 @@ function App() {
             <Route exact path="/story/playlist" element={<StoryPlaylistPage/>}/>
             <Route exact path="/story/editing" element={<StoryEditingPage/>}/>
             <Route exact path="/comic/editing" element={<ComicEditingPage/>}/>
+
+            <Route exact path="/comic/user/:userID" element={<UserPage></UserPage>}/>
+            <Route exact path="/story/user/:userID" element={<UserPage></UserPage>}/>
+
+            <Route exact path="/comic/playlist/user/:userID" element={<HisComicPlaylistPage></HisComicPlaylistPage>}/>
 
             <Route exact path="/comic/profile" element={<ProfilePage/>}/>
             <Route exact path="/story/profile" element={<ProfilePage/>}/>
