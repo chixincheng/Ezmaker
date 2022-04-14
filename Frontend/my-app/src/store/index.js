@@ -45,7 +45,7 @@ function GlobalStoreContextProvider(props) {
     const [searchKeyWord, setSearchKeyword] = useState("");
     const [searchOption, setSearchOption] = useState("user");
     const location = useLocation();
-    const searchResult =[];
+    const [searchResult, setSearchResult] =useState([]);
 
     // SINCE WE'VE WRAPPED THE STORE IN THE AUTH CONTEXT WE CAN ACCESS THE USER HERE
     const { auth } = useContext(AuthContext);
@@ -95,6 +95,7 @@ function GlobalStoreContextProvider(props) {
     store.setSearchKey = function (key) {
         //how to search immediately
         //use (use effect)
+        console.log("enter");
         setSearchKeyword(key);
     }
 
@@ -102,15 +103,15 @@ function GlobalStoreContextProvider(props) {
 
     }
 
-    useEffect( async()=>{
+    useEffect( ()=>{
         if(searchOption === "user"){//search user
-            async function asyncSearchUser(){
+            async function searchUser(){
                 const response = await api.searchUserName(searchKeyWord);
                 if(response.data.success){
-                    searchResult = response.data.user;
+                    setSearchResult(response.data.user);
+                    console.log(response.data.user);
                 }
-            }
-            asyncSearchUser();
+            }searchUser();
         }
         else{//search comic/story
             if(location.pathname.includes("comic")){//search comic
@@ -120,6 +121,7 @@ function GlobalStoreContextProvider(props) {
 
             }
         }
+        console.log("enter2");
     },[searchKeyWord])
 
     store.setSearchOption = function(option) {
@@ -132,7 +134,7 @@ function GlobalStoreContextProvider(props) {
 
     return (
         <GlobalStoreContext.Provider value={{
-            store,searchResult
+            store,searchResult:searchResult
         }}>
             {props.children}
         </GlobalStoreContext.Provider>

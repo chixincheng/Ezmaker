@@ -11,7 +11,6 @@ import { Select } from '@mui/material'
 import { Autocomplete } from '@mui/material'
 import images from '../Images';
 import AuthContext from '../auth';
-import { useContext } from 'react';
 
 const Header = ()=>{
     const navigate = useNavigate();
