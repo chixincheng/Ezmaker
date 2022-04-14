@@ -45,9 +45,7 @@ import colorChange from '../Images/colorChange.png'
 import highlighter from '../Images/highlighter.png'
 import italic from '../Images/italic.png'
 import underline from '../Images/underline.png'
-import addComic from "./addComic.png"
-import playlistEdit from "./playlistEdit.png"
-
+import signInBackground from '../Images/signInBackground.jpg'
 import coconut from "./coconut.png"
 import faq from "./faq.png"
 import reddit from "./reddit.png"
@@ -55,7 +53,8 @@ import twitter from "./twitter.png"
 import pinterest from "./pinterest.png"
 import logout from "./logout.png"
 import bebo from "./bebo.png"
-
+import addComic from "./addComic.png"
+import playlistEdit from "./playlistEdit.png"
 
 const images = {
     check, clock, comicApp, communityIcon, cover1, easyToUse,
@@ -66,7 +65,7 @@ const images = {
     categoryTitle, deleteIcon, comicsDownload, dribbble, eraser, facebook,
     colorFill, instagram, textOrTextSize, removePage, pen, addPage, publish,
     save, saveSuccessed, upload, bold, colorChange, highlighter, italic, underline, addComic, playlistEdit,
-    coconut, faq, reddit, twitter, pinterest, bebo, logout
+    coconut, faq, reddit, twitter, pinterest, bebo, logout, signInBackground
 }
 export default images
 

@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useContext } from 'react';
 import AuthContext from '../auth'
 import { GlobalStoreContext } from '../store'
+import images from '../Images';
 
 const theme = createTheme();
 
@@ -26,14 +27,14 @@ const SignInSide = () => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     auth.loginUser({
-        email: formData.get('emailorusername'),
-        password: formData.get('password')
+      email: formData.get('emailorusername'),
+      password: formData.get('password')
     }, store);
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+    <ThemeProvider theme={theme} >
+      <Grid container component="main" sx={{ height: '100vh' }} >
         <CssBaseline />
         <Grid
           item
@@ -41,7 +42,7 @@ const SignInSide = () => {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random)',
+            backgroundImage: `url(${images.signInBackground})`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -49,7 +50,7 @@ const SignInSide = () => {
             backgroundPosition: 'center',
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square style={{ background: "rgba(209, 247, 255, 1)" }}>
           <Box
             sx={{
               my: 8,
@@ -59,14 +60,15 @@ const SignInSide = () => {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
-            </Avatar>
+            <Avatar variant='square' src={images.easyToUse}/>
+              
+          
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
+                style={{background:"white"}}
                 margin="normal"
                 required
                 fullWidth
@@ -77,6 +79,7 @@ const SignInSide = () => {
                 autoFocus
               />
               <TextField
+                style={{background:"white"}}
                 margin="normal"
                 required
                 fullWidth
