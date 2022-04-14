@@ -69,6 +69,18 @@ router.put('/likeStory', auth.verify, EasyMakerController.likeStory)
 // undo update liked user list in a published story when a user clicks like button
 router.put('/undoLikeStory', auth.verify, EasyMakerController.undoLikeStory)
 
+// update and add the user to dislikedUser list in a published comic when a user clicks dislike button
+router.put('/dislikeComic', auth.verify, EasyMakerController.dislikeComic)
+
+// undo and remove the disliked user from dislikeduser list in a published comic when a user clicks dislike button again
+router.put('/undoDislikeComic', auth.verify, EasyMakerController.undoDislikeComic)
+
+// update and add the user to dislikedUser list in a published story when a user clicks dislike button
+router.put('/dislikeStory', auth.verify, EasyMakerController.dislikeStory)
+
+// undo and remove the disliked user from dislikeduser list in a published story when a user clicks dislike button again
+router.put('/undoDislikeStory', auth.verify, EasyMakerController.undoDislikeStory)
+
 // increment view number of a published comic
 router.put('/incComicView', auth.verify, EasyMakerController.incComicView)
 
