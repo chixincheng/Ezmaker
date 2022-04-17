@@ -6,12 +6,14 @@ import AuthContext from "../auth";
 import { Fragment } from "react";
 import ProfileRow from "../Components/ProfileRow";
 import api from "../api";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const ProfilePage = () => {
 
     const fileUploaderRef = useRef();
- 
+    const navigate = useNavigate();
 
     const ctx = useContext(AuthContext);
     const { firstName, lastName, email, userName, passwordHash, profilePicture, _id } = ctx.auth.user;
@@ -21,9 +23,10 @@ const ProfilePage = () => {
     const fileUploadOnClick = async ()=>{
         const formData = new FormData();
         formData.append('imgFile', fileUploaderRef.current.files[0] );
-        const response = await api.updateUserById(_id, ctx.auth.user, formData );
+        const response = await api.updateUserById(_id, null , formData );
         if ( response.status===200 ){
             alert("Successfully updated profile picture.");
+            navigate(0);
         }
         else{
             alert("Failed to updat profile picture.");
