@@ -20,7 +20,7 @@ const HisComic = ({itemsPerPage}) => {
           marginBottom: "2rem",
         }}
       >
-        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>His Comics:</b>
+        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>Comics:</b>
         
       </div>
 

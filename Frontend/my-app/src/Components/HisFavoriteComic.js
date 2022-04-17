@@ -38,7 +38,7 @@ const HisFavoriteComic = ({itemsPerPage}) => {
           marginBottom: "2rem",
         }}
       >
-        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>His Favorite Comics:</b>
+        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>Favorite Comics:</b>
         
       </div>
 

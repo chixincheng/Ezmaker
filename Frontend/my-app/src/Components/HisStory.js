@@ -24,7 +24,7 @@ const HisStory = ({itemsPerPage}) => {
           marginBottom: "2rem",
         }}
       >
-        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>His Stories:</b>
+        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>Stories:</b>
         
       </div>
 

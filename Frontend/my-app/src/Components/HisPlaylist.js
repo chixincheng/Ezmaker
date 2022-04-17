@@ -25,7 +25,7 @@ const HisPlaylist = () => {
           marginBottom: "1rem",
         }}
       >
-        <b style={{ marginRight: "1rem", fontFamily: "Ribeye Marrow", fontSize: 20}}>His Playlist A</b>
+        <b style={{ marginRight: "1rem", fontFamily: "Ribeye Marrow", fontSize: 20}}>Playlist A</b>
        
       </div>
 

@@ -43,7 +43,7 @@ const ProfilePage = () => {
                    <ProfileRow label="Last Name" value={lastName} _id={_id} user={ctx.auth.user} field="lastName" ></ProfileRow>
                    
                    <ProfileRow label="Email" value={email} _id={_id} user={ctx.auth.user} field="email" ></ProfileRow>
-                   <ProfileRow label="Password" value={passwordHash} _id={_id} user={ctx.auth.user} field="password" ></ProfileRow>
+                   <ProfileRow label="Password" value={"********"} _id={_id} user={ctx.auth.user} field="password" ></ProfileRow>
                     
                 
                 </div>
