@@ -11,8 +11,78 @@ import { useNavigate } from "react-router-dom";
 import AvailableComic from "../Components/AvailableComic";
 import Pagination from '@mui/material/Pagination';
 import images from "../Images";
+import { Tldraw, TldrawApp, useFileSystem, TDDocument } from "@tldraw/tldraw";
+import { TDExport, TDExportTypes } from '@tldraw/tldraw'
+import { useEffect } from "react";
+import api from "../api";
+import AuthContext from "../auth";
+import { useContext } from "react";
+import { saveAs } from 'file-saver';
 
 const ComicEditingPage = () => {
+  const ctx = useContext(AuthContext);
+  const rTLDrawApp =   new TldrawApp() ;
+  const fileSystemEvents = useFileSystem()
+  
+  
+  const id = "tldraw-example"; // [1]
+  
+  const handleExport = async (info) => {
+    
+    if (info.serialized) {
+     
+      const link = document.createElement('a')
+      link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(info.serialized)
+      link.download = info.name + '.' + info.type
+      link.click()
+
+      return
+    }
+
+    const response = await fetch('https://www.tldraw.com/api/export', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info),
+    })
+    const blob = await response.blob()
+    const blobUrl = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = blobUrl
+    link.download = info.name + '.' + info.type
+    link.click()
+  };
+  
+  const handleMount = (app) => {
+    
+    rTLDrawApp.current = app; // [2]
+    
+  };
+
+  
+  const save = (event)=>{
+   
+    event.preventDefault();
+    
+    const app = rTLDrawApp.current;
+    console.log(app.document);
+    
+    var temp = {};
+    temp["document"] = app.document;
+    var jsonObject = JSON.stringify(temp);
+    const formData = new FormData();
+    formData.append('tldrFile', new File([ jsonObject ], "demo.tldr", {type: "text/plain;charset=utf-8"}) );
+    var payload = {
+      authorID: ctx.auth.user._id ,
+        authorName: ctx.auth.user.userName ,
+        editedTime: new Date() ,
+        comicTitle: "Comic Title Default"
+    };
+    api.createComic(  formData, payload );
+  }
+fileSystemEvents.onNewProject = undefined;
+fileSystemEvents.onOpenProject = undefined;
+
+
   return (
     <Fragment>
       <Header></Header>
@@ -22,7 +92,7 @@ const ComicEditingPage = () => {
           background: "rgba(250, 241, 194, 1)",
           height: `clac(100vh -  )`,
           display:"flex",
-          justifyContent:"space-between"
+          // justifyContent:"space-between"
         }}
       >
       <div style={{display:"flex", flexDirection:"column", alignItems:"center", marginRight:"1rem"}}>
@@ -50,7 +120,7 @@ const ComicEditingPage = () => {
         <div style={{ display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
           justifyContent: "center", background:"rgba(211, 203, 159, 1)", borderRadius:"1rem", padding:'1rem' }}>
-          <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.facebook}></img>
+          <img draggable="true" style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.landingPageBackground}></img>
           <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.instagram}></img>
           <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.bebo}></img>
           <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.dribbble}></img>
@@ -65,36 +135,31 @@ const ComicEditingPage = () => {
         Upload
         </div>
       </div>
-      <div style={{marginRight:"1rem"}}>
-      <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}><b>Tool</b></div>
-        <div style={{display:"flex", flexDirection:"column"}}>
-        <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.pen}></img>
-          <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.eraser}></img>
-          <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.colorFill}></img>
-          <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.textOrTextSize}></img>
-        </div>
-      </div>
-      <div style={{marginRight:"1rem"}}>
+     
+      <div style={{marginRight:"1rem", width:"100%"}}>
       <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}><b>Comic Creating</b></div>
         
-        <div style={{height:"500px", width:"400px", background : "white"}}></div>
-        <div style={{display:"flex",justifyContent:"center", marginTop:"1rem"}}><Pagination count={10} color="primary" /></div>
+      <div
+      style={{
+        position: "relative",
+        // top: 0,
+        // left: 0,
+        width: "100%",
+        height: "100%"
+      }}
+    >
+      <Tldraw  onExport={handleExport}  {
+       
+       ...fileSystemEvents
+      }  id={id} onMount={handleMount} />
+    </div>
+       
       </div>
-      <div style={{marginRight:"1rem", display:"flex", flexDirection:"column"}}>
-      <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}><b>Page</b></div>
-        <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"5rem 0 5rem 0"}}>
-        <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.addPage}></img>
-        Add Page
-        </div>
-        <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer"}}>
-        <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.removePage}></img>
-        Remove Page
-        </div>
-      </div>
+     
       <div>
       <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}><b>Button</b></div>
       <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
-        <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.save}></img>
+        <img style={{width:"100px", height:"auto"}} onClick={(event)=>{save(event);}} src={images.save}></img>
         Save
         </div>
         <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
