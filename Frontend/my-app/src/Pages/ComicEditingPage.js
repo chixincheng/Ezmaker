@@ -16,17 +16,30 @@ import { TDExport, TDExportTypes } from '@tldraw/tldraw'
 import { useEffect } from "react";
 import api from "../api";
 import AuthContext from "../auth";
-import { useContext } from "react";
-import { saveAs } from 'file-saver';
+import { useContext,useRef } from "react";
 
 const ComicEditingPage = () => {
   const ctx = useContext(AuthContext);
   const rTLDrawApp =   new TldrawApp() ;
   const fileSystemEvents = useFileSystem()
-  
-  
+  const fileUploaderRef = useRef();
+  const navigate = useNavigate();
+
   const id = "tldraw-example"; // [1]
   
+  const fileUploadOnClick = async ()=>{
+    // const formData = new FormData();
+    // formData.append('imgFile', fileUploaderRef.current.files[0] );
+    // const response = await api.updateUserById(_id, null , formData );
+    // if ( response.status===200 ){
+    //     alert("Successfully updated profile picture.");
+    //     navigate(0);
+    // }
+    // else{
+    //     alert("Failed to updat profile picture.");
+    // }
+}
+
   const handleExport = async (info) => {
     
     if (info.serialized) {
@@ -137,45 +150,49 @@ fileSystemEvents.onOpenProject = undefined;
       </div>
      
       <div style={{marginRight:"1rem", width:"100%"}}>
-      <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}><b>Comic Creating</b></div>
-        
-      <div
-      style={{
-        position: "relative",
-        // top: 0,
-        // left: 0,
-        width: "100%",
-        height: "100%"
-      }}
-    >
-      <Tldraw  onExport={handleExport}  {
-       
-       ...fileSystemEvents
-      }  id={id} onMount={handleMount} />
-    </div>
+          <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}><b>Comic Creating</b></div>
+            
+          <div
+          style={{
+            position: "relative",
+            // top: 0,
+            // left: 0,
+            width: "100%",
+            height: "100%"
+          }}
+        >
+          <Tldraw  onExport={handleExport}  {
+          
+          ...fileSystemEvents
+          }  id={id} onMount={handleMount} />
+        </div>
        
       </div>
-     
+      
+        <div>
+          <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}><b>Button</b></div>
+          <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
+            <img style={{width:"100px", height:"auto"}} onClick={(event)=>{save(event);}} src={images.save}></img>
+            Save
+            </div>
+            <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
+            <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.publish}></img>
+            Publish
+            </div>
+            <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
+            <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.download}></img>
+            Download
+            </div>
+            <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
+            <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.deleteIcon}></img>
+            Delete
+            </div>
+        </div>
+      </div>
       <div>
-      <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}><b>Button</b></div>
-      <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
-        <img style={{width:"100px", height:"auto"}} onClick={(event)=>{save(event);}} src={images.save}></img>
-        Save
-        </div>
-        <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
-        <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.publish}></img>
-        Publish
-        </div>
-        <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
-        <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.download}></img>
-        Download
-        </div>
-        <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
-        <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.deleteIcon}></img>
-        Delete
-        </div>
-      </div>
-        
+            <label for="img">Select icon image: </label>
+            <input type="file" id="img" name="img"  ref={fileUploaderRef} accept="image/*"/>
+            <input onClick={fileUploadOnClick} type="submit"/>
       </div>
     </Fragment>
   );
