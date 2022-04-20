@@ -18,18 +18,13 @@ import api from "../api";
 import AuthContext from "../auth";
 import { useContext,useRef } from "react";
 import { useLocation } from "react-router-dom";
+import { TextField } from "@mui/material";
 
-
-  
 
 const ComicEditingPage = () => {
   const ctx = useContext(AuthContext);
   const rTLDrawApp =   new TldrawApp() ;
-  
   const fileUploaderRef = useRef();
- 
-
-   // [1]
   const fileSystemEvents = useFileSystem();
   const [imgURL, setImgURL] = useState(images.landingPageBackground);
   const [read, setRead] = useState(false);
@@ -37,7 +32,9 @@ const ComicEditingPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   var names = location.pathname.split("/");
-  
+  const [title,setTitle] = useState("");
+  const [category,setCategory] = useState("Food");
+
   const getTLDR = async ()=>{
     const getComicResponse = await api.getComic( names.at(-1), {id:ctx.auth.user._id} );
     
@@ -47,7 +44,7 @@ const ComicEditingPage = () => {
 
 
     console.log(getComicResponse);
-
+    setTitle(getComicResponse.data.comic.comicTitle);
 
     const response = await fetch( getComicResponse.data.comic.filePath ).then((r)=>{r.text().then((d)=>{ 
       var temp = JSON.parse(d); 
@@ -219,7 +216,7 @@ const ComicEditingPage = () => {
       authorID: ctx.auth.user._id ,
         authorName: ctx.auth.user.userName ,
         editedTime: new Date() ,
-        comicTitle: "Comic Title Default",
+        comicTitle: title,
         id: names.at(-1)
     };
 
@@ -235,7 +232,133 @@ const ComicEditingPage = () => {
 fileSystemEvents.onNewProject = undefined;
 fileSystemEvents.onOpenProject = undefined;
 
+  const handleTitleUpdate = (event)=>{
+    setTitle(event.target.value);
+  }
 
+  const setCategoryFood = () =>{
+    console.log("111111");
+    setCategory("food");
+  }
+
+  const setCategoryIcon = () =>{
+    setCategory("icon");
+  }
+
+  const setCategoryAnimal = () =>{
+    setCategory("animal");
+  }
+
+  const setCategoryWeather = () =>{
+    setCategory("weather");
+  }
+
+  const setCategoryCharacter = () =>{
+    setCategory("character");
+  }
+  
+  const switchIcon = (param) => {
+    switch(param){
+      case 'food':
+        return(
+          <div style={{ display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            justifyContent: "center", background:"rgba(211, 203, 159, 1)", borderRadius:"1rem", padding:'1rem' }}>
+            <img draggable="true" style={{width:"100px", height:"auto"}} src={imgURL}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.upload}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.bebo}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.dribbble}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.pinterest}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.twitter}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.reddit}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.faq}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.coconut}></img>
+          </div>
+        );
+      case 'icon':
+        return(
+          <div style={{ display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            justifyContent: "center", background:"rgba(211, 203, 159, 1)", borderRadius:"1rem", padding:'1rem' }}>
+            <img draggable="true" style={{width:"100px", height:"auto"}} src={imgURL}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.upload}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.bebo}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.faq}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.faq}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.faq}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.reddit}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.faq}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.coconut}></img>
+          </div>
+        );
+      case 'animal':
+        return(
+          <div style={{ display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            justifyContent: "center", background:"rgba(211, 203, 159, 1)", borderRadius:"1rem", padding:'1rem' }}>
+            <img draggable="true" style={{width:"100px", height:"auto"}} src={imgURL}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.upload}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.bebo}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.dribbble}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.dribbble}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.dribbble}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.reddit}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.faq}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.coconut}></img>
+          </div>
+        );
+      case 'weather':
+        return (
+          <div style={{ display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            justifyContent: "center", background:"rgba(211, 203, 159, 1)", borderRadius:"1rem", padding:'1rem' }}>
+            <img draggable="true" style={{width:"100px", height:"auto"}} src={imgURL}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.upload}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.bebo}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.dribbble}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.twitter}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.twitter}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.twitter}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.faq}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.coconut}></img>
+          </div>
+        );
+      case 'character':
+        return(
+          <div style={{ display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            justifyContent: "center", background:"rgba(211, 203, 159, 1)", borderRadius:"1rem", padding:'1rem' }}>
+            <img draggable="true" style={{width:"100px", height:"auto"}} src={imgURL}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.upload}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.bebo}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.dribbble}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.reddit}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.reddit}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.reddit}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.faq}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.coconut}></img>
+          </div>
+        );
+      default:
+        return(
+          <div style={{ display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            justifyContent: "center", background:"rgba(211, 203, 159, 1)", borderRadius:"1rem", padding:'1rem' }}>
+            <img draggable="true" style={{width:"100px", height:"auto"}} src={imgURL}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.instagram}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.bebo}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.dribbble}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.pinterest}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.twitter}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.reddit}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.faq}></img>
+            <img style={{width:"100px", height:"auto", cursor: "pointer"}} src={images.coconut}></img>
+          </div>
+        );
+    }
+  }
+
+  
   return (
     <Fragment>
       <Header></Header>
@@ -251,46 +374,31 @@ fileSystemEvents.onOpenProject = undefined;
       <div style={{display:"flex", flexDirection:"column", alignItems:"center", marginRight:"1rem"}}>
         <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}><b>Category</b></div>
          <div style={{background:"rgba(209, 247, 255, 1)", padding:"1rem", borderRadius:"1rem", overflow:"scroll"}}>
-           <div style={{marginBottom:"1rem",width:"100px", height:"50px",backgroundImage:`url(${images.categoryTitle})`, backgroundPosition: 'center', backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat', display:"flex", justifyContent:"center", alignItems:"center"}}> <div >Food</div> </div>
-    <div style={{marginBottom:"1rem",width:"100px", height:"50px",backgroundImage:`url(${images.categoryTitle})`, backgroundPosition: 'center', backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat', display:"flex", justifyContent:"center", alignItems:"center"}}> <div >Icon</div> </div>
-    <div style={{marginBottom:"1rem",width:"100px", height:"50px",backgroundImage:`url(${images.categoryTitle})`, backgroundPosition: 'center', backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat', display:"flex", justifyContent:"center", alignItems:"center"}}> <div >Animal</div> </div>
-    <div style={{marginBottom:"1rem",width:"100px", height:"50px",backgroundImage:`url(${images.categoryTitle})`, backgroundPosition: 'center', backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat', display:"flex", justifyContent:"center", alignItems:"center"}}> <div >Weather</div> </div>
-    <div style={{marginBottom:"1rem",width:"100px", height:"50px",backgroundImage:`url(${images.categoryTitle})`, backgroundPosition: 'center', backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat', display:"flex", justifyContent:"center", alignItems:"center"}}> <div >Character</div> </div>
+            <div style={{marginBottom:"1rem",width:"100px", height:"50px",backgroundImage:`url(${images.categoryTitle})`, backgroundPosition: 'center', backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat', display:"flex", justifyContent:"center", alignItems:"center", cursor: "pointer"}} onClick={()=>{setCategoryFood()}}> <div >Food</div> </div>
+              <div style={{marginBottom:"1rem",width:"100px", height:"50px",backgroundImage:`url(${images.categoryTitle})`, backgroundPosition: 'center', backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat', display:"flex", justifyContent:"center", alignItems:"center", cursor: "pointer"}} onClick={setCategoryIcon}> <div >Icon</div> </div>
+              <div style={{marginBottom:"1rem",width:"100px", height:"50px",backgroundImage:`url(${images.categoryTitle})`, backgroundPosition: 'center', backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat', display:"flex", justifyContent:"center", alignItems:"center", cursor: "pointer"}} onClick={setCategoryAnimal}> <div >Animal</div> </div>
+              <div style={{marginBottom:"1rem",width:"100px", height:"50px",backgroundImage:`url(${images.categoryTitle})`, backgroundPosition: 'center', backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat', display:"flex", justifyContent:"center", alignItems:"center", cursor: "pointer"}} onClick={setCategoryWeather}> <div >Weather</div> </div>
+              <div style={{marginBottom:"1rem",width:"100px", height:"50px",backgroundImage:`url(${images.categoryTitle})`, backgroundPosition: 'center', backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat', display:"flex", justifyContent:"center", alignItems:"center", cursor: "pointer"}} onClick={setCategoryCharacter}> <div >Character</div> </div>
         </div>
-        <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer"}}>
-        <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.categoryAdd}></img>
-        Create
-        </div>
-        
       </div>
       <div style={{marginRight:'1rem'}}>
       <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}><b>Icon</b></div>
-        <div style={{ display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          justifyContent: "center", background:"rgba(211, 203, 159, 1)", borderRadius:"1rem", padding:'1rem' }}>
-          <img draggable="true" style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={imgURL}></img>
-          <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.instagram}></img>
-          <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.bebo}></img>
-          <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.dribbble}></img>
-          <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.pinterest}></img>
-          <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.twitter}></img>
-          <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.reddit}></img>
-          <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.faq}></img>
-          <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.coconut}></img>
-         </div>
-         <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer"}}>
-        <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.upload}></img>
-        Upload
-        </div>
+          {switchIcon(category)}
       </div>
      
       <div style={{marginRight:"1rem", width:"100%"}}>
-      <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}><b>Comic Creating</b></div>
+      <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}>
+        <TextField 
+          value = {title}
+          onChange ={(event)=>{handleTitleUpdate(event);}}
+          >
+        </TextField>
+      </div>
         
       <div
       style={{
@@ -331,9 +439,9 @@ fileSystemEvents.onOpenProject = undefined;
         </div>
       </div>
       <div>
-            <label for="img">Select icon image: </label>
-            <input type="file" id="img" name="img"  ref={fileUploaderRef} accept="image/*"/>
-            <input onClick={fileUploadOnClick} type="submit"/>
+        <label for="img">Select icon image: </label>
+        <input type="file" id="img" name="img"  ref={fileUploaderRef} accept="image/*"/>
+        <input onClick={fileUploadOnClick} type="submit"/>
       </div>
     </Fragment>
   );

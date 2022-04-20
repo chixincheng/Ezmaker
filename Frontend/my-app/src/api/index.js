@@ -25,6 +25,7 @@ const api = axios.create({
 
 export const getAllUserUnpublishedComics = (id) => api.get(`/getAllUserUnpublishedComics/${id}`)
 export const getAllUserPublishedComics = (id) => api.get(`/getAllUserPublishedComics/${id}`)
+export const getCommunityComics = () => api.get(`/communityComics`)
 export const searchUserName = (searchInput) => api.get(`/searchUserName/${searchInput}`)
 export const createComic = ( formData, payload) => api.post(`/createComic`, formData, {params: payload } );
 export const createPublishedComic = (payload) => api.post(`/createPublishedComic`,null,{params: payload});
@@ -64,7 +65,8 @@ const apis = {
     getComic,
     deleteComic,
     createPublishedComic,
-    getPublishedComicByID
+    getPublishedComicByID,
+    getCommunityComics
 }
 
 export default apis

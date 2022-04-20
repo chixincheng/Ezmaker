@@ -24,7 +24,7 @@ getCommunityComics = async (req, res) => {
         if (!publishedComicList.length) {
             return resError(res,404, 'Published comic list not found')
         }
-        return res.status(200).json({ success: true, data: publishedComicList })
+        return res.status(200).json({ success: true, comics: publishedComicList })
     }).catch(err => console.log(err))
 }
 
@@ -429,6 +429,20 @@ getAllUserPublishedComics = async (req, res) => {
                 }
             }
             return res.status(200).json({ success: true, idNamePairs: pairs })
+        }
+    }).catch(err => console.log(err))
+}
+//get all the published comics
+getAllPublishedComics = async(req,res) =>{
+    await PublishedComic.find({ }, (err, comicLists) => {
+        if (err) {
+            return resError(res,400, err)
+        }
+        if (!comicLists) {
+            return resError(res,404, 'Published comic not found')
+        }
+        else {
+            return res.status(200).json({ success: true, comics: comicLists })
         }
     }).catch(err => console.log(err))
 }
@@ -1223,5 +1237,6 @@ module.exports = {
     searchPublishedStoryByInput,
     searchPublishedComicByInput,
     searchUserName,
-    editComicCoverPage
+    editComicCoverPage,
+    getAllPublishedComics
 }

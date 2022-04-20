@@ -58,8 +58,6 @@ const MyComic = ({itemsPerPage}) => {
     else{
         alert( response2.data.message );
     }
-
-
     const exportInfo  = {
       currentPageId: rTLDrawApp.currentPageId,
       name: rTLDrawApp.page.name ?? 'export',
@@ -69,9 +67,6 @@ const MyComic = ({itemsPerPage}) => {
       serialized: undefined,
       size: [3500, 5000],
     }
-   
-    
-    
     
     const response1 = await fetch('https://www.tldraw.com/api/export', {
       method: 'POST',
@@ -79,7 +74,6 @@ const MyComic = ({itemsPerPage}) => {
       body: JSON.stringify(exportInfo),
     });
     const blob = await response1.blob();
-    
 
     var formData = new FormData();
     formData.append('imgFile', new File([blob], 'image.jpeg', {type: "jpeg"}) );
@@ -88,16 +82,8 @@ const MyComic = ({itemsPerPage}) => {
       
   };
     const updateCoverResponse = await api.editComicCoverPage(formData, payload );
-
-
   };
-
   
-  const handlePageClick = (event) => {
-    
-  };
-
-
   return (
     <div
       style={{
