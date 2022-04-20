@@ -64,7 +64,7 @@ function App() {
             <Route exact path="/story/community" element={<StoryCommunityPage/>}/>
             <Route exact path="/story/playlist" element={<StoryPlaylistPage/>}/>
             <Route exact path="/story/editing" element={<StoryEditingPage/>}/>
-            <Route exact path="/comic/editing" element={<ComicEditingPage/>}/>
+            <Route exact path="/comic/editing/:comicID" element={<ComicEditingPage/>}/>
 
             <Route exact path="/comic/user/:userID" element={<UserPage></UserPage>}/>
             <Route exact path="/story/user/:userID" element={<UserPage></UserPage>}/>

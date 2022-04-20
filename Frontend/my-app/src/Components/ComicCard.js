@@ -4,7 +4,9 @@ import check from "../Images/check.png";
 import { useNavigate, useLocation } from "react-router-dom";
 
 
-const ComicCard = (props) => {
+const ComicCard = ( props ) => {
+  
+  const {comic} = props;
   const location = useLocation();
   const navigate = useNavigate();
   var today = new Date();
@@ -16,7 +18,13 @@ const ComicCard = (props) => {
 
   const cardOnClick = ()=>{
     if( location.pathname.includes("comic") ){
-      navigate("/comic/detail");
+      if( !comic.viewNumber ){
+        navigate(`/comic/editing/${comic._id}`);
+      }
+      else{
+        navigate("/comic/detail");
+      }
+      
     }
     else if( location.pathname.includes("story") ){
       navigate("/story/detail");
@@ -27,7 +35,7 @@ const ComicCard = (props) => {
 
   
   return (
-    <div  onClick={cardOnClick} style={{ margin: "2rem", cursor:"pointer" }}>
+    <div  onClick={cardOnClick} style={{ margin: "2rem", cursor:"pointer", border:"1px black solid", background:"white" }}>
       {/* <div
         style={{
           width: "100%",
@@ -40,14 +48,14 @@ const ComicCard = (props) => {
           backgroundRepeat: "no-repeat",
         }}
       ></div> */}
-      <img src={cover1} style={{width:"100%", height:"auto"}}>
+      <img src={ props.comic.coverPage } style={{width:"100%", height:"auto"}}>
       </img>
 
       <div>
         <div style={{ textAlign: "center" }}>
-          <b>Title</b>
+          <b>{props.comic.comicTitle}</b>
         </div>
-        {!props.publishedTime ? (
+        {!props.comic.publishedTime ? (
           <div style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
             {" "}
             <div

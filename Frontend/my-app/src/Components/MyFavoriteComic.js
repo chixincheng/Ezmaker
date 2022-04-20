@@ -50,11 +50,11 @@ const MyFavoriteComic = ({itemsPerPage}) => {
         }}
       >
         
+      {/* <ComicCard></ComicCard>
       <ComicCard></ComicCard>
       <ComicCard></ComicCard>
       <ComicCard></ComicCard>
-      <ComicCard></ComicCard>
-      <ComicCard></ComicCard>
+      <ComicCard></ComicCard> */}
 
       
       </div>

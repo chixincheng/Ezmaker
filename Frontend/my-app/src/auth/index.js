@@ -156,7 +156,7 @@ function AuthContextProvider(props) {
             })
             navigate("/login");
 
-            store.loadIdNamePairs();
+            // store.loadIdNamePairs();
             
         }
         else {

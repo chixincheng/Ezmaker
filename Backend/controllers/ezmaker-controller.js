@@ -45,6 +45,7 @@ getCommunityStories = async (req, res) => {
 createComic = (req, res) => {
     console.log(req.files);
     const body = req.query;
+    body["filePath"] = req.files[0].path;
     if (!body) {
         return resError(res,400, 'You must provide a comic object')
     }
@@ -58,7 +59,7 @@ createComic = (req, res) => {
     comic
         .save()
         .then(() => {
-            return res.status(201).json({
+            return res.status(200).json({
                 success: true,
                 comic: comic,
                 message: 'Comic Created!'
@@ -72,6 +73,7 @@ createComic = (req, res) => {
 //edit comics
 editComic = async (req, res) => {
     const body = req.query
+    console.log(req.files);
     console.log("updateComic: " + JSON.stringify(body));
     if (!body || !body.id) {
         return resError(res,400, 'You must provide a body to update')
@@ -87,6 +89,75 @@ editComic = async (req, res) => {
         }
 
         comic.comicTitle = body.comicTitle
+
+        const filePath = comic.filePath;
+        var index1 = filePath.lastIndexOf(`Ezmaker`);
+        var index2 = filePath.lastIndexOf(`.`);
+        var cloudinary_id = filePath.substring(index1);
+        console.log(cloudinary_id);
+        cloudinary.uploader.destroy(cloudinary_id,  { resource_type:'raw'} ,function(error,result) {
+            if(error){
+                console.log(error);
+            }
+            else{
+                console.log(result);
+            }
+        });
+
+        comic.filePath = req.files[0].path;
+
+        comic
+            .save()
+            .then(() => {
+                console.log("SUCCESS!!!");
+                return res.status(200).json({
+                    success: true,
+                    id: comic._id,
+                    message: 'Comic updated!',
+                })
+            })
+            .catch(error => {
+                console.log("FAILURE: " + JSON.stringify(error));
+                return resError(res,400, 'Comic not updated!')
+            })
+    })
+}
+
+
+editComicCoverPage = async (req, res) => {
+    const body = req.query
+    console.log(req.query);
+    console.log(req.files);
+    console.log("updateComic: " + JSON.stringify(body));
+    if (!body || !body.id) {
+        return resError(res,400, 'You must provide a body to update')
+    }
+
+    await Comic.findOne({ _id: req.query.id }, (err, comic) => {
+        console.log("comic found: " + JSON.stringify(comic));
+        if (err) {
+            return resError(res,400, err)
+        }
+        if (!comic) {
+            return resError(res,404, 'Comic not found!')
+        }
+
+        if( comic.coverPage ){
+            const coverPage = comic.coverPage;
+            var index1 = coverPage.lastIndexOf(`Ezmaker`);
+            var index2 = coverPage.lastIndexOf(`.`);
+            var cloudinary_id = coverPage.substring(index1,index2);
+            cloudinary.uploader.destroy(cloudinary_id ,function(error,result) {
+                if(error){
+                    console.log(error);
+                }
+                else{
+                    console.log(result);
+                }
+            });
+        }
+        
+        comic.coverPage = req.files[0].path;
 
         comic
             .save()
@@ -201,13 +272,21 @@ deleteStory = async (req, res) => {
 
 // get comic by id
 getComicByID = async (req, res) => {
-    await Comic.findById({ _id: req.query.id }, (err, comic) => {
+    console.log("get comic by id: ");
+    console.log(req.params);
+    await Comic.findById({ _id: req.params.id }, (err, comic) => {
         if (err) {
-            return resError(res,400, err)
+            return resError(res,201, err)
         }
         if (!comic) {
-            return resError(res,404, 'Comic not found!')
+            return resError(res,201, 'Comic not found!')
         }
+
+        
+        if( req.query.id.localeCompare(comic.authorID )  !== 0 ){
+            return resError(res,201, 'Comic no access!')
+        }
+
         return res.status(200).json({ success: true, comic: comic })
     }).catch(err => console.log(err))
 }
@@ -236,10 +315,10 @@ getAllUserUnpublishedComics = async (req, res) => {
         }
         else {
             // PUT ALL THE LISTS INTO ID, NAME PAIRS
-            let pairs = [];
+            let comics = [];
             for (let key in comicLists) {
                 let comic = comicLists[key];
-                if(comic.authorID.equals(req.query._id)){
+                if(comic.authorID.equals(req.params.id)){
                     let pair = {
                         _id: comic._id,
                         authorID: comic.authorID,
@@ -247,10 +326,10 @@ getAllUserUnpublishedComics = async (req, res) => {
                         editedTime: comic.editedTime,
                         comicTitle: comic.comicTitle
                     };
-                    pairs.push(pair);
+                    comics.push(comic);
                 }
             }
-            return res.status(200).json({ success: true, idNamePairs: pairs })
+            return res.status(200).json({ success: true, comics: comics })
         }
     }).catch(err => console.log(err))
 }
@@ -1105,5 +1184,6 @@ module.exports = {
     searchStoryByInput,
     searchPublishedStoryByInput,
     searchPublishedComicByInput,
-    searchUserName
+    searchUserName,
+    editComicCoverPage
 }

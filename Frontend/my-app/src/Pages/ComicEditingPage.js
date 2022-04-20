@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import Playlist from "../Components/Playlist";
 import Header from "../Components/Header";
 import icon from "../Images/icon.png";
@@ -11,21 +11,70 @@ import { useNavigate } from "react-router-dom";
 import AvailableComic from "../Components/AvailableComic";
 import Pagination from '@mui/material/Pagination';
 import images from "../Images";
-import { Tldraw, TldrawApp, useFileSystem, TDDocument } from "@tldraw/tldraw";
-import { TDExport, TDExportTypes } from '@tldraw/tldraw'
+import { Tldraw, TldrawApp, useFileSystem, TDDocument,  TDExport } from "@tldraw/tldraw";
+import { TDExportTypes } from '@tldraw/tldraw'
 import { useEffect } from "react";
 import api from "../api";
 import AuthContext from "../auth";
 import { useContext,useRef } from "react";
 
+import { saveAs } from 'file-saver';
+import { Utils } from "@tldraw/core";
+import { useLocation } from "react-router-dom";
+
+  
+
 const ComicEditingPage = () => {
   const ctx = useContext(AuthContext);
   const rTLDrawApp =   new TldrawApp() ;
-  const fileSystemEvents = useFileSystem()
+  
   const fileUploaderRef = useRef();
-  const navigate = useNavigate();
+ 
 
-  const id = "tldraw-example"; // [1]
+   // [1]
+  const fileSystemEvents = useFileSystem();
+  const [imgURL, setImgURL] = useState(images.landingPageBackground);
+  const [read, setRead] = useState(false);
+  const [info, setInfo] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  var names = location.pathname.split("/");
+  
+  const getTLDR = async ()=>{
+    const getComicResponse = await api.getComic( names.at(-1), {id:ctx.auth.user._id} );
+    
+    if( getComicResponse.status !== 200 ){
+        navigate("/comic/home");
+    }
+
+
+    console.log(getComicResponse);
+
+
+    const response = await fetch( getComicResponse.data.comic.filePath ).then((r)=>{r.text().then((d)=>{ 
+      var temp = JSON.parse(d); 
+      
+     
+      rTLDrawApp.current.loadDocument(temp.document);
+      rTLDrawApp.current.zoomToFit();
+      console.log(rTLDrawApp);
+      const shapes = rTLDrawApp.current.shapes;
+      for( const shape of shapes ){
+        console.log( JSON.stringify(shape.style) );
+      }
+      
+       setRead(true);
+    })});
+  };
+
+ 
+
+  useEffect(()=>{
+    getTLDR();
+  },[]);
+  
+  // fileSystemEvents.onNewProject(rTLDrawApp);
+  const id = "tldraw-example1"; // [1]
   
   const fileUploadOnClick = async ()=>{
     // const formData = new FormData();
@@ -41,56 +90,104 @@ const ComicEditingPage = () => {
 }
 
   const handleExport = async (info) => {
+    console.log(info);
+    setInfo(info);
+    console.log(rTLDrawApp.current.getPage(rTLDrawApp.currentPageId));
+  
     
     if (info.serialized) {
      
-      const link = document.createElement('a')
-      link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(info.serialized)
-      link.download = info.name + '.' + info.type
-      link.click()
+      const link = document.createElement('a');
+      link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(info.serialized);
+      link.download = info.name + '.' + info.type;
+      link.click();
 
       return
     }
-
+   
     const response = await fetch('https://www.tldraw.com/api/export', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(info),
-    })
-    const blob = await response.blob()
-    const blobUrl = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = blobUrl
-    link.download = info.name + '.' + info.type
-    link.click()
+    });
+    const blob = await response.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    setImgURL(blobUrl);
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = info.name + '.' + info.type;
+    console.log(blob);
+    // link.click();
+    alert("export success");
+    
   };
   
   const handleMount = (app) => {
     
     rTLDrawApp.current = app; // [2]
     
+    
   };
 
   
-  const save = (event)=>{
+  const save = async (event)=>{
    
     event.preventDefault();
     
-    const app = rTLDrawApp.current;
-    console.log(app.document);
+    const exportInfo  = {
+      currentPageId: rTLDrawApp.currentPageId,
+      name: rTLDrawApp.page.name ?? 'export',
+      shapes: rTLDrawApp.current.shapes ,
+      assets: rTLDrawApp.document.assets,
+      type: "png",
+      serialized: undefined,
+      size: [3500, 5000],
+    }
+   
     
+   
+    
+    
+    const response1 = await fetch('https://www.tldraw.com/api/export', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(exportInfo),
+    });
+    const blob = await response1.blob();
+    
+
+    var formData = new FormData();
+    formData.append('imgFile', new File([blob], 'image.jpeg', {type: "jpeg"}) );
+  var payload = {
+    id: names.at(-1),
+      
+  };
+    const updateCoverResponse = await api.editComicCoverPage(formData, payload );
+    
+    
+    const app = rTLDrawApp.current;
     var temp = {};
     temp["document"] = app.document;
     var jsonObject = JSON.stringify(temp);
-    const formData = new FormData();
-    formData.append('tldrFile', new File([ jsonObject ], "demo.tldr", {type: "text/plain;charset=utf-8"}) );
-    var payload = {
+    formData = new FormData();
+    formData.append('tldrFile', new File([ jsonObject ], "demo.tldr", {type: "text/plain;charset=utf-8"})  );
+    
+     payload = {
       authorID: ctx.auth.user._id ,
         authorName: ctx.auth.user.userName ,
         editedTime: new Date() ,
-        comicTitle: "Comic Title Default"
+        comicTitle: "Comic Title Default",
+        id: names.at(-1)
     };
-    api.createComic(  formData, payload );
+
+    const response2 = await api.editComic(  formData, payload );
+    if ( response2.status === 200 ){
+        alert("Save successed");
+    }
+    else{
+        alert( response2.data.message );
+    }
+
   }
 fileSystemEvents.onNewProject = undefined;
 fileSystemEvents.onOpenProject = undefined;
@@ -133,7 +230,7 @@ fileSystemEvents.onOpenProject = undefined;
         <div style={{ display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
           justifyContent: "center", background:"rgba(211, 203, 159, 1)", borderRadius:"1rem", padding:'1rem' }}>
-          <img draggable="true" style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.landingPageBackground}></img>
+          <img draggable="true" style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={imgURL}></img>
           <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.instagram}></img>
           <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.bebo}></img>
           <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.dribbble}></img>
@@ -150,22 +247,23 @@ fileSystemEvents.onOpenProject = undefined;
       </div>
      
       <div style={{marginRight:"1rem", width:"100%"}}>
-          <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}><b>Comic Creating</b></div>
-            
-          <div
-          style={{
-            position: "relative",
-            // top: 0,
-            // left: 0,
-            width: "100%",
-            height: "100%"
-          }}
-        >
-          <Tldraw  onExport={handleExport}  {
-          
-          ...fileSystemEvents
-          }  id={id} onMount={handleMount} />
-        </div>
+      <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}><b>Comic Creating</b></div>
+        
+      <div
+      style={{
+        position: "relative",
+        // top: 0,
+        // left: 0,
+        width: "100%",
+        height: "100%"
+      }}
+      onClick={(e)=>{ console.log("123");}}
+    >
+      <Tldraw   showMenu={!read} showMultiplayerMenu={!read} showPages={true} readOnly={ read } onExport={handleExport}  {
+       
+       ...fileSystemEvents
+      }  onClick={()=>{console.log("456");}}   onMount={handleMount} />
+    </div>
        
       </div>
       

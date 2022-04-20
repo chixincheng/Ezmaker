@@ -8,7 +8,10 @@ const ComicSchema = new Schema(
         authorID: { type: ObjectId, required: true },
         authorName: {type: String, required: true},
         editedTime: {type: Date, required: true},
-        comicTitle: {type: String, required: true}
+        comicTitle: {type: String, required: true},
+        filePath: {type: String, required: false},
+        coverPage: {type: String, reqiured: false}
+
     },
     { timestamps: true },
 )

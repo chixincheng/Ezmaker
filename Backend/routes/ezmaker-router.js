@@ -19,7 +19,9 @@ router.get('/communityStories', auth.verify, EasyMakerController.getCommunitySto
 router.post('/createComic', auth.verify ,tldrUpload.array("tldrFile", 10) , EasyMakerController.createComic)
 
 // modify a partifuclar comic object in Comic table by id
-router.put('/editComic', auth.verify, EasyMakerController.editComic)
+router.put('/editComic', auth.verify,  tldrUpload.array("tldrFile", 1),  EasyMakerController.editComic)
+
+router.put('/editComicCoverPage', auth.verify,   imgUpload.array("imgFile", 1)  , EasyMakerController.editComicCoverPage)
 
 // delete a specific comic in Comic table by id
 router.delete('/deleteComic', auth.verify, EasyMakerController.deleteComic)
@@ -34,13 +36,13 @@ router.put('/editStory', auth.verify, EasyMakerController.editStory)
 router.delete('/deleteStory', auth.verify, EasyMakerController.deleteStory)
 
 // get a specific comic in Comic table by id
-router.get('/getComic', auth.verify, EasyMakerController.getComicByID)
+router.put('/getComic/:id', auth.verify, EasyMakerController.getComicByID)
 
 // get a specific story in Story table by id
 router.get('/getStory', auth.verify, EasyMakerController.getStoryByID)
 
 // get all unpublished comics of this user
-router.get('/getAllUserUnpublishedComics', auth.verify, EasyMakerController.getAllUserUnpublishedComics)
+router.get('/getAllUserUnpublishedComics/:id', auth.verify, EasyMakerController.getAllUserUnpublishedComics)
 
 // get all unpublished stories of this user
 router.get('/getAllUserUnpublishedStories', auth.verify, EasyMakerController.getAllUserUnpublishedStories)

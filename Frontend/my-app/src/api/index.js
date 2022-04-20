@@ -13,7 +13,7 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true;
 const api = axios.create({
-    baseURL: 'https://ez-maker.herokuapp.com/',
+    baseURL: 'http://localhost:3000',
 })
 
 // THESE ARE ALL THE REQUESTS WE`LL BE MAKING, ALL REQUESTS HAVE A
@@ -23,10 +23,13 @@ const api = axios.create({
 // WE NEED TO PUT THINGS INTO THE DATABASE OR IF WE HAVE SOME
 // CUSTOM FILTERS FOR QUERIES
 
-export const getAllUserUnpublishedComics = () => api.get(`/getAllUserUnpublishedComics/`)
+export const getAllUserUnpublishedComics = (id) => api.get(`/getAllUserUnpublishedComics/${id}`)
 export const getAllUserPublishedComics = () => api.get(`/getAllUserPublishedComics/`)
 export const searchUserName = (searchInput) => api.get(`/searchUserName/${searchInput}`)
 export const createComic = ( formData, payload) => api.post(`/createComic`, formData, {params: payload } );
+export const editComic = ( formData, payload) => api.put(`/editComic`, formData, {params: payload } );
+export const getComic = ( id, payload ) => api.put(`/getComic/${id}`,null, {params: payload } );
+export const editComicCoverPage = ( formData, payload) => api.put(`/editComicCoverPage`, formData, {params: payload } );
 export const getLoggedIn = () => api.get(`/loggedIn/`);
 export const registerUser = (payload) => api.post(`/register`,null, {params: payload} )
 export const loginUser = (payload) => api.post(`/login/`, null, {params: payload})
@@ -47,13 +50,15 @@ const apis = {
     searchUserName,
     resetPassword,
     createComic,
-
+    editComic,
     getLoggedIn,
     registerUser,
     loginUser,
     logoutUser,
     getUserById,
-    updateUserById
+    updateUserById,
+    editComicCoverPage,
+    getComic
 }
 
 export default apis
