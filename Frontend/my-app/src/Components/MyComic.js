@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../api";
 import AuthContext from "../auth";
 import { Tldraw, TldrawApp, useFileSystem, TDDocument,  TDExport } from "@tldraw/tldraw";
-
+import SortButton from "./SortButton.js";
 
 
 
@@ -25,8 +25,10 @@ const MyComic = ({itemsPerPage}) => {
 
   const loadAllComics = async ()=>{
     const response = await api.getAllUserUnpublishedComics(ctx.auth.user._id);
-    console.log(response.data.comics);
-    setComics(response.data.comics);
+    const response2 = await api.getAllUserPublishedComics(ctx.auth.user._id);
+    var array = [...response.data.comics,...response2.data.idNamePairs]
+    
+    setComics(array);
   };
   
   useEffect(()=>{
@@ -124,7 +126,6 @@ const MyComic = ({itemsPerPage}) => {
           justifyContent: "center",
         }}
       >
-        
         {comics.map((comic, index)=>{
           
           return(<ComicCard key={index} comic={comic}></ComicCard>);

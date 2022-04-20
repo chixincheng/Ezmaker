@@ -9,6 +9,12 @@ import commentSend from "../Images/commentSend.png";
 import List from '@mui/material/List';
 import likeIcon from "../Images/like.png";
 import dislikelikeIcon from "../Images/unlike.png";
+import { useNavigate, useLocation} from "react-router-dom";
+import { Tldraw, TldrawApp, useFileSystem, TDDocument,  TDExport } from "@tldraw/tldraw";
+import AuthContext from "../auth";
+import { useContext,useRef,useState,useEffect } from "react";
+import api from "../api";
+
 
 
 var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(80vw - 40px)', backgroundImage: `url(${addFav})`,
@@ -113,8 +119,48 @@ var dislikeButtonStyle = {height:"50px", width:"80px", position:"absolute", top:
   };
 
 const ComicDetailPage = () => {
+    const ctx = useContext(AuthContext);
+    const rTLDrawApp =   new TldrawApp() ;
+    const [read, setRead] = useState(false);
+    const location = useLocation();
+    var names = location.pathname.split("/");
+    const navigate = useNavigate();
+    const fileUploaderRef = useRef();
+    const fileSystemEvents = useFileSystem();
+
+    const getTLDR = async ()=>{
+        const getComicResponse = await api.getPublishedComicByID( names.at(-1));
+        
+        if( getComicResponse.status !== 200 ){
+            navigate("/comic/home");
+        }
+
+        const response = await fetch( getComicResponse.data.comic.filePath ).then((r)=>{r.text().then((d)=>{ 
+        var temp = JSON.parse(d); 
+        
+        rTLDrawApp.current.loadDocument(temp.document);
+        rTLDrawApp.current.zoomToFit();
+        const shapes = rTLDrawApp.current.shapes;
+        for( const shape of shapes ){
+            console.lsog( JSON.stringify(shape.style) );
+        }
+        
+        setRead(true);
+        })});
+    };
+
+    
+
+    useEffect(()=>{
+        getTLDR();
+    },[]);
+
+    const handleMount = (app) => {
+        rTLDrawApp.current = app; // [2]
+    };
+
     return(
-        <div  style={{background:"rgba(250, 241, 194, 1)"}} >
+        <div  style={{background:"rgba(250, 241, 194, 1)", display:"flex", justifyContent: "center", flexDirection: "column", alignItems: "center"}} >
             <Header></Header>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "5rem 3rem 5rem 3rem", background: "rgba(250, 241, 194, 1)", height:`clac(100vh -  )` }}>
                 <div style={addFavButtonStyle} onClick={addFavorite}></div>
@@ -127,9 +173,16 @@ const ComicDetailPage = () => {
                 <div style={textStyle}>Naruto</div>
                 <div style={textStyle}>By Masashi Kishimoto</div>
             </div>
-            <div style={{background: "rgba(250, 241, 194, 1)", display: "flex", padding:"1rem"}}>
-                <img style={{width:"50%"}} src={leftimage}></img>
-                <img style={{width:"50%"}} src={rightimage}></img>
+            <div
+                style={{
+                    position: "relative",
+                    width: "80vw",
+                    height: "80vh"
+                }}
+                onClick={(e)=>{ console.log("123");}}
+                >
+                <Tldraw   showMenu={!read} showMultiplayerMenu={!read} showPages={true} readOnly={ read } 
+                onClick={()=>{console.log("456");}}{...fileSystemEvents}onMount={handleMount} />
             </div>
             <div style={{display:"flex",justifyContent:"center", background: "rgba(250, 241, 194, 1)", marginBottom:"1rem"}}><Pagination count={10} color="primary" /></div>
             <div style={{display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>

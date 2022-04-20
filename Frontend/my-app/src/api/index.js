@@ -13,7 +13,7 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true;
 const api = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:4000/',
 })
 
 // THESE ARE ALL THE REQUESTS WE`LL BE MAKING, ALL REQUESTS HAVE A
@@ -24,12 +24,15 @@ const api = axios.create({
 // CUSTOM FILTERS FOR QUERIES
 
 export const getAllUserUnpublishedComics = (id) => api.get(`/getAllUserUnpublishedComics/${id}`)
-export const getAllUserPublishedComics = () => api.get(`/getAllUserPublishedComics/`)
+export const getAllUserPublishedComics = (id) => api.get(`/getAllUserPublishedComics/${id}`)
 export const searchUserName = (searchInput) => api.get(`/searchUserName/${searchInput}`)
 export const createComic = ( formData, payload) => api.post(`/createComic`, formData, {params: payload } );
+export const createPublishedComic = (payload) => api.post(`/createPublishedComic`,null,{params: payload});
 export const editComic = ( formData, payload) => api.put(`/editComic`, formData, {params: payload } );
 export const getComic = ( id, payload ) => api.put(`/getComic/${id}`,null, {params: payload } );
+export const getPublishedComicByID = (id) => api.get(`getPublishedComicByID/${id}`)
 export const editComicCoverPage = ( formData, payload) => api.put(`/editComicCoverPage`, formData, {params: payload } );
+export const deleteComic = (id) => api.delete(`/deleteComic/${id}`);
 export const getLoggedIn = () => api.get(`/loggedIn/`);
 export const registerUser = (payload) => api.post(`/register`,null, {params: payload} )
 export const loginUser = (payload) => api.post(`/login/`, null, {params: payload})
@@ -58,7 +61,10 @@ const apis = {
     getUserById,
     updateUserById,
     editComicCoverPage,
-    getComic
+    getComic,
+    deleteComic,
+    createPublishedComic,
+    getPublishedComicByID
 }
 
 export default apis

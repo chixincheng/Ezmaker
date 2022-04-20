@@ -17,8 +17,8 @@ import { useEffect } from "react";
 import api from "../api";
 import AuthContext from "../auth";
 import { useContext,useRef } from "react";
-
 import { useLocation } from "react-router-dom";
+
 
   
 
@@ -61,7 +61,7 @@ const ComicEditingPage = () => {
         console.log( JSON.stringify(shape.style) );
       }
       
-       setRead(true);
+       setRead(false);
     })});
   };
 
@@ -127,7 +127,56 @@ const ComicEditingPage = () => {
     
   };
 
-  
+  const deleteComic = async(event)=>{
+    event.preventDefault();
+    const id = names.at(-1);
+    const response = await api.deleteComic(id);
+    if(response.status !== 200){
+      alert("delete failed");
+    }
+    else{
+      navigate("/comic/home")
+    }
+  }
+  // authorID: { type: ObjectId, required: true },
+  // authorName: { type: String, required: true },
+  // comicTitle:{ type: String, required: true },
+  // comments: { type: [ObjectId], required: false },
+  // dislikedUser: {type: [ObjectId], required: false},
+  // likedUser: {type: [ObjectId], required: false},
+  // publishedTime: {type: Date, required: true},
+  // viewNumber: {type: Number, required: true},
+  // filePath: {type: String, required: false},
+  // coverPage: {type: String, reqiured: false}
+  const publishComic = async(event)=>{
+    event.preventDefault();
+
+    const response = await api.getComic(names.at(-1), {id:ctx.auth.user._id} );
+    if(response.status === 200){
+      const comic = response.data.comic;
+      const payload = {
+        authorID: ctx.auth.user._id,
+        authorName: ctx.auth.user.userName,
+        comicTitle: comic.comicTitle,
+        comments: [],
+        dislikedUser: [],
+        likedUser: [],
+        publishedTime: new Date(),
+        viewNumber: 0,
+        filePath: comic.filePath,
+        coverPage: comic.coverPage
+      }
+
+      response = await api.createPublishedComic(payload);
+      if(response.status !== 201){
+        alert("published failed");
+      }
+    }
+    
+
+    
+  }
+
   const save = async (event)=>{
    
     event.preventDefault();
@@ -268,7 +317,7 @@ fileSystemEvents.onOpenProject = undefined;
             Save
             </div>
             <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
-            <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.publish}></img>
+            <img style={{width:"100px", height:"auto"}} onClick={(event)=>{publishComic(event);}} src={images.publish}></img>
             Publish
             </div>
             <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
@@ -276,7 +325,7 @@ fileSystemEvents.onOpenProject = undefined;
             Download
             </div>
             <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
-            <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.deleteIcon}></img>
+            <img style={{width:"100px", height:"auto"}} onClick={(event)=>{deleteComic(event);}} src={images.deleteIcon}></img>
             Delete
             </div>
         </div>

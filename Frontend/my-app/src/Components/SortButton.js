@@ -73,7 +73,7 @@ const SortButton = ()=>{
     );
 //<SortIcon/>
     return (
-        <div style={{background: "rgba(250, 241, 194, 1)", float:"right", paddingTop: "15px", paddingRight: "15px"}}>
+        <div style={{background: "rgba(250, 241, 194, 1)", float:"right", marginTop: "15px", marginRight: "15px"}}>
             <IconButton
                     color="inherit" 
                     aria-label="sortby"

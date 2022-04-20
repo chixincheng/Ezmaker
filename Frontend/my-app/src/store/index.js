@@ -141,7 +141,6 @@ function GlobalStoreContextProvider(props) {
 
             }
         }
-        console.log("enter2");
     },[searchKeyWord])
 
     store.setSearchOption = function(option) {

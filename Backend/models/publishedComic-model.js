@@ -11,7 +11,9 @@ const PublishedComicSchema = new Schema(
         dislikedUser: {type: [ObjectId], required: false},
         likedUser: {type: [ObjectId], required: false},
         publishedTime: {type: Date, required: true},
-        viewNumber: {type: Number, required: true}
+        viewNumber: {type: Number, required: true},
+        filePath: {type: String, required: false},
+        coverPage: {type: String, reqiured: false}
     },
     { timestamps: true },
 )

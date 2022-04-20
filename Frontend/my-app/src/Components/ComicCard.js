@@ -9,20 +9,22 @@ const ComicCard = ( props ) => {
   const {comic} = props;
   const location = useLocation();
   const navigate = useNavigate();
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, "0");
-  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  var yyyy = today.getFullYear();
+  var today;
+  if(comic.updatedAt){
+    today = comic.updatedAt.split("T")[0];
+  }else{
+    today = comic.publishedTime.split("T")[0];
+  }
 
-  today = mm + "/" + dd + "/" + yyyy;
 
   const cardOnClick = ()=>{
     if( location.pathname.includes("comic") ){
-      if( !comic.viewNumber ){
+
+      if( comic.viewNumber === undefined ){
         navigate(`/comic/editing/${comic._id}`);
       }
       else{
-        navigate("/comic/detail");
+        navigate(`/comic/detail/${comic._id}`);
       }
       
     }
@@ -75,7 +77,8 @@ const ComicCard = ( props ) => {
               <b style={{color:"orange", margin: "0 0.5rem 0 0.5rem"}}>Last Edited on {today}</b>
             }
           </div>
-        ) : (
+        ) 
+        : (
           <div style={{display:"flex"}}>
             <div
               style={{
@@ -87,7 +90,7 @@ const ComicCard = ( props ) => {
                 backgroundRepeat: "no-repeat",
               }}
             ></div>{" "}
-            <b style={{color:"green", margin: "0 0.5rem 0 0.5rem"}}>Published on</b>{" "}
+            <b style={{color:"green", margin: "0 0.5rem 0 0.5rem"}}>Published on {today}</b>
           </div>
         )}
       </div>

@@ -178,14 +178,47 @@ editComicCoverPage = async (req, res) => {
 
 //delete the comic by id 
 deleteComic = async (req, res) => {
-    await Comic.findById({ _id: req.query.id }, (err, comic) => {
+    console.log("--------");
+    console.log(req.body);
+    console.log(req.params)
+    await Comic.findById({ _id: req.params.id }, (err, comic) => {
         if (err) {
             return resError(res,400, err)
         }
         if (!comic) {
             return resError(res,404, 'Comic not found!')
         }
-        Comic.findOneAndDelete({ _id: req.query.id }, () => {
+
+        //delete comic content
+        const filePath = comic.filePath;
+        var index1 = filePath.lastIndexOf(`Ezmaker`);
+        var index2 = filePath.lastIndexOf(`.`);
+        var cloudinary_id = filePath.substring(index1);
+        console.log(cloudinary_id);
+        cloudinary.uploader.destroy(cloudinary_id,  { resource_type:'raw'} ,function(error,result) {
+            if(error){
+                console.log(error);
+            }
+            else{
+                console.log(result);
+            }
+        });
+        //delete comic cover page
+        const coverPage = comic.coverPage;
+            var index1 = coverPage.lastIndexOf(`Ezmaker`);
+            var index2 = coverPage.lastIndexOf(`.`);
+            var cloudinary_id = coverPage.substring(index1,index2);
+            cloudinary.uploader.destroy(cloudinary_id ,function(error,result) {
+                if(error){
+                    console.log(error);
+                }
+                else{
+                    console.log(result);
+                }
+            });
+
+        //delete comic from mongodb
+        Comic.findOneAndDelete({ _id: req.params.id }, () => {
             return res.status(200).json({ success: true, data: comic })
         }).catch(err => console.log(err))
     })
@@ -378,7 +411,7 @@ getAllUserPublishedComics = async (req, res) => {
             let pairs = [];
             for (let key in comicLists) {
                 let comic = comicLists[key];
-                if(comic.authorID.equals(req.query._id)){
+                if(comic.authorID.equals(req.params.id)){
                     let pair = {
                         _id: comic._id,
                         authorID: comic.authorID,
@@ -388,7 +421,9 @@ getAllUserPublishedComics = async (req, res) => {
                         dislikedUser: comic.dislikedUser,
                         likedUser: comic.likedUser,
                         publishedTime: comic.publishedTime,
-                        viewNumber: comic.viewNumber
+                        viewNumber: comic.viewNumber,
+                        filePath : comic.filePath,
+                        coverPage: comic.coverPage
                     };
                     pairs.push(pair);
                 }
@@ -1009,7 +1044,10 @@ createPublishedComic = async (req, res) =>{
     if (!body) {
         return resError(res,400, 'You must provide a published comic object')
     }
+
     const publishedComic = new PublishedComic(body);
+
+
     console.log("creating published comic: " + JSON.stringify(publishedComic));
     if (!publishedComic) {
         return resError(res,400, 'PublishedComic Object Creation Failed in JavaScript')
@@ -1058,7 +1096,7 @@ createPublishedStory = async (req, res) =>{
 
 // get published comic by id
 getPublishedComicByID = async (req, res) => {
-    await PublishedComic.findById({ _id: req.query._id }, (err, comic) => {
+    await PublishedComic.findById({ _id: req.params.id }, (err, comic) => {
         if (err) {
             return resError(res,400, err)
         }
