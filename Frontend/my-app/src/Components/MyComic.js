@@ -95,24 +95,6 @@ const MyComic = ({itemsPerPage}) => {
     
   };
 
-  const handleCreateComic = (event)=>{
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append('tldrFile', new File([], "demo.tldr", {type: "text/plain;charset=utf-8"}) );
-    var payload = {
-        authorID: ctx.auth.user._id ,
-        authorName: ctx.auth.user.userName ,
-        editedTime: new Date() ,
-        comicTitle: "Comic Title Default"
-    };
-    const response = api.createComic(  formData, payload );
-    if(response.status === 201){
-      console.log(response.status);
-      var id = response.status.comic._id;
-      //navigate("/comic/editing:{id}");
-      navigate("/comic/editing");
-    }
-  }
 
   return (
     <div

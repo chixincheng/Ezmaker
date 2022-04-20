@@ -18,8 +18,6 @@ import api from "../api";
 import AuthContext from "../auth";
 import { useContext,useRef } from "react";
 
-import { saveAs } from 'file-saver';
-import { Utils } from "@tldraw/core";
 import { useLocation } from "react-router-dom";
 
   
@@ -144,10 +142,6 @@ const ComicEditingPage = () => {
       size: [3500, 5000],
     }
    
-    
-   
-    
-    
     const response1 = await fetch('https://www.tldraw.com/api/export', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
