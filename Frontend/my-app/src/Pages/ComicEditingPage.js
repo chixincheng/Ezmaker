@@ -19,7 +19,10 @@ import AuthContext from "../auth";
 import { useContext,useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { TextField } from "@mui/material";
-
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
 
 const ComicEditingPage = () => {
   const ctx = useContext(AuthContext);
@@ -36,6 +39,7 @@ const ComicEditingPage = () => {
   const [category,setCategory] = useState("Food");
   const [app, setApp] = useState(null);
   const [document, setDocument] = useState(null);
+  const [deleteopen, setDeleteOpen] = useState(false);
 
   const getTLDR = async ()=>{
     const getComicResponse = await api.getComic( names.at(-1), {id:ctx.auth.user._id} );
@@ -235,6 +239,16 @@ const ComicEditingPage = () => {
 fileSystemEvents.onNewProject = undefined;
 fileSystemEvents.onOpenProject = undefined;
 
+function deletePopUp(event){
+  event.stopPropagation();
+  setDeleteOpen(true);
+}
+
+function handleDeleteClose (event){
+  event.stopPropagation();
+  setDeleteOpen(false);
+};
+
   const handleTitleUpdate = (event)=>{
     setTitle(event.target.value);
   }
@@ -431,7 +445,7 @@ fileSystemEvents.onOpenProject = undefined;
             Download
             </div>
             <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
-            <img style={{width:"100px", height:"auto"}} onClick={(event)=>{deleteComic(event);}} src={images.deleteIcon}></img>
+            <img style={{width:"100px", height:"auto"}} onClick={deletePopUp} src={images.deleteIcon}></img>
             Delete
             </div>
         </div>
@@ -441,6 +455,20 @@ fileSystemEvents.onOpenProject = undefined;
         <input type="file" id="img" name="img"  ref={fileUploaderRef} accept="image/*"/>
         <input onClick={fileUploadOnClick} type="submit"/>
       </div>
+      <Dialog
+            id = "delete-modal"
+            maxWidth='sm'
+            open= {deleteopen}
+            onClose={(event)=>{handleDeleteClose(event);}}
+            >
+            <DialogTitle>
+               Delete the {title} ?
+               <DialogActions>
+                    <Button onClick={(event)=>{deleteComic(event);}}>Confirm</Button>
+                    <Button onClick={(event)=>{handleDeleteClose(event);}}>Cancel</Button>
+                </DialogActions>
+            </DialogTitle>
+        </Dialog>
     </Fragment>
   );
 };
