@@ -56,37 +56,8 @@ const MyComic = ({itemsPerPage}) => {
       alert( response2.data.message );
       navigate(0);
     }
-    
-    
 
-
-    const exportInfo  = {
-      currentPageId: rTLDrawApp.currentPageId,
-      name: rTLDrawApp.page.name ?? 'export',
-      shapes: rTLDrawApp.current.shapes ,
-      assets: rTLDrawApp.document.assets,
-      type: "png",
-      serialized: undefined,
-      size: [3500, 5000],
-    }
-    
-    const response1 = await fetch('https://www.tldraw.com/api/export', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(exportInfo),
-    });
-    const blob = await response1.blob();
-
-    var formData = new FormData();
-    formData.append('imgFile', new File([blob], 'image.jpeg', {type: "jpeg"}) );
-  var payload = {
-    id: response2.data.comic._id ,
-      
-  };
-    const updateCoverResponse = await api.editComicCoverPage(formData, payload );
     navigate(`/comic/editing/${response2.data.comic._id}`);
-
-
   };
   
   return (

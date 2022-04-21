@@ -142,7 +142,7 @@ const ComicDetailPage = () => {
         rTLDrawApp.current.zoomToFit();
         const shapes = rTLDrawApp.current.shapes;
         for( const shape of shapes ){
-            console.lsog( JSON.stringify(shape.style) );
+            console.log( JSON.stringify(shape.style) );
         }
         
         setRead(true);
