@@ -88,7 +88,7 @@ function AuthContextProvider(props) {
     auth.getLoggedIn = async function () {
         try{
             const response = await api.getLoggedIn();
-            console.log(response);
+            
             if (response.status === 200) {
                 authReducer({
                     type: AuthActionType.GET_LOGGED_IN,

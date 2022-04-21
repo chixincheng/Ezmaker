@@ -125,13 +125,14 @@ function GlobalStoreContextProvider(props) {
     }
 
     useEffect( ()=>{
-        if(searchOption === "user"){//search user
+        if(searchOption === "user" && searchKeyWord.length >0 ){//search user
             async function searchUser(){
                 const response = await api.searchUserName(searchKeyWord);
                 if(response.data.success){
                     setSearchResult(response.data.user); 
                 }
-            }searchUser();
+            }
+            searchUser();
         }
         else{//search comic/story
             if(location.pathname.includes("comic")){//search comic

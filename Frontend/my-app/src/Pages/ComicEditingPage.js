@@ -27,13 +27,15 @@ const ComicEditingPage = () => {
   const fileUploaderRef = useRef();
   const fileSystemEvents = useFileSystem();
   const [imgURL, setImgURL] = useState(images.landingPageBackground);
-  const [read, setRead] = useState(false);
+  
   const [info, setInfo] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   var names = location.pathname.split("/");
   const [title,setTitle] = useState("");
   const [category,setCategory] = useState("Food");
+  const [app, setApp] = useState(null);
+  const [document, setDocument] = useState(null);
 
   const getTLDR = async ()=>{
     const getComicResponse = await api.getComic( names.at(-1), {id:ctx.auth.user._id} );
@@ -43,24 +45,30 @@ const ComicEditingPage = () => {
     }
 
 
-    console.log(getComicResponse);
+   
     setTitle(getComicResponse.data.comic.comicTitle);
 
     const response = await fetch( getComicResponse.data.comic.filePath ).then((r)=>{r.text().then((d)=>{ 
       var temp = JSON.parse(d); 
       
-     
-      rTLDrawApp.current.loadDocument(temp.document);
-      rTLDrawApp.current.zoomToFit();
-      console.log(rTLDrawApp);
-      const shapes = rTLDrawApp.current.shapes;
-      for( const shape of shapes ){
-        console.log( JSON.stringify(shape.style) );
-      }
+      setDocument(temp.document);
+      // rTLDrawApp.loadDocument(temp.document);
+      // rTLDrawApp.current.loadDocument(temp.document);
+      // rTLDrawApp.zoomToFit();
       
-       //setRead(true);
+      // console.log(rTLDrawApp.shapes);
+     
+      
+      
     })});
   };
+
+  useEffect(()=>{
+    if( app !== null && document !== null ){
+      app.loadDocument(document);
+    }
+
+  },[app, document]);
 
  
 
@@ -68,8 +76,8 @@ const ComicEditingPage = () => {
     getTLDR();
   },[]);
   
-  // fileSystemEvents.onNewProject(rTLDrawApp);
-  const id = "tldraw-example1"; // [1]
+  
+  
   
   const fileUploadOnClick = async ()=>{
     // const formData = new FormData();
@@ -85,9 +93,9 @@ const ComicEditingPage = () => {
 }
 
   const handleExport = async (info) => {
-    console.log(info);
+    
     setInfo(info);
-    console.log(rTLDrawApp.current.getPage(rTLDrawApp.currentPageId));
+   
   
     
     if (info.serialized) {
@@ -111,15 +119,16 @@ const ComicEditingPage = () => {
     const link = document.createElement('a');
     link.href = blobUrl;
     link.download = info.name + '.' + info.type;
-    console.log(blob);
-    // link.click();
+    link.click();
     alert("export success");
     
   };
   
   const handleMount = (app) => {
-    
-    rTLDrawApp.current = app; // [2]
+    console.log(app);
+    rTLDrawApp.current = app; 
+    setApp(app);
+    // console.log(rTLDrawApp.current.document);
     
     
   };
@@ -135,19 +144,10 @@ const ComicEditingPage = () => {
       navigate("/comic/home")
     }
   }
-  // authorID: { type: ObjectId, required: true },
-  // authorName: { type: String, required: true },
-  // comicTitle:{ type: String, required: true },
-  // comments: { type: [ObjectId], required: false },
-  // dislikedUser: {type: [ObjectId], required: false},
-  // likedUser: {type: [ObjectId], required: false},
-  // publishedTime: {type: Date, required: true},
-  // viewNumber: {type: Number, required: true},
-  // filePath: {type: String, required: false},
-  // coverPage: {type: String, reqiured: false}
+  
   const publishComic = async(event)=>{
     event.preventDefault();
-
+   
     const response = await api.getComic(names.at(-1), {id:ctx.auth.user._id} );
     if(response.status === 200){
       const comic = response.data.comic;
@@ -174,15 +174,18 @@ const ComicEditingPage = () => {
     
   }
 
-  const save = async (event)=>{
-   
+  const save = async (event, app1)=>{
+    
     event.preventDefault();
+    // console.log(rTLDrawApp.current);
+    // console.log(rTLDrawApp.shapes);
+    console.log(app1.shapes);
     
     const exportInfo  = {
-      currentPageId: rTLDrawApp.currentPageId,
-      name: rTLDrawApp.page.name ?? 'export',
-      shapes: rTLDrawApp.current.shapes ,
-      assets: rTLDrawApp.document.assets,
+      currentPageId: app1.currentPageId,
+      name: app1.page.name ?? 'export',
+      shapes: app1.shapes ,
+      assets: app1.document.assets,
       type: "png",
       serialized: undefined,
       size: [3500, 5000],
@@ -205,9 +208,9 @@ const ComicEditingPage = () => {
     const updateCoverResponse = await api.editComicCoverPage(formData, payload );
     
     
-    const app = rTLDrawApp.current;
+    // const app = rTLDrawApp.current;
     var temp = {};
-    temp["document"] = app.document;
+    temp["document"] = app1.document;
     var jsonObject = JSON.stringify(temp);
     formData = new FormData();
     formData.append('tldrFile', new File([ jsonObject ], "demo.tldr", {type: "text/plain;charset=utf-8"})  );
@@ -403,17 +406,12 @@ fileSystemEvents.onOpenProject = undefined;
       <div
       style={{
         position: "relative",
-        // top: 0,
-        // left: 0,
         width: "100%",
         height: "100%"
       }}
-      onClick={(e)=>{ console.log("123");}}
+      
     >
-      <Tldraw   showMenu={!read} showMultiplayerMenu={!read} showPages={true} readOnly={ read } onExport={handleExport}  {
-       
-       ...fileSystemEvents
-      }  onClick={()=>{console.log("456");}}   onMount={handleMount} />
+      <Tldraw     onExport={handleExport}  {...fileSystemEvents}     onMount={handleMount} />
     </div>
        
       </div>
@@ -421,7 +419,7 @@ fileSystemEvents.onOpenProject = undefined;
         <div>
           <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}><b>Button</b></div>
           <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
-            <img style={{width:"100px", height:"auto"}} onClick={(event)=>{save(event);}} src={images.save}></img>
+            <img style={{width:"100px", height:"auto"}} onClick={(event)=>{save(event,app);}} src={images.save}></img>
             Save
             </div>
             <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
