@@ -52,12 +52,14 @@ const MyComic = ({itemsPerPage}) => {
     };
 
     const response2 = await api.createComic(  formData, payload );
-    if ( response2.status === 200 ){
-        navigate(`/comic/editing/${response2.data.comic._id}`);
+    if ( response2.status !== 200 ){
+      alert( response2.data.message );
+      navigate(0);
     }
-    else{
-        alert( response2.data.message );
-    }
+    
+    
+
+
     const exportInfo  = {
       currentPageId: rTLDrawApp.currentPageId,
       name: rTLDrawApp.page.name ?? 'export',
@@ -82,6 +84,9 @@ const MyComic = ({itemsPerPage}) => {
       
   };
     const updateCoverResponse = await api.editComicCoverPage(formData, payload );
+    navigate(`/comic/editing/${response2.data.comic._id}`);
+
+
   };
   
   return (

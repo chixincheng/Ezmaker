@@ -58,7 +58,7 @@ const ComicEditingPage = () => {
         console.log( JSON.stringify(shape.style) );
       }
       
-       setRead(false);
+       //setRead(true);
     })});
   };
 
