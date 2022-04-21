@@ -127,6 +127,7 @@ const ComicDetailPage = () => {
     const navigate = useNavigate();
     const fileUploaderRef = useRef();
     const fileSystemEvents = useFileSystem();
+    const [comic, setComic] = useState(null);
 
     const getTLDR = async ()=>{
         const getComicResponse = await api.getPublishedComicByID( names.at(-1));
@@ -134,7 +135,7 @@ const ComicDetailPage = () => {
         if( getComicResponse.status !== 200 ){
             navigate("/comic/home");
         }
-
+        setComic(getComicResponse.data.comic);
         const response = await fetch( getComicResponse.data.comic.filePath ).then((r)=>{r.text().then((d)=>{ 
         var temp = JSON.parse(d); 
         
@@ -170,8 +171,8 @@ const ComicDetailPage = () => {
                 <div style={likeButtonStyle} onClick={like}></div>
                 <div style={dislikeButtonStyle} onClick={dislike}></div>
                
-                <div style={textStyle}>Naruto</div>
-                <div style={textStyle}>By Masashi Kishimoto</div>
+                <div style={textStyle}>{comic === null ?   "Comic Title":comic.comicTitle}</div>
+                <div style={textStyle}>{comic === null ?   "Author Name":comic.authorName}</div>
             </div>
             <div
                 style={{
@@ -185,12 +186,12 @@ const ComicDetailPage = () => {
                 onClick={()=>{console.log("456");}}{...fileSystemEvents}onMount={handleMount} />
             </div>
             <div style={{display:"flex",justifyContent:"center", background: "rgba(250, 241, 194, 1)", marginBottom:"1rem"}}><Pagination count={10} color="primary" /></div>
-            <div style={{display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
+            <div style={{display: "flex", width:"100%",flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
                 <div style={commentTitle}>Comment</div>
                 <div style={{height:"300px", width:"100%", background : "white", position:"relative"}}><div style={commendSentStyle} onClick={addComment}></div></div>
             </div>
             
-            <div style={{display: "flex", justifyContent:"center" ,background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
+            <div style={{display: "flex",width:"100%" ,justifyContent:"center" ,background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
                 {commentList}
             </div>
         </div>

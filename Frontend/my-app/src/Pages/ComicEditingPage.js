@@ -24,6 +24,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 
+
 const ComicEditingPage = () => {
   const ctx = useContext(AuthContext);
   const rTLDrawApp =   new TldrawApp() ;
@@ -40,6 +41,7 @@ const ComicEditingPage = () => {
   const [app, setApp] = useState(null);
   const [document, setDocument] = useState(null);
   const [deleteopen, setDeleteOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getTLDR = async ()=>{
     const getComicResponse = await api.getComic( names.at(-1), {id:ctx.auth.user._id} );
@@ -150,9 +152,10 @@ const ComicEditingPage = () => {
   }
   
   const publishComic = async(event)=>{
+    setLoading(true);
     event.preventDefault();
    
-    const response = await api.getComic(names.at(-1), {id:ctx.auth.user._id} );
+    var response = await api.getComic(names.at(-1), {id:ctx.auth.user._id} );
     if(response.status === 200){
       const comic = response.data.comic;
       const payload = {
@@ -175,11 +178,11 @@ const ComicEditingPage = () => {
     }
     
 
-    
+    setLoading(false);
   }
 
   const save = async (event, app1)=>{
-    
+    setLoading(true);
     event.preventDefault();
     // console.log(rTLDrawApp.current);
     // console.log(rTLDrawApp.shapes);
@@ -228,6 +231,7 @@ const ComicEditingPage = () => {
     };
 
     const response2 = await api.editComic(  formData, payload );
+    setLoading(false);
     if ( response2.status === 200 ){
         alert("Save successed");
     }
@@ -273,6 +277,7 @@ function handleDeleteClose (event){
   const setCategoryCharacter = () =>{
     setCategory("character");
   }
+  
   
   const switchIcon = (param) => {
     switch(param){
@@ -378,6 +383,17 @@ function handleDeleteClose (event){
   
   return (
     <Fragment>
+      {loading ? 
+      <Fragment>
+        <div style={{opacity:"0.5",position:"fixed", zIndex:"50" ,width:"100vw", height:"100vh", background:"#F0F0F0"}}></div>
+        <div style={{ position:"fixed",zIndex:"100"  ,width:"100vw", height:"100vh", backgroundImage:`url(${images.loading})`, backgroundRepeat: 'no-repeat', backgroundSize: 'contain',backgroundPosition: 'center' }} > 
+        
+        </div>
+         </Fragment>
+     
+      :
+      <Fragment/>
+      }
       <Header></Header>
       <div
         style={{
@@ -425,7 +441,7 @@ function handleDeleteClose (event){
       }}
       
     >
-      <Tldraw     onExport={handleExport}  {...fileSystemEvents}     onMount={handleMount} />
+      <Tldraw   onPersist={(app)=>{ console.log(app.pageState.camera); }}  onExport={handleExport}  {...fileSystemEvents}     onMount={handleMount} />
     </div>
        
       </div>
@@ -450,11 +466,11 @@ function handleDeleteClose (event){
             </div>
         </div>
       </div>
-      <div>
+      {/* <div>
         <label for="img">Select icon image: </label>
         <input type="file" id="img" name="img"  ref={fileUploaderRef} accept="image/*"/>
         <input onClick={fileUploadOnClick} type="submit"/>
-      </div>
+      </div> */}
       <Dialog
             id = "delete-modal"
             maxWidth='sm'

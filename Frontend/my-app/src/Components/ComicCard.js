@@ -50,7 +50,7 @@ const ComicCard = ( props ) => {
           backgroundRepeat: "no-repeat",
         }}
       ></div> */}
-      <img src={ props.comic.coverPage } style={{width:"100%", height:"auto"}}>
+      <img src={  props.comic.coverPage   ?   props.comic.coverPage: "https://res.cloudinary.com/daufq6nuh/image/upload/c_scale,h_5000,w_3500/v1650580213/Ezmaker/WeChat_Image_20220421182906_etv2nu.png" } style={{width:"100%", height:"auto"}}>
       </img>
 
       <div>
@@ -79,7 +79,7 @@ const ComicCard = ( props ) => {
           </div>
         ) 
         : (
-          <div style={{display:"flex"}}>
+          <div style={{display:"flex", justifyContent:"center"}}>
             <div
               style={{
                 width: "30px",

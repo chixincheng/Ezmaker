@@ -58,6 +58,7 @@ import playlistEdit from "./playlistEdit.png"
 import back from "./back.png"
 import sort from "./sort.png"
 import guest from "./guest.png"
+import loading from "./loading.gif"
 
 const images = {
     check, clock, comicApp, communityIcon, cover1, easyToUse,
@@ -68,7 +69,7 @@ const images = {
     categoryTitle, deleteIcon, comicsDownload, dribbble, eraser, facebook,
     colorFill, instagram, textOrTextSize, removePage, pen, addPage, publish,
     save, saveSuccessed, upload, bold, colorChange, highlighter, italic, underline, addComic, playlistEdit,
-    coconut, faq, reddit, twitter, pinterest, bebo, logout, signInBackground, back, sort, guest
+    coconut, faq, reddit, twitter, pinterest, bebo, logout, signInBackground, back, sort, guest, loading
 }
 export default images
 
