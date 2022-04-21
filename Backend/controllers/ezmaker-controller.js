@@ -205,6 +205,7 @@ deleteComic = async (req, res) => {
         });
         //delete comic cover page
         const coverPage = comic.coverPage;
+        if(coverPage !== undefined){
             var index1 = coverPage.lastIndexOf(`Ezmaker`);
             var index2 = coverPage.lastIndexOf(`.`);
             var cloudinary_id = coverPage.substring(index1,index2);
@@ -216,6 +217,7 @@ deleteComic = async (req, res) => {
                     console.log(result);
                 }
             });
+        }
 
         //delete comic from mongodb
         Comic.findOneAndDelete({ _id: req.params.id }, () => {
