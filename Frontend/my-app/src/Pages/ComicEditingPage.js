@@ -42,6 +42,7 @@ const ComicEditingPage = () => {
   const [document, setDocument] = useState(null);
   const [deleteopen, setDeleteOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [publishID, setPublishID] = useState(null);
 
   const getTLDR = async ()=>{
     const getComicResponse = await api.getComic( names.at(-1), {id:ctx.auth.user._id} );
@@ -53,6 +54,7 @@ const ComicEditingPage = () => {
 
    
     setTitle(getComicResponse.data.comic.comicTitle);
+    setPublishID(getComicResponse.data.comic.publishID);
 
     const response = await fetch( getComicResponse.data.comic.filePath ).then((r)=>{r.text().then((d)=>{ 
       var temp = JSON.parse(d); 
@@ -150,7 +152,30 @@ const ComicEditingPage = () => {
       navigate("/comic/home")
     }
   }
-  
+  const unpublishComic = async(event)=>{
+    event.preventDefault();
+
+    var response = await api.getComic(names.at(-1), {id:ctx.auth.user._id} );
+    if(response.status === 200){
+      const comic = response.data.comic;
+      response = await api.deletePublishedComic(comic.publishID);
+      if(response.status !== 200){
+        alert("delete failed");
+      }
+      else{
+        const payload = {
+          publishID: null,
+          id: names.at(-1),
+          comicTitle: title
+        }
+        response = await api.editComic(null,payload);
+        setPublishID(null);
+      }
+    }
+    
+
+    setLoading(false);
+  }
   const publishComic = async(event)=>{
     setLoading(true);
     event.preventDefault();
@@ -158,7 +183,7 @@ const ComicEditingPage = () => {
     var response = await api.getComic(names.at(-1), {id:ctx.auth.user._id} );
     if(response.status === 200){
       const comic = response.data.comic;
-      const payload = {
+      var payload = {
         authorID: ctx.auth.user._id,
         authorName: ctx.auth.user.userName,
         comicTitle: comic.comicTitle,
@@ -174,6 +199,15 @@ const ComicEditingPage = () => {
       response = await api.createPublishedComic(payload);
       if(response.status !== 201){
         alert("published failed");
+      }
+      else{
+        setPublishID(response.data.publishedComic._id);
+        payload = {
+          publishID: response.data.publishedComic._id,
+          id: names.at(-1),
+          comicTitle: title
+        }
+        response = await api.editComic(null,payload);
       }
     }
     
@@ -452,10 +486,17 @@ function handleDeleteClose (event){
             <img style={{width:"100px", height:"auto"}} onClick={(event)=>{save(event,app);}} src={images.save}></img>
             Save
             </div>
-            <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
-            <img style={{width:"100px", height:"auto"}} onClick={(event)=>{publishComic(event);}} src={images.publish}></img>
-            Publish
-            </div>
+            {publishID?
+              <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
+                <img style={{width:"100px", height:"auto"}} onClick={(event)=>{unpublishComic(event);}} src={images.publish}></img>
+                Unpublish
+              </div>
+              :
+              <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
+                <img style={{width:"100px", height:"auto"}} onClick={(event)=>{publishComic(event);}} src={images.publish}></img>
+                Publish
+              </div>
+            }
             <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
             <img style={{width:"100px", height:"auto"}} onClick={()=>{alert("/comic/editing");}} src={images.download}></img>
             Download

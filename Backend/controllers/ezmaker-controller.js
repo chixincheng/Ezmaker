@@ -73,8 +73,7 @@ createComic = (req, res) => {
 //edit comics
 editComic = async (req, res) => {
     const body = req.query
-    console.log(req.files);
-    console.log("updateComic: " + JSON.stringify(body));
+    console.log(body);
     if (!body || !body.id) {
         return resError(res,400, 'You must provide a body to update')
     }
@@ -88,23 +87,25 @@ editComic = async (req, res) => {
             return resError(res,404, 'Comic not found!')
         }
 
-        comic.comicTitle = body.comicTitle
+        comic.comicTitle = body.comicTitle;
+        comic.publishID = body.publishID;
+        if(req.files !== undefined && req.files.length >= 1){
+            const filePath = comic.filePath;
+            var index1 = filePath.lastIndexOf(`Ezmaker`);
+            var index2 = filePath.lastIndexOf(`.`);
+            var cloudinary_id = filePath.substring(index1);
+            console.log(cloudinary_id);
+            cloudinary.uploader.destroy(cloudinary_id,  { resource_type:'raw'} ,function(error,result) {
+                if(error){
+                    console.log(error);
+                }
+                else{
+                    console.log(result);
+                }
+            });
 
-        const filePath = comic.filePath;
-        var index1 = filePath.lastIndexOf(`Ezmaker`);
-        var index2 = filePath.lastIndexOf(`.`);
-        var cloudinary_id = filePath.substring(index1);
-        console.log(cloudinary_id);
-        cloudinary.uploader.destroy(cloudinary_id,  { resource_type:'raw'} ,function(error,result) {
-            if(error){
-                console.log(error);
-            }
-            else{
-                console.log(result);
-            }
-        });
-
-        comic.filePath = req.files[0].path;
+            comic.filePath = req.files[0].path;
+        }
 
         comic
             .save()
@@ -226,6 +227,25 @@ deleteComic = async (req, res) => {
     })
 }
 
+//delete the published comic by id 
+deletePublishedComic = async (req, res) => {
+    console.log("--------");
+    console.log(req.body);
+    console.log(req.params)
+    await PublishedComic.findById({ _id: req.params.id }, (err, comic) => {
+        if (err) {
+            return resError(res,400, err)
+        }
+        if (!comic) {
+            return resError(res,404, 'Comic not found!')
+        }
+
+        //delete comic from mongodb
+        PublishedComic.findOneAndDelete({ _id: req.params.id }, () => {
+            return res.status(200).json({ success: true, data: comic })
+        }).catch(err => console.log(err))
+    })
+}
 
 //create stories
 createStory = (req, res) => {
@@ -1240,5 +1260,6 @@ module.exports = {
     searchPublishedComicByInput,
     searchUserName,
     editComicCoverPage,
-    getAllPublishedComics
+    getAllPublishedComics,
+    deletePublishedComic
 }

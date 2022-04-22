@@ -13,7 +13,7 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true;
 const api = axios.create({
-    baseURL: 'https://ez-maker.herokuapp.com/',
+    baseURL: 'http://localhost:4000/',
 })
 
 // THESE ARE ALL THE REQUESTS WE`LL BE MAKING, ALL REQUESTS HAVE A
@@ -33,7 +33,8 @@ export const editComic = ( formData, payload) => api.put(`/editComic`, formData,
 export const getComic = ( id, payload ) => api.put(`/getComic/${id}`,null, {params: payload } );
 export const getPublishedComicByID = (id) => api.get(`getPublishedComicByID/${id}`)
 export const editComicCoverPage = ( formData, payload) => api.put(`/editComicCoverPage`, formData, {params: payload } );
-export const deleteComic = (id) => api.delete(`/deleteComic/${id}`);
+export const deleteComic = (id) => api.delete(`/deleteComic/${id}`); 
+export const deletePublishedComic = (id) => api.delete(`/deletePublishedComic/${id}`);
 export const getLoggedIn = () => api.get(`/loggedIn/`);
 export const registerUser = (payload) => api.post(`/register`,null, {params: payload} )
 export const loginUser = (payload) => api.post(`/login/`, null, {params: payload})
@@ -66,7 +67,8 @@ const apis = {
     deleteComic,
     createPublishedComic,
     getPublishedComicByID,
-    getCommunityComics
+    getCommunityComics,
+    deletePublishedComic
 }
 
 export default apis

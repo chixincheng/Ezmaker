@@ -24,7 +24,10 @@ router.put('/editComic', auth.verify,  tldrUpload.array("tldrFile", 1),  EasyMak
 router.put('/editComicCoverPage', auth.verify,   imgUpload.array("imgFile", 1)  , EasyMakerController.editComicCoverPage)
 
 // delete a specific comic in Comic table by id
-router.delete('/deleteComic/:id', auth.verify, EasyMakerController.deleteComic)
+router.delete('/deleteComic/:id', auth.verify, EasyMakerController.deleteComic) 
+
+// delete a specific published comic in published Comic table by id
+router.delete('/deletePublishedComic/:id', auth.verify, EasyMakerController.deletePublishedComic)
 
 // create a new story object in Story table
 router.post('/createStory', auth.verify, EasyMakerController.createStory)
