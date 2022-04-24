@@ -1,4 +1,4 @@
-import ComicCard from "./ComicCard";
+import StoryCard from "./StoryCard";
 import { Fragment } from "react";
 import ReactPaginate from 'react-paginate';
 import React, { useEffect, useState } from 'react';
@@ -38,7 +38,7 @@ const MyFavoriteStory = ({itemsPerPage}) => {
           marginBottom: "2rem",
         }}
       >
-        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>My Favorite Storys:</b>
+        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>My Favorite Stories:</b>
         
       </div>
 
@@ -50,11 +50,11 @@ const MyFavoriteStory = ({itemsPerPage}) => {
         }}
       >
         
-      <ComicCard></ComicCard>
-      <ComicCard></ComicCard>
-      <ComicCard></ComicCard>
-      <ComicCard></ComicCard>
-      <ComicCard></ComicCard>
+      {/* <StoryCard></StoryCard>
+      <StoryCard></StoryCard>
+      <StoryCard></StoryCard>
+      <StoryCard></StoryCard>
+      <StoryCard></StoryCard> */}
 
       
       </div>

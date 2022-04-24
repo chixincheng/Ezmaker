@@ -1,4 +1,3 @@
-
 import ComicCard from "./ComicCard";
 import { Fragment } from "react";
 import ReactPaginate from 'react-paginate';
@@ -26,7 +25,7 @@ const MyComic = ({itemsPerPage}) => {
   const loadAllComics = async ()=>{
     const response = await api.getAllUserUnpublishedComics(ctx.auth.user._id);
     const response2 = await api.getAllUserPublishedComics(ctx.auth.user._id);
-    var array = [...response.data.comics,...response2.data.idNamePairs]
+    var array = [...response.data.unpublishedComics,...response2.data.publishedComics]
     
     setComics(array);
   };

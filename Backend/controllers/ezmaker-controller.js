@@ -384,7 +384,7 @@ getAllUserUnpublishedComics = async (req, res) => {
                     comics.push(comic);
                 }
             }
-            return res.status(200).json({ success: true, comics: comics })
+            return res.status(200).json({ success: true, unpublishedComics: comics })
         }
     }).catch(err => console.log(err))
 }
@@ -414,7 +414,7 @@ getAllUserUnpublishedStories = async (req, res) => {
                     pairs.push(pair);
                 }
             }
-            return res.status(200).json({ success: true, idNamePairs: pairs })
+            return res.status(200).json({ success: true, unpublishedStories: pairs })
         }
     }).catch(err => console.log(err))
 }
@@ -450,21 +450,7 @@ getAllUserPublishedComics = async (req, res) => {
                     pairs.push(pair);
                 }
             }
-            return res.status(200).json({ success: true, idNamePairs: pairs })
-        }
-    }).catch(err => console.log(err))
-}
-//get all the published comics
-getAllPublishedComics = async(req,res) =>{
-    await PublishedComic.find({ }, (err, comicLists) => {
-        if (err) {
-            return resError(res,400, err)
-        }
-        if (!comicLists) {
-            return resError(res,404, 'Published comic not found')
-        }
-        else {
-            return res.status(200).json({ success: true, comics: comicLists })
+            return res.status(200).json({ success: true, publishedComics: pairs })
         }
     }).catch(err => console.log(err))
 }
@@ -479,29 +465,28 @@ getAllUserPublishedStories = async (req, res) => {
             return resError(res,404, 'Story not found')
         }
         else {
-            // PUT ALL THE LISTS INTO ID, NAME PAIRS
-            let pairs = [];
-            for (let key in storyLists) {
-                let story = storyLists[key];
-                if(story.authorID.equals(req.query._id)){
-                    let pair = {
-                        _id: story._id,
-                        authorID: story.authorID,
-                        authorName: story.authorName,
-                        storyTitle: story.storyTitle,
-                        comments: story.comments,
-                        dislikedUser: story.dislikedUser,
-                        likedUser: story.likedUser,
-                        publishedTime: story.publishedTime,
-                        viewNumber: story.viewNumber
-                    };
-                    pairs.push(pair);
-                }
-            }
-            return res.status(200).json({ success: true, idNamePairs: pairs })
+            return res.status(200).json({ success: true, publishedStories: storyLists })
         }
     }).catch(err => console.log(err))
 }
+
+
+//get all the published comics
+getAllPublishedComics = async(req,res) =>{
+    await PublishedComic.find({ }, (err, comicLists) => {
+        if (err) {
+            return resError(res,400, err)
+        }
+        if (!comicLists) {
+            return resError(res,404, 'Published comic not found')
+        }
+        else {
+            return res.status(200).json({ success: true, publishedComics: comicLists })
+        }
+    }).catch(err => console.log(err))
+}
+
+
 
 // create a new comment
 createComment = (req,res) =>{

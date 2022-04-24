@@ -1,14 +1,16 @@
-import ComicCard from "./ComicCard";
+import StoryCard from "./StoryCard";
 import { Fragment } from "react";
 import ReactPaginate from 'react-paginate';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import images from "../Images/index.js";
+// require('dotenv').config();
 import Pagination from '@mui/material/Pagination';
+import images from "../Images/index.js";
 import { useNavigate } from "react-router-dom";
-
-
-
+import api from "../api";
+import AuthContext from "../auth";
+// import { Tldraw, TldrawApp, useFileSystem, TDDocument,  TDExport } from "@tldraw/tldraw";
+import SortButton from "./SortButton.js";
 
 
 
@@ -16,11 +18,50 @@ import { useNavigate } from "react-router-dom";
 const MyStory = ({itemsPerPage}) => {
   const navigate = useNavigate();
   const [pageCount, setPageCount] = useState(5);
+  const [stories, setStories] = useState([]);
+  const ctx = useContext(AuthContext);
  
-
+  const loadAllStories = async ()=>{
+    const response = await api.getAllUserUnpublishedStories(ctx.auth.user._id);
+    const response2 = await api.getAllUserPublishedStories(ctx.auth.user._id);
+    var array = [...response.data.unpublishedStories,...response2.data.publishedStories]
+    
+    setStories(array);
+  };
   
+  
+  useEffect(()=>{
+    loadAllStories();
+  },[]);
+
   const handlePageClick = (event) => {
     
+  };
+
+
+  const addStoryOnClick = async ()=>{
+    // const app = rTLDrawApp;
+
+  //   var temp = {};
+  //   temp["document"] = app.document;
+  //   var jsonObject = JSON.stringify(temp);
+  //   var formData = new FormData();
+  //   formData.append('tldrFile', new File([ jsonObject ], "demo.tldr", {type: "text/plain;charset=utf-8"})  );
+    
+  //   var payload = {
+  //       authorID: ctx.auth.user._id ,
+  //       authorName: ctx.auth.user.userName ,
+  //       editedTime: new Date() ,
+  //       comicTitle: "Comic Title Default"
+  //   };
+
+  //   const response2 = await api.createComic(  formData, payload );
+  //   if ( response2.status !== 200 ){
+  //     alert( response2.data.message );
+  //     navigate(0);
+  //   }
+
+  //   navigate(`/comic/editing/${response2.data.comic._id}`);
   };
 
   return (
@@ -40,8 +81,8 @@ const MyStory = ({itemsPerPage}) => {
           marginBottom: "2rem",
         }}
       >
-        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>My Storys:</b>
-        <img style={{width:"100px", height:"auto", cursor:"pointer"}} onClick={()=>{navigate("/story/editing");}} src={images.addComic}></img>
+        <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>My Stories:</b>
+        <img style={{width:"100px", height:"auto", cursor:"pointer"}} onClick={addStoryOnClick} src={images.addComic}></img>
       </div>
 
       <div
@@ -51,12 +92,11 @@ const MyStory = ({itemsPerPage}) => {
           justifyContent: "center",
         }}
       >
-        
-      <ComicCard></ComicCard>
-      <ComicCard></ComicCard>
-      <ComicCard></ComicCard>
-      <ComicCard></ComicCard>
-      <ComicCard></ComicCard>
+      
+      {stories.map((story, index)=>{
+          
+          return(<StoryCard key={index} story={story}></StoryCard>);
+        })}
 
       
       </div>

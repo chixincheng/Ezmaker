@@ -1,3 +1,5 @@
 node_modules/
 .env
 Frontend/my-app/package-lock.json
+Backend/package-lock.json
+Backend/package.json
