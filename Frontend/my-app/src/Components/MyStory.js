@@ -42,26 +42,28 @@ const MyStory = ({itemsPerPage}) => {
   const addStoryOnClick = async ()=>{
     // const app = rTLDrawApp;
 
-  //   var temp = {};
-  //   temp["document"] = app.document;
-  //   var jsonObject = JSON.stringify(temp);
-  //   var formData = new FormData();
-  //   formData.append('tldrFile', new File([ jsonObject ], "demo.tldr", {type: "text/plain;charset=utf-8"})  );
+    // var temp = {};
+    // temp["document"] = app.document;
+    // var jsonObject = JSON.stringify(temp);
+    // var formData = new FormData();
+    // formData.append('tldrFile', new File([ jsonObject ], "demo.tldr", {type: "text/plain;charset=utf-8"})  );
     
-  //   var payload = {
-  //       authorID: ctx.auth.user._id ,
-  //       authorName: ctx.auth.user.userName ,
-  //       editedTime: new Date() ,
-  //       comicTitle: "Comic Title Default"
-  //   };
-
-  //   const response2 = await api.createComic(  formData, payload );
-  //   if ( response2.status !== 200 ){
-  //     alert( response2.data.message );
-  //     navigate(0);
-  //   }
-
-  //   navigate(`/comic/editing/${response2.data.comic._id}`);
+    var payload = {
+        authorID: ctx.auth.user._id ,
+        authorName: ctx.auth.user.userName ,
+        editedTime: new Date() ,
+        storyTitle: "Story Title Default"
+    };
+    
+    // const response2 = await api.createComic(  formData, payload );
+    const response2 = await api.createStory( payload ) ;
+    if ( response2.status !== 201 ){
+      alert( response2.data.message );
+      navigate(0);
+    }
+    // navigate(`/story/editing/`)
+    navigate(`/story/editing/${response2.data.story._id}`);
+    
   };
 
   return (

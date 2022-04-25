@@ -461,22 +461,23 @@ function handleDeleteClose (event){
       <div style={{marginRight:"1rem", width:"100%"}}>
       <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}>
         <TextField 
+          label="Comic Title"
           value = {title}
           onChange ={(event)=>{handleTitleUpdate(event);}}
+          
           >
         </TextField>
       </div>
         
       <div
-      style={{
-        position: "relative",
-        width: "100%",
-        height: "100%"
-      }}
-      
-    >
-      <Tldraw   onPersist={(app)=>{ console.log(app.pageState.camera); }}  onExport={handleExport}  {...fileSystemEvents}     onMount={handleMount} />
-    </div>
+        style={{
+          position: "relative",
+          width: "100%",
+          height: "100%"
+        }}
+       >
+        <Tldraw   onPersist={(app)=>{ console.log(app.pageState.camera); }}  onExport={handleExport}  {...fileSystemEvents}     onMount={handleMount} />
+      </div>
        
       </div>
       
@@ -513,19 +514,19 @@ function handleDeleteClose (event){
         <input onClick={fileUploadOnClick} type="submit"/>
       </div> */}
       <Dialog
-            id = "delete-modal"
-            maxWidth='sm'
-            open= {deleteopen}
-            onClose={(event)=>{handleDeleteClose(event);}}
-            >
-            <DialogTitle>
-               Delete the {title} ?
-               <DialogActions>
-                    <Button onClick={(event)=>{deleteComic(event);}}>Confirm</Button>
-                    <Button onClick={(event)=>{handleDeleteClose(event);}}>Cancel</Button>
-                </DialogActions>
-            </DialogTitle>
-        </Dialog>
+        id = "delete-modal"
+        maxWidth='sm'
+        open= {deleteopen}
+        onClose={(event)=>{handleDeleteClose(event);}}
+        >
+        <DialogTitle>
+          Delete the {title} ?
+          <DialogActions>
+              <Button onClick={(event)=>{deleteComic(event);}}>Confirm</Button>
+              <Button onClick={(event)=>{handleDeleteClose(event);}}>Cancel</Button>
+          </DialogActions>
+        </DialogTitle>
+      </Dialog>
     </Fragment>
   );
 };

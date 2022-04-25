@@ -18,10 +18,6 @@ const tldrStorage = new CloudinaryStorage({
         folder:'Ezmaker',
         resource_type:"auto",
         format: "tldr"
-        
-        
-        
-      
     }
     
 });

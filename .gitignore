@@ -3,3 +3,6 @@ node_modules/
 Frontend/my-app/package-lock.json
 Backend/package-lock.json
 Backend/package.json
+Backend/package-lock.json
+Backend/package-lock.json
+*.json

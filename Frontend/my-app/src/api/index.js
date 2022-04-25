@@ -13,7 +13,7 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true;
 const api = axios.create({
-    baseURL: 'http://localhost:4000/',
+    baseURL: 'http://localhost:3000/',
 })
 
 // THESE ARE ALL THE REQUESTS WE`LL BE MAKING, ALL REQUESTS HAVE A
@@ -26,7 +26,6 @@ const api = axios.create({
 export const getAllUserUnpublishedComics = (id) => api.get(`/getAllUserUnpublishedComics/${id}`)
 export const getAllUserPublishedComics = (id) => api.get(`/getAllUserPublishedComics/${id}`)
 export const getCommunityComics = () => api.get(`/communityComics`)
-export const searchUserName = (searchInput) => api.get(`/searchUserName/${searchInput}`)
 export const createComic = ( formData, payload) => api.post(`/createComic`, formData, {params: payload } );
 export const createPublishedComic = (payload) => api.post(`/createPublishedComic`,null,{params: payload});
 export const editComic = ( formData, payload) => api.put(`/editComic`, formData, {params: payload } );
@@ -35,6 +34,21 @@ export const getPublishedComicByID = (id) => api.get(`getPublishedComicByID/${id
 export const editComicCoverPage = ( formData, payload) => api.put(`/editComicCoverPage`, formData, {params: payload } );
 export const deleteComic = (id) => api.delete(`/deleteComic/${id}`); 
 export const deletePublishedComic = (id) => api.delete(`/deletePublishedComic/${id}`);
+
+export const getAllUserUnpublishedStories = (id) => api.get(`/getAllUserUnpublishedStories/${id}`)
+export const getAllUserPublishedStories = (id) => api.get(`/getAllUserPublishedStories/${id}`)
+export const getCommunityStories = () => api.get(`/communityStories`)
+export const createStory = ( payload) => api.post(`/createStory`, null, {params: payload } );
+export const createPublishedStory = (payload) => api.post(`/createPublishedStory`,null,{params: payload});
+export const editStory = ( payload) => api.put(`/editStory`, {params: payload } );
+export const getStory = ( id, payload ) => api.put(`/getStory/${id}`,null, {params: payload } );
+export const getPublishedStoryByID = (id) => api.get(`getPublishedStoryByID/${id}`)
+// export const editStoryCoverPage = ( formData, payload) => api.put(`/editStoryCoverPage`, formData, {params: payload } );
+export const deleteStory = (id) => api.delete(`/deleteStory/${id}`); 
+export const deletePublishedStory = (id) => api.delete(`/deletePublishedStory/${id}`);
+
+export const searchUserName = (searchInput) => api.get(`/searchUserName/${searchInput}`)
+
 export const getLoggedIn = () => api.get(`/loggedIn/`);
 export const registerUser = (payload) => api.post(`/register`,null, {params: payload} )
 export const loginUser = (payload) => api.post(`/login/`, null, {params: payload})
@@ -68,7 +82,17 @@ const apis = {
     createPublishedComic,
     getPublishedComicByID,
     getCommunityComics,
-    deletePublishedComic
+    deletePublishedComic,
+    getAllUserUnpublishedStories, 
+    getAllUserPublishedStories,
+    getCommunityStories,
+    createStory,
+    createPublishedStory,
+    editStory,
+    getStory,
+    getPublishedStoryByID,
+    deleteStory,
+    deletePublishedStory
 }
 
 export default apis
