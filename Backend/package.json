@@ -23,6 +23,7 @@
     "multer-storage-cloudinary": "^4.0.0",
     "node": "^17.7.2",
     "nodemailer": "^6.7.3",
+    "nodemon": "^2.0.15",
     "python": "0.0.4"
   }
 }

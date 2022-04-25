@@ -6,3 +6,6 @@ Backend/package.json
 Backend/package-lock.json
 Backend/package-lock.json
 *.json
+*.json
+Frontend/my-app/package-lock.json
+Frontend/my-app/package.json
