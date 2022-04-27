@@ -29,7 +29,7 @@ const MyStory = ({itemsPerPage}) => {
     setStories(array);
   };
   
-  
+ 
   useEffect(()=>{
     loadAllStories();
   },[]);
@@ -82,6 +82,13 @@ const MyStory = ({itemsPerPage}) => {
           width: "100%",
           marginBottom: "2rem",
         }}
+        onClick={()=>{
+          
+          var string = JSON.stringify(ctx.auth.user._id, null, 2);
+          // var string = JSON.stringify(stories, null, 2);
+          var newWindow = window.open();
+          newWindow.document.write(string);
+        }}
       >
         <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>My Stories:</b>
         <img style={{width:"100px", height:"auto", cursor:"pointer"}} onClick={addStoryOnClick} src={images.addComic}></img>
@@ -93,6 +100,7 @@ const MyStory = ({itemsPerPage}) => {
           gridTemplateColumns: "repeat(auto-fit, minmax(100px,300px))",
           justifyContent: "center",
         }}
+        
       >
       
       {stories.map((story, index)=>{

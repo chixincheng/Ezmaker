@@ -42,19 +42,19 @@ router.delete('/deleteStory', auth.verify, EasyMakerController.deleteStory)
 router.put('/getComic/:id', auth.verify, EasyMakerController.getComicByID)
 
 // get a specific story in Story table by id
-router.get('/getStory', auth.verify, EasyMakerController.getStoryByID)
+router.put('/getStory/:id', auth.verify, EasyMakerController.getStoryByID)
 
 // get all unpublished comics of this user
 router.get('/getAllUserUnpublishedComics/:id', auth.verify, EasyMakerController.getAllUserUnpublishedComics)
 
 // get all unpublished stories of this user
-router.get('/getAllUserUnpublishedStories', auth.verify, EasyMakerController.getAllUserUnpublishedStories)
+router.get('/getAllUserUnpublishedStories/:id', auth.verify, EasyMakerController.getAllUserUnpublishedStories)
 
 // get all published comics of this user
 router.get('/getAllUserPublishedComics/:id', auth.verify, EasyMakerController.getAllUserPublishedComics)
 
 // get all published stories of this user
-router.get('/getAllUserPublishedStories', auth.verify, EasyMakerController.getAllUserPublishedStories)
+router.get('/getAllUserPublishedStories/:id', auth.verify, EasyMakerController.getAllUserPublishedStories)
 
 // create a new comment
 router.post('/createComment', auth.verify, EasyMakerController.createComment)

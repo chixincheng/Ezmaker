@@ -40,8 +40,11 @@ export const getAllUserPublishedStories = (id) => api.get(`/getAllUserPublishedS
 export const getCommunityStories = () => api.get(`/communityStories`)
 export const createStory = ( payload) => api.post(`/createStory`, null, {params: payload } );
 export const createPublishedStory = (payload) => api.post(`/createPublishedStory`,null,{params: payload});
-export const editStory = ( payload) => api.put(`/editStory`, {params: payload } );
-export const getStory = ( id, payload ) => api.put(`/getStory/${id}`,null, {params: payload } );
+export const editStory = ( payload) => api.put(`/editStory`, null, {params: payload } );
+
+// , null, {params: payload } 
+export const getStory = ( id) => api.put(`/getStory/${id}` );
+
 export const getPublishedStoryByID = (id) => api.get(`getPublishedStoryByID/${id}`)
 // export const editStoryCoverPage = ( formData, payload) => api.put(`/editStoryCoverPage`, formData, {params: payload } );
 export const deleteStory = (id) => api.delete(`/deleteStory/${id}`); 

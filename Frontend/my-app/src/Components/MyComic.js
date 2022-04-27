@@ -29,7 +29,7 @@ const MyComic = ({itemsPerPage}) => {
     
     setComics(array);
   };
-  
+
   useEffect(()=>{
     loadAllComics();
   },[]);

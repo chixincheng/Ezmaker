@@ -14,6 +14,7 @@ const ComicCard = ( props ) => {
     today = comic.updatedAt.split("T")[0];
   }else{
     today = comic.publishedTime.split("T")[0];
+    
   }
 
 

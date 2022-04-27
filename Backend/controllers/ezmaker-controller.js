@@ -6,6 +6,7 @@ const PublishedComic = require('../models/publishedComic-model');
 const PublishedStory = require('../models/publishedStory-model');
 const {cloudinary} = require("../cloudinary");
 const { findOneAndUpdate } = require('../models/comic-model');
+const { createDeflate } = require('zlib');
 
 
 function resError (res,errCode, err) {
@@ -277,12 +278,14 @@ createStory = (req, res) => {
 //edit stories
 editStory = async (req, res) => {
     const body = req.query
-    console.log("updateStory: " + JSON.stringify(body));
+    console.log(body);
+    // console.log("updateStory: " + JSON.stringify(body));
     if (!body || !body.id) {
+        console.log('You must provide a body to update');
         return resError(res,400, 'You must provide a body to update')
     }
 
-    Story.findOne({ _id: req.query.id }, (err, story) => {
+    Story.findOne({ _id: body.id }, (err, story) => {
         console.log("Story found: " + JSON.stringify(story));
         if (err) {
             return resError(res,400, err)
@@ -290,8 +293,9 @@ editStory = async (req, res) => {
         if (!story) {
             return resError(res,404, 'Story not found!')
         }
-
         story.storyTitle = body.storyTitle
+        story.content = body.content
+        story.editedTime = new Date()
 
         story
             .save()
@@ -348,124 +352,79 @@ getComicByID = async (req, res) => {
 
 // get story by id
 getStoryByID = async (req, res) => {
-    await Story.findById({ _id: req.query.id }, (err, story) => {
+    console.log(req.params);
+    await Story.findById({ _id: req.params.id }, (err, story) => {
         if (err) {
+            console.log("getStory 400")
             return resError(res,400, err)
         }
         if (!story) {
+            console.log("getstory 404")
             return resError(res,404, 'Story not found!')
         }
+        console.log("getStory success")
         return res.status(200).json({ success: true, story: story })
     }).catch(err => console.log(err))
 }
 
 // get all user's unpublished comics
 getAllUserUnpublishedComics = async (req, res) => {
-    await Comic.find({ }, (err, comicLists) => {
+    await Comic.find({ authorID: req.params.id}, (err, comicList) => {
         if (err) {
             return resError(res,400, err)
         }
-        if (!comicLists) {
+        if (!comicList) {
             return resError(res,404, 'Comic not found')
         }
         else {
-            // PUT ALL THE LISTS INTO ID, NAME PAIRS
-            let comics = [];
-            for (let key in comicLists) {
-                let comic = comicLists[key];
-                if(comic.authorID.equals(req.params.id)){
-                    let pair = {
-                        _id: comic._id,
-                        authorID: comic.authorID,
-                        authorName: comic.authorName,
-                        editedTime: comic.editedTime,
-                        comicTitle: comic.comicTitle
-                    };
-                    comics.push(comic);
-                }
-            }
-            return res.status(200).json({ success: true, unpublishedComics: comics })
+            return res.status(200).json({ success: true, unpublishedComics: comicList })
         }
     }).catch(err => console.log(err))
 }
 
 // get all user's unpublished stories
 getAllUserUnpublishedStories = async (req, res) => {
-    await Story.find({ }, (err, storyLists) => {
+    await Story.find({authorID: req.params.id }, (err, storyList) => {
         if (err) {
             return resError(res,400, err)
         }
-        if (!storyLists) {
+        if (!storyList) {
+            console.log("not found")
             return resError(res,404, 'Story not found')
+            
         }
         else {
-            // PUT ALL THE LISTS INTO ID, NAME PAIRS
-            let pairs = [];
-            for (let key in storyLists) {
-                let story = storyLists[key];
-                if(story.authorID.equals(req.query._id)){
-                    let pair = {
-                        _id: story._id,
-                        authorID: story.authorID,
-                        authorName: story.authorName,
-                        editedTime: story.editedTime,
-                        storyTitle: story.storyTitle
-                    };
-                    pairs.push(pair);
-                }
-            }
-            return res.status(200).json({ success: true, unpublishedStories: pairs })
+            return res.status(200).json({ success: true, unpublishedStories: storyList })
         }
     }).catch(err => console.log(err))
 }
 
 // get all user's published comics
 getAllUserPublishedComics = async (req, res) => {
-    await PublishedComic.find({ }, (err, comicLists) => {
+    await PublishedComic.find({authorID: req.params.id }, (err, comicList) => {
         if (err) {
             return resError(res,400, err)
         }
-        if (!comicLists) {
+        if (!comicList) {
             return resError(res,404, 'Published comic not found')
         }
         else {
-            // PUT ALL THE LISTS INTO ID, NAME PAIRS
-            let pairs = [];
-            for (let key in comicLists) {
-                let comic = comicLists[key];
-                if(comic.authorID.equals(req.params.id)){
-                    let pair = {
-                        _id: comic._id,
-                        authorID: comic.authorID,
-                        authorName: comic.authorName,
-                        comicTitle: comic.comicTitle,
-                        comments: comic.comments,
-                        dislikedUser: comic.dislikedUser,
-                        likedUser: comic.likedUser,
-                        publishedTime: comic.publishedTime,
-                        viewNumber: comic.viewNumber,
-                        filePath : comic.filePath,
-                        coverPage: comic.coverPage
-                    };
-                    pairs.push(pair);
-                }
-            }
-            return res.status(200).json({ success: true, publishedComics: pairs })
+            return res.status(200).json({ success: true, publishedComics: comicList })
         }
     }).catch(err => console.log(err))
 }
 
 // get all user's published stories
 getAllUserPublishedStories = async (req, res) => {
-    await PublishedStory.find({ }, (err, storyLists) => {
+    await PublishedStory.find({authorID: req.params.id }, (err, storyList) => {
         if (err) {
             return resError(res,400, err)
         }
-        if (!storyLists) {
+        if (!storyList) {
             return resError(res,404, 'Story not found')
         }
         else {
-            return res.status(200).json({ success: true, publishedStories: storyLists })
+            return res.status(200).json({ success: true, publishedStories: storyList })
         }
     }).catch(err => console.log(err))
 }

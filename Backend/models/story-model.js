@@ -6,8 +6,9 @@ const StorySchema = new Schema(
     {
         authorID: { type: ObjectId, required: true },
         authorName: {type: String, required: true},
-        editedTime: {type: Date, required: true},
-        storyTitle: {type: String, required: true}
+        editedTime: {type: Date, required: true, default: new Date()},
+        storyTitle: {type: String, required: true},
+        content: {type: String, required: false, default: ""}
     },
     { timestamps: true },
 )
