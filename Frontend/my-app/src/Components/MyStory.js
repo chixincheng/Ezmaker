@@ -9,7 +9,6 @@ import images from "../Images/index.js";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
 import AuthContext from "../auth";
-// import { Tldraw, TldrawApp, useFileSystem, TDDocument,  TDExport } from "@tldraw/tldraw";
 import SortButton from "./SortButton.js";
 
 
@@ -40,13 +39,11 @@ const MyStory = ({itemsPerPage}) => {
 
 
   const addStoryOnClick = async ()=>{
-    // const app = rTLDrawApp;
-
-    // var temp = {};
-    // temp["document"] = app.document;
-    // var jsonObject = JSON.stringify(temp);
-    // var formData = new FormData();
-    // formData.append('tldrFile', new File([ jsonObject ], "demo.tldr", {type: "text/plain;charset=utf-8"})  );
+    var temp = {};
+    temp["ops"] = [{"insert": "\n"}];
+    var jsonObject = JSON.stringify(temp);
+    var formData = new FormData();
+    formData.append('quillFile', new File([ jsonObject ], "demo.json", {type: "text/plain;charset=utf-8"}));
     
     var payload = {
         authorID: ctx.auth.user._id ,
@@ -55,13 +52,13 @@ const MyStory = ({itemsPerPage}) => {
         storyTitle: "Story Title Default"
     };
     
-    // const response2 = await api.createComic(  formData, payload );
-    const response2 = await api.createStory( payload ) ;
+    const response2 = await api.createStory( formData, payload );
+    
     if ( response2.status !== 201 ){
-      alert( response2.data.message );
+      alert(response2.data.message );
       navigate(0);
     }
-    // navigate(`/story/editing/`)
+
     navigate(`/story/editing/${response2.data.story._id}`);
     
   };
@@ -81,13 +78,6 @@ const MyStory = ({itemsPerPage}) => {
           justifyContent: "space-between",
           width: "100%",
           marginBottom: "2rem",
-        }}
-        onClick={()=>{
-          
-          var string = JSON.stringify(ctx.auth.user._id, null, 2);
-          // var string = JSON.stringify(stories, null, 2);
-          var newWindow = window.open();
-          newWindow.document.write(string);
         }}
       >
         <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>My Stories:</b>

@@ -5,9 +5,10 @@ const EasyMakerController = require('../controllers/ezmaker-controller')
 const UserController = require('../controllers/user-controller')
 const router = express.Router()
 const multer = require("multer");
-const { tldrStorage, cloudinary, imgStorage } = require("../cloudinary");
+const { tldrStorage, quillStorage, cloudinary, imgStorage } = require("../cloudinary");
 const imgUpload = multer({storage: imgStorage });
 const tldrUpload = multer({ storage: tldrStorage });
+const quillUpload = multer({ storage: quillStorage});
 
 // get all community comics from MongoDB
 router.get('/communityComics', auth.verify, EasyMakerController.getCommunityComics)
@@ -30,10 +31,10 @@ router.delete('/deleteComic/:id', auth.verify, EasyMakerController.deleteComic)
 router.delete('/deletePublishedComic/:id', auth.verify, EasyMakerController.deletePublishedComic)
 
 // create a new story object in Story table
-router.post('/createStory', auth.verify, EasyMakerController.createStory)
+router.post('/createStory', auth.verify, quillUpload.single("quillFile"), EasyMakerController.createStory)
 
 // modify a particular story object in Story table by id
-router.put('/editStory', auth.verify, EasyMakerController.editStory)
+router.put('/editStory', auth.verify, quillUpload.single("quillFile"), EasyMakerController.editStory)
 
 // delete a specific story in Story table by id
 router.delete('/deleteStory', auth.verify, EasyMakerController.deleteStory)

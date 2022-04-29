@@ -9,7 +9,6 @@ dotenv.config()
 const PORT = process.env.PORT || 4000;
 const app = express()
 
-// SETUP THE MIDDLEWARE
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
     origin: ["https://ezmaker-bfcd6.web.app", "http://localhost:4000", "http://localhost:3000", "http://localhost:3001" ],

@@ -37,14 +37,20 @@ const StoryEditingPage = () => {
   const save = async (event)=>{
     setLoading(true);
     event.preventDefault();
-    const payload = {
+
+    // create quill file in .json format to be stored in Cloudinary
+    let jsonObject = JSON.stringify(quill.getContents())
+    let formData = new FormData();
+    formData.append('quillFile', new File([ jsonObject ], "demo.json", {type: "text/plain;charset=utf-8"})  );
+
+    // update story metadata in the database
+    var payload = {
       // publishID: null,
       id: storyID,
       storyTitle: title,
       authorID: ctx.auth.user._id,
-      content: JSON.stringify(quill.getContents())
     }
-    const editStoryResponse = await api.editStory( null, payload);
+    const editStoryResponse = await api.editStory( formData, payload);
     setLoading(false);
 
     if ( editStoryResponse.status === 200 ){
@@ -63,10 +69,11 @@ const StoryEditingPage = () => {
     }
 
     setTitle(getStoryResponse.data.story.storyTitle)
-    if (getStoryResponse.data.story.content) {
-      var delta = JSON.parse(getStoryResponse.data.story.content)['ops']
+
+    const response = await fetch( getStoryResponse.data.story.filePath ).then((r)=>{r.text().then((data)=>{
+      var delta = JSON.parse(data)['ops']
       quill.setContents(delta)
-    }
+    })});
     
   }
 
@@ -195,7 +202,7 @@ const StoryEditingPage = () => {
         </div>
 
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <div style={{display:"flex",flexDirection:"column", alignItems:"center",  marginRight: "2rem",}}>
+          {/* <div style={{display:"flex",flexDirection:"column", alignItems:"center",  marginRight: "2rem",}}>
             <img
               style={{
                 width: "100px",
@@ -205,14 +212,12 @@ const StoryEditingPage = () => {
                 position: "relative",
                 display: "flex",
               }}
-              onClick={() => {
-
-                quill.setContents({ "ops": [ { "insert": "hihihihi\n" } ] })
-              }}
+              onClick={() => {}}
               src={images.upload}
             ></img>
             <p>upload</p>
-          </div>
+          </div> */}
+          
           <div style={{display:"flex",flexDirection:"column", alignItems:"center",  marginRight: "2rem",}}>
             <img
               style={{

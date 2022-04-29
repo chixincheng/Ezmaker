@@ -22,6 +22,16 @@ const tldrStorage = new CloudinaryStorage({
     
 });
 
+const quillStorage = new CloudinaryStorage({
+    cloudinary,
+    params: {
+        folder:'Ezmaker',
+        resource_type:"auto",
+        format: "json"
+    }
+    
+});
+
 const imgStorage = new CloudinaryStorage({
     cloudinary,
     params: {
@@ -38,5 +48,6 @@ const imgStorage = new CloudinaryStorage({
 module.exports = {
     cloudinary,
     tldrStorage,
+    quillStorage,
     imgStorage
 }

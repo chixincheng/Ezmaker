@@ -254,6 +254,7 @@ deletePublishedComic = async (req, res) => {
 //create stories
 createStory = (req, res) => {
     const body = req.query;
+    body["filePath"] = req.file.path;
     if (!body) {
         return resError(res,400, 'You must provide a story object')
     }
@@ -267,6 +268,7 @@ createStory = (req, res) => {
     story
         .save()
         .then(() => {
+            console.log("create story success")
             return res.status(201).json({
                 success: true,
                 story: story,
@@ -281,6 +283,7 @@ createStory = (req, res) => {
 //edit stories
 editStory = async (req, res) => {
     const body = req.query
+    body['filePath'] = req.file.path
     console.log(body);
     // console.log("updateStory: " + JSON.stringify(body));
     if (!body || !body.id) {
@@ -296,11 +299,24 @@ editStory = async (req, res) => {
         if (!story) {
             return resError(res,404, 'Story not found!')
         }
-        if( req.query.authorID.localeCompare(comic.authorID )  !== 0 ){
-            return resError(res,201, 'Comic no access!')
+        if( req.query.authorID.localeCompare(story.authorID )  !== 0 ){
+            return resError(res,201, 'Story no access!')
         }
         story.storyTitle = body.storyTitle
-        story.content = body.content
+        const filePath = story.filePath;
+        var index1 = filePath.lastIndexOf(`Ezmaker`);
+        var index2 = filePath.lastIndexOf(`.`);
+        var cloudinary_id = filePath.substring(index1);
+        console.log("deleting old story content...")
+        cloudinary.uploader.destroy(cloudinary_id,  { resource_type:'raw'} ,function(error,result) {
+            if(error){
+                console.log(error);
+            }
+            else{
+                console.log(result);
+            }
+        });
+        story.filePath = body.filePath
         story.editedTime = new Date()
 
         story

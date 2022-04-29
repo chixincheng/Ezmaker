@@ -8,7 +8,8 @@ const StorySchema = new Schema(
         authorName: {type: String, required: true},
         editedTime: {type: Date, required: true, default: new Date()},
         storyTitle: {type: String, required: true},
-        content: {type: String, required: false, default: ""}
+        content: {type: String, required: false, default: ""},
+        filePath: {type: String, required: false},
     },
     { timestamps: true },
 )

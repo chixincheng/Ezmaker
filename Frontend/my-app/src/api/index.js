@@ -38,9 +38,9 @@ export const deletePublishedComic = (id) => api.delete(`/deletePublishedComic/${
 export const getAllUserUnpublishedStories = (id) => api.get(`/getAllUserUnpublishedStories/${id}`)
 export const getAllUserPublishedStories = (id) => api.get(`/getAllUserPublishedStories/${id}`)
 export const getCommunityStories = () => api.get(`/communityStories`)
-export const createStory = ( payload) => api.post(`/createStory`, null, {params: payload } );
+export const createStory = ( formData, payload) => api.post(`/createStory`, formData, {params: payload } );
 export const createPublishedStory = (payload) => api.post(`/createPublishedStory`,null,{params: payload});
-export const editStory = ( payload) => api.put(`/editStory`, null, {params: payload } );
+export const editStory = ( formData, payload) => api.put(`/editStory`, formData, {params: payload } );
 
 // , null, {params: payload } 
 export const getStory = ( id, payload) => api.put(`/getStory/${id}`, null, {params: payload});
