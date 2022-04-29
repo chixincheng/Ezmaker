@@ -9,7 +9,7 @@ import playlist from "../Images/playlist.png";
 import MyStory from "../Components/MyStory";
 import MyFavoriteStory from "../Components/MyFavoriteStory";
 import AvailableComic from "../Components/AvailableComic";
-// import AuthContext from "../auth";
+import AuthContext from "../auth";
 import api from "../api";
 import images from "../Images";
 import { TextField } from "@mui/material";
@@ -19,62 +19,32 @@ import 'quill/dist/quill.snow.css';
 
 const StoryEditingPage = () => {
 
-  // const ctx = useContext(AuthContext);
-
-  // const [title,setTitle] = useState("");
-  const titleRef = useRef()
-
-  const [content, setContent] = useState("")
-  // const content = useRef("")
-
+  const ctx = useContext(AuthContext);
+  const [title,setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const storyID = location.pathname.split("/").at(-1);
-  
   const navigate = useNavigate(); 
 
   // quill object
   const { quill, quillRef } = useQuill();
 
-  // const theme = 'snow';
-  // const modules = {
-  //   toolbar:  [
-  //     ['bold', 'italic', 'underline', 'strike'],
-  //     [{ align: [] }],
-  
-  //     [{ list: 'ordered'}, { list: 'bullet' }],
-  //     [{ indent: '-1'}, { indent: '+1' }],
-  
-  //     [{ size: ['small', false, 'large', 'huge'] }],
-  //     [{ header: [1, 2, 3, 4, 5, 6, false] }],
-  //     ['link', 'image', 'video'],
-  //     [{ color: [] }, { background: [] }],
-  
-  //     ['clean'],
-  //   ],
-  // };
-  // const formats = [
-  //   'bold', 'italic', 'underline', 'strike',
-  //   'align', 'list', 'indent',
-  //   'size', 'header',
-  //   'link', 'image', 'video',
-  //   'color', 'background',
-  //   'clean',
-  // ];
-  // const placeholder = 'Compose an epic...';
-  // const { quill, quillRef } = useQuill({ theme, modules, formats, placeholder });
-  
+  const handleTitleUpdate = (event)=>{
+    setTitle(event.target.value);
+  }
 
+  
   const save = async (event)=>{
     setLoading(true);
     event.preventDefault();
     const payload = {
       // publishID: null,
       id: storyID,
-      storyTitle: titleRef.current.value,
-      content: quill.getContents()
+      storyTitle: title,
+      authorID: ctx.auth.user._id,
+      content: JSON.stringify(quill.getContents())
     }
-    const editStoryResponse = await api.editStory( payload );
+    const editStoryResponse = await api.editStory( null, payload);
     setLoading(false);
 
     if ( editStoryResponse.status === 200 ){
@@ -84,41 +54,28 @@ const StoryEditingPage = () => {
         alert( editStoryResponse.data.message );
     }
   }
-  // {id:ctx.auth.user._id}
+
+
   const getQuill = async () => {
-    const getStoryResponse = await api.getStory( storyID );
+    var getStoryResponse = await api.getStory( storyID, {id:ctx.auth.user._id});
     if( getStoryResponse.status !== 200 ){
       navigate("/story/home");
     }
 
+    setTitle(getStoryResponse.data.story.storyTitle)
     if (getStoryResponse.data.story.content) {
-    // if (getStoryResponse.data.story.content && content !== getStoryResponse.data.story.content) {
-      setContent(getStoryResponse.data.story.content)
+      var delta = JSON.parse(getStoryResponse.data.story.content)['ops']
+      quill.setContents(delta)
     }
-    
-    titleRef.current.value = getStoryResponse.data.story.storyTitle
-    var delta = JSON.parse(content)['ops']
-    quill.setContents(delta)
     
   }
 
   useEffect(()=>{
-    getQuill();
-  });
-
-  // useEffect(()=>{
-  //   // alert("before quill\n" + content.current)
+    if (quill !== undefined) {
+      getQuill();
+    }
     
-  //   // alert("after quill\n" + content.current)
-  // }, []);
-
-
-
-
-
-
-  
-
+  }, [quill]);
 
 
   return (
@@ -220,11 +177,9 @@ const StoryEditingPage = () => {
       <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}>
         <TextField 
           label="Story Title"
-          inputRef = {titleRef}
+          value = {title}
           type="text"
-          value = {"Story Title Default"}
-          // ref = {titleRef}
-          // onChange ={(event)=>{handleTitleUpdate(event);}}
+          onChange ={(event)=>{handleTitleUpdate(event);}}
           >
         </TextField>
       </div>
@@ -238,8 +193,6 @@ const StoryEditingPage = () => {
             }}/>
             
         </div>
-        
-
 
         <div style={{ display: "flex", justifyContent: "center" }}>
           <div style={{display:"flex",flexDirection:"column", alignItems:"center",  marginRight: "2rem",}}>
@@ -268,13 +221,7 @@ const StoryEditingPage = () => {
                 cursor: "pointer",
                
               }}
-              onClick={(event)=>{
-                save(event);
-                // var contents = quill.getContents()
-                // var string = JSON.stringify(contents, null, 2);
-                // var newWindow = window.open();
-                // newWindow.document.write(string);
-                }}
+              onClick={(event)=>{save(event);}}
               src={images.save}
             ></img>
             <p>save</p>
@@ -285,7 +232,6 @@ const StoryEditingPage = () => {
                 width: "100px",
                 height: "auto",
                 cursor: "pointer",
-                
               }}
               onClick={() => {
                 alert(123);
@@ -300,7 +246,6 @@ const StoryEditingPage = () => {
                 width: "100px",
                 height: "auto",
                 cursor: "pointer",
-               
               }}
               onClick={() => {
                 alert(123);

@@ -166,7 +166,8 @@ const ComicEditingPage = () => {
         const payload = {
           publishID: null,
           id: names.at(-1),
-          comicTitle: title
+          comicTitle: title,
+          authorID: ctx.auth.user._id
         }
         response = await api.editComic(null,payload);
         setPublishID(null);

@@ -43,7 +43,7 @@ export const createPublishedStory = (payload) => api.post(`/createPublishedStory
 export const editStory = ( payload) => api.put(`/editStory`, null, {params: payload } );
 
 // , null, {params: payload } 
-export const getStory = ( id) => api.put(`/getStory/${id}` );
+export const getStory = ( id, payload) => api.put(`/getStory/${id}`, null, {params: payload});
 
 export const getPublishedStoryByID = (id) => api.get(`getPublishedStoryByID/${id}`)
 // export const editStoryCoverPage = ( formData, payload) => api.put(`/editStoryCoverPage`, formData, {params: payload } );

@@ -87,6 +87,9 @@ editComic = async (req, res) => {
         if (!comic) {
             return resError(res,404, 'Comic not found!')
         }
+        if( req.query.authorID.localeCompare(comic.authorID )  !== 0 ){
+            return resError(res,201, 'Comic no access!')
+        }
 
         comic.comicTitle = body.comicTitle;
         comic.publishID = body.publishID;
@@ -293,6 +296,9 @@ editStory = async (req, res) => {
         if (!story) {
             return resError(res,404, 'Story not found!')
         }
+        if( req.query.authorID.localeCompare(comic.authorID )  !== 0 ){
+            return resError(res,201, 'Comic no access!')
+        }
         story.storyTitle = body.storyTitle
         story.content = body.content
         story.editedTime = new Date()
@@ -340,8 +346,6 @@ getComicByID = async (req, res) => {
         if (!comic) {
             return resError(res,201, 'Comic not found!')
         }
-
-        
         if( req.query.id.localeCompare(comic.authorID )  !== 0 ){
             return resError(res,201, 'Comic no access!')
         }
@@ -361,6 +365,9 @@ getStoryByID = async (req, res) => {
         if (!story) {
             console.log("getstory 404")
             return resError(res,404, 'Story not found!')
+        }
+        if( req.query.id.localeCompare(story.authorID )  !== 0 ){
+            return resError(res,201, 'Story no access!')
         }
         console.log("getStory success")
         return res.status(200).json({ success: true, story: story })
