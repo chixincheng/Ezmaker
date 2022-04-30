@@ -10,6 +10,7 @@ const StorySchema = new Schema(
         storyTitle: {type: String, required: true},
         content: {type: String, required: false, default: ""},
         filePath: {type: String, required: false},
+        publishID:{type: ObjectId, required: false}
     },
     { timestamps: true },
 )

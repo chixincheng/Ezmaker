@@ -59,3 +59,10 @@ body{
   background-color: rgba(250, 241, 194, 1);
   display: flex
 }
+
+/*
+DO NOT DELETE THIS, otherwise there is a large blank in the bottom of StoryDetailPage
+*/
+#quill svg{
+  display: none;
+}

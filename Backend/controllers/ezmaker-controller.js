@@ -251,6 +251,28 @@ deletePublishedComic = async (req, res) => {
     })
 }
 
+//delete the published story by id 
+deletePublishedStory = async (req, res) => {
+    console.log("--------");
+    console.log(req.body);
+    console.log(req.params)
+    await PublishedStory.findById({ _id: req.params.id }, (err, story) => {
+        if (err) {
+            return resError(res,400, err)
+        }
+        if (!story) {
+            return resError(res,404, 'Story not found!')
+        }
+
+        //delete story from mongodb
+        PublishedStory.findOneAndDelete({ _id: req.params.id }, () => {
+            return res.status(200).json({ success: true, data: story })
+        }).catch(err => console.log(err))
+    })
+}
+
+
+
 //create stories
 createStory = (req, res) => {
     const body = req.query;
@@ -283,7 +305,6 @@ createStory = (req, res) => {
 //edit stories
 editStory = async (req, res) => {
     const body = req.query
-    body['filePath'] = req.file.path
     console.log(body);
     // console.log("updateStory: " + JSON.stringify(body));
     if (!body || !body.id) {
@@ -302,21 +323,30 @@ editStory = async (req, res) => {
         if( req.query.authorID.localeCompare(story.authorID )  !== 0 ){
             return resError(res,201, 'Story no access!')
         }
+
+        // update story title and publishID
         story.storyTitle = body.storyTitle
-        const filePath = story.filePath;
-        var index1 = filePath.lastIndexOf(`Ezmaker`);
-        var index2 = filePath.lastIndexOf(`.`);
-        var cloudinary_id = filePath.substring(index1);
-        console.log("deleting old story content...")
-        cloudinary.uploader.destroy(cloudinary_id,  { resource_type:'raw'} ,function(error,result) {
-            if(error){
-                console.log(error);
-            }
-            else{
-                console.log(result);
-            }
-        });
-        story.filePath = body.filePath
+        story.publishID = body.publishID
+        
+        // update story content
+        if (req.file != undefined) {
+            const filePath = story.filePath;
+            var index1 = filePath.lastIndexOf(`Ezmaker`);
+            var index2 = filePath.lastIndexOf(`.`);
+            var cloudinary_id = filePath.substring(index1);
+            console.log("deleting old story content...")
+            cloudinary.uploader.destroy(cloudinary_id,  { resource_type:'raw'} ,function(error,result) {
+                if(error){
+                    console.log(error);
+                }
+                else{
+                    console.log(result);
+                }
+            });
+            story.filePath = req.file.path
+        }
+
+        // update story editedTime
         story.editedTime = new Date()
 
         story
@@ -338,14 +368,14 @@ editStory = async (req, res) => {
 
 //delete the story by id 
 deleteStory = async (req, res) => {
-    await Story.findById({ _id: req.query.id }, (err, story) => {
+    await Story.findById({ _id: req.params.id }, (err, story) => {
         if (err) {
             return resError(res,400, err)
         }
         if (!story) {
             return resError(res,404, 'Story not found!')
         }
-        Story.findOneAndDelete({ _id: req.query.id }, () => {
+        Story.findOneAndDelete({ _id: req.params.id }, () => {
             return res.status(200).json({ success: true, data: story })
         }).catch(err => console.log(err))
     })
@@ -1112,7 +1142,7 @@ getPublishedComicByID = async (req, res) => {
 
 // get published story by id
 getPublishedStoryByID = async (req, res) => {
-    await PublishedStory.findById({ _id: req.query._id }, (err, story) => {
+    await PublishedStory.findById({ _id: req.params.id }, (err, story) => {
         if (err) {
             return resError(res,400, err)
         }
@@ -1228,5 +1258,6 @@ module.exports = {
     searchUserName,
     editComicCoverPage,
     getAllPublishedComics,
-    deletePublishedComic
+    deletePublishedComic,
+    deletePublishedStory
 }

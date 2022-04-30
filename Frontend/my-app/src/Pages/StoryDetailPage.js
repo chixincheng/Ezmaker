@@ -10,6 +10,23 @@ import List from '@mui/material/List';
 import likeIcon from "../Images/like.png";
 import dislikelikeIcon from "../Images/unlike.png";
 
+import { Fragment, useState, useContext, useEffect, useRef} from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import Playlist from "../Components/Playlist";
+import icon from "../Images/icon.png";
+import verify from "../Images/verify.png";
+import editInfo from "../Images/editInfo.png";
+import playlist from "../Images/playlist.png";
+import MyStory from "../Components/MyStory";
+import MyFavoriteStory from "../Components/MyFavoriteStory";
+import AvailableComic from "../Components/AvailableComic";
+import AuthContext from "../auth";
+import api from "../api";
+import images from "../Images";
+import { TextField } from "@mui/material";
+
+import { useQuill } from 'react-quilljs';
+
 
 var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(80vw - 40px)', backgroundImage: `url(${addFav})`,
     backgroundPosition: 'right',
@@ -62,7 +79,7 @@ const addFavorite = ()=>{
 const removeFavorite = ()=>{
     ;
 };
-const downloadComic = () => {
+const downloadStory = () => {
     ;
 }
 const addComment = () => {
@@ -75,25 +92,6 @@ const like = () => {
 const dislike = () => {
     ;
 }
-var textSample = `Night slowly settled in a quiet manner and bright stars began to appear.
-
-On the hillside, a child about six years old was standing in a strange position. The child’s feet were stretched apart, toes touching the ground with the heels lifted, hands raised high above the head, his head tilted up, and faint spiritual energy constantly circled within his small body.
-
-Moonlight shone down, enveloping the child’s body.
-
-The boy continued his practice in this bizarre position, inhaling spiritual energy into his body, letting it flow along his meridians.
-
-Night slowly passed.
-
-As the moonlight faded, replaced by the first rays of sunshine, the child slowly lowered his palms. His eyes opened to reveal deep, dark pupils that seemed to have a sharp golden glint deep within them.
-
-Huang Xiaolong breathed out a mouthful of foul air, his eyes staring at the rising sun. From the day he was born to the present day, it had been seven years since he came to this world. He started practicing the Body Metamorphose Scripture at the age of three. Now four years later, he had managed to reach the Third Stage: Palm Propping the Sky Gate.
-
-In his previous life, his ancestors had trained under the banner of the Shaolin Temple and the Body Metamorphose Scripture was an inheritance from his ancestors. Until now, Huang Xiaolong had been unable to understand the reason why someone like him, who was hailed as a martial arts prodigy in his time, was brought to this world.
-
-And the matter that depressed Huang Xiaolong the most was that he awoke in the body of a newborn baby.
-
-`;
 
 var commentArr = [[],[],[]];
 commentArr[0].push("Gank Owen", "Wow I like it")
@@ -130,21 +128,65 @@ let commentList = <List>
 </List>;
 
 const StoryDetailPage = () => {
+    const ctx = useContext(AuthContext);
+    const navigate = useNavigate();
+    const [story, setStory] = useState(null);
+    const location = useLocation();
+    var storyID = location.pathname.split("/").at(-1);
+
+    const { quill, quillRef } = useQuill({theme: 'bubble'});
+    
+
+    const getQuill = async () => {
+        var getStoryResponse = await api.getPublishedStoryByID( storyID);
+        if( getStoryResponse.status !== 200 ){
+          navigate("/story/home");
+        }
+    
+        setStory(getStoryResponse.data.story);
+    
+        const response = await fetch( getStoryResponse.data.story.filePath ).then((r)=>{r.text().then((data)=>{
+          var delta = JSON.parse(data)['ops']
+          quill.setContents(delta)
+          
+        })});
+        
+        quill.disable()
+    }
+
+    useEffect(()=>{
+        if (quill !== undefined) {
+            getQuill();
+        }
+    }, [quill]);
+
+
     return(
-        <div  style={{background:"rgba(250, 241, 194, 1)", display:"flex", flexDirection:"column"}} >
+        <div  style={{background:"rgba(250, 241, 194, 1)", display:"flex", justifyContent: "center", flexDirection: "column"}} >
             <Header></Header>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "5rem 3rem 5rem 3rem", background: "rgba(250, 241, 194, 1)", height:`clac(100vh -  )` }}>
                 <div style={addFavButtonStyle} onClick={addFavorite}></div>
                 <div style={removeFavButtonStyle} onClick={removeFavorite}></div>
-                <div style={downloadButtonStyle} onClick={downloadComic}></div>
+                <div style={downloadButtonStyle} onClick={downloadStory}></div>
+                
                 <div style={likeButtonStyle} onClick={like}></div>
                 <div style={dislikeButtonStyle} onClick={dislike}></div>
-                <div style={textStyle}>Naruto</div>
-                <div style={textStyle}>By Masashi Kishimoto</div>
+               
+                <div style={textStyle}>{story === null ?   "Story Title":story.storyTitle}</div>
+                <div style={textStyle}>{story === null ?   "Author Name":story.authorName}</div>
             </div>
-            <div style={{background: "rgba(250, 241, 194, 1)", display: "flex", padding:"1rem"}}>
-                <p style={{ fontFamily: "Love Ya Like A Sister", fontSize: "14px", fontStyle: "normal", fontVariant: "normal", fontWeight: "400", lineHeight: "20px" }} >{textSample}</p>
+
+            <div style={{display:"flex", justifyContent: "center"}}>
+                <div 
+                    id="quill"
+                    ref={quillRef}
+                    style={{ 
+                        width: "80%", 
+                        height: "700px",
+                    }}/>
             </div>
+
+
             <div style={{display:"flex",justifyContent:"center", background: "rgba(250, 241, 194, 1)", marginBottom:"1rem"}}><Pagination count={10} color="primary" /></div>
             
             <div style={{display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>

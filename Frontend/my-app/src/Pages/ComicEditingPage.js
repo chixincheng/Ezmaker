@@ -35,7 +35,7 @@ const ComicEditingPage = () => {
   const [info, setInfo] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  var names = location.pathname.split("/");
+  const comicID = location.pathname.split("/").at(-1);
   const [title,setTitle] = useState("");
   const [category,setCategory] = useState("Food");
   const [app, setApp] = useState(null);
@@ -45,7 +45,7 @@ const ComicEditingPage = () => {
   const [publishID, setPublishID] = useState(null);
 
   const getTLDR = async ()=>{
-    const getComicResponse = await api.getComic( names.at(-1), {id:ctx.auth.user._id} );
+    const getComicResponse = await api.getComic( comicID, {id:ctx.auth.user._id} );
     
     if( getComicResponse.status !== 200 ){
         navigate("/comic/home");
@@ -143,8 +143,7 @@ const ComicEditingPage = () => {
 
   const deleteComic = async(event)=>{
     event.preventDefault();
-    const id = names.at(-1);
-    const response = await api.deleteComic(id);
+    const response = await api.deleteComic(comicID);
     if(response.status !== 200){
       alert("delete failed");
     }
@@ -153,9 +152,10 @@ const ComicEditingPage = () => {
     }
   }
   const unpublishComic = async(event)=>{
+    setLoading(true);
     event.preventDefault();
 
-    var response = await api.getComic(names.at(-1), {id:ctx.auth.user._id} );
+    var response = await api.getComic(comicID, {id:ctx.auth.user._id} );
     if(response.status === 200){
       const comic = response.data.comic;
       response = await api.deletePublishedComic(comic.publishID);
@@ -165,7 +165,7 @@ const ComicEditingPage = () => {
       else{
         const payload = {
           publishID: null,
-          id: names.at(-1),
+          id: comicID,
           comicTitle: title,
           authorID: ctx.auth.user._id
         }
@@ -173,15 +173,16 @@ const ComicEditingPage = () => {
         setPublishID(null);
       }
     }
-    
-
+  
     setLoading(false);
   }
+
+
   const publishComic = async(event)=>{
     setLoading(true);
     event.preventDefault();
    
-    var response = await api.getComic(names.at(-1), {id:ctx.auth.user._id} );
+    var response = await api.getComic(comicID, {id:ctx.auth.user._id} );
     if(response.status === 200){
       const comic = response.data.comic;
       var payload = {
@@ -205,14 +206,14 @@ const ComicEditingPage = () => {
         setPublishID(response.data.publishedComic._id);
         payload = {
           publishID: response.data.publishedComic._id,
-          id: names.at(-1),
+          authorID: ctx.auth.user._id,
+          id: comicID,
           comicTitle: title
         }
         response = await api.editComic(null,payload);
       }
     }
     
-
     setLoading(false);
   }
 
@@ -240,13 +241,11 @@ const ComicEditingPage = () => {
     });
     const blob = await response1.blob();
     
-
     var formData = new FormData();
     formData.append('imgFile', new File([blob], 'image.jpeg', {type: "jpeg"}) );
-  var payload = {
-    id: names.at(-1),
-      
-  };
+    var payload = {
+      id: comicID,
+    };
     const updateCoverResponse = await api.editComicCoverPage(formData, payload );
     
     
@@ -258,11 +257,11 @@ const ComicEditingPage = () => {
     formData.append('tldrFile', new File([ jsonObject ], "demo.tldr", {type: "text/plain;charset=utf-8"})  );
     
      payload = {
-      authorID: ctx.auth.user._id ,
-        authorName: ctx.auth.user.userName ,
-        editedTime: new Date() ,
-        comicTitle: title,
-        id: names.at(-1)
+      authorID: ctx.auth.user._id,
+      authorName: ctx.auth.user.userName,
+      editedTime: new Date(),
+      comicTitle: title,
+      id: comicID
     };
 
     const response2 = await api.editComic(  formData, payload );

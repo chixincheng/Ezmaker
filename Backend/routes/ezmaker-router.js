@@ -37,7 +37,10 @@ router.post('/createStory', auth.verify, quillUpload.single("quillFile"), EasyMa
 router.put('/editStory', auth.verify, quillUpload.single("quillFile"), EasyMakerController.editStory)
 
 // delete a specific story in Story table by id
-router.delete('/deleteStory', auth.verify, EasyMakerController.deleteStory)
+router.delete('/deleteStory/:id', auth.verify, EasyMakerController.deleteStory)
+
+// delete a specific published story in published Story table by id
+router.delete('/deletePublishedStory/:id', auth.verify, EasyMakerController.deletePublishedStory)
 
 // get a specific comic in Comic table by id
 router.put('/getComic/:id', auth.verify, EasyMakerController.getComicByID)
@@ -115,7 +118,7 @@ router.post('/createPublishedStory', auth.verify, EasyMakerController.createPubl
 router.get('/getPublishedComicByID/:id', auth.verify, EasyMakerController.getPublishedComicByID)
 
 // get a specific published story in PublishedStory table by id
-router.get('/getPublishedStoryByID', auth.verify, EasyMakerController.getPublishedStoryByID)
+router.get('/getPublishedStoryByID/:id', auth.verify, EasyMakerController.getPublishedStoryByID)
 
 // get a specific comment in Comment table by id
 router.get('/getCommentByID', auth.verify, EasyMakerController.getCommentByID)
