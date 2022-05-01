@@ -1,11 +1,26 @@
-import ComicCard from "../Components/ComicCard";
+import StoryCard from "../Components/StoryCard";
 import Pagination from '@mui/material/Pagination';
 import Header from "../Components/Header";
 import { Fragment } from "react";
 import images from "../Images";
 import SortButton from "../Components/SortButton";
+import React, { useEffect, useState, useContext } from 'react';
+import api from "../api";
 
 const StoryCommunityPage = ()=>{
+
+  const [stories, setStories] = useState([]);
+
+  const loadAllStories = async ()=>{
+    const response = await api.getCommunityStories();
+    console.log(response);
+    var array = [...response.data.stories]
+    setStories(array);
+  };
+  
+  useEffect(()=>{
+    loadAllStories();
+  },[]);
 
     return(<Fragment>
       <Header></Header>
@@ -18,11 +33,10 @@ const StoryCommunityPage = ()=>{
           justifyContent: "center",
         }}
       >
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
+         {stories.map((story, index)=>{
+          
+          return(<StoryCard key={index} story={story}></StoryCard>);
+        })}
 
       </div>
       <div style={{display:"flex",justifyContent:"center"}}><Pagination count={10} color="primary" /></div>
