@@ -38,7 +38,7 @@ getCommunityStories = async (req, res) => {
         if (!publishedStoryList.length) {
             return resError(res,404, 'Published story list not found')
         }
-        return res.status(200).json({ success: true, data: publishedStoryList })
+        return res.status(200).json({ success: true, stories: publishedStoryList })
     }).catch(err => console.log(err))
 }
 
