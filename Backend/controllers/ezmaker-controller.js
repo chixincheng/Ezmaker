@@ -181,6 +181,58 @@ editComicCoverPage = async (req, res) => {
     })
 }
 
+editStoryCoverPage = async (req, res) => {
+    const body = req.query
+    console.log("query:"+req.query);
+    console.log("files:"+req.files);
+    console.log("updateStory cover page: " + JSON.stringify(body));
+    if (!body || !body.id) {
+        return resError(res,400, 'You must provide a body to update')
+    }
+
+    await Story.findOne({ _id: req.query.id }, (err, story) => {
+        console.log("comic found: " + JSON.stringify(story));
+        if (err) {
+            return resError(res,400, err)
+        }
+        if (!story) {
+            return resError(res,404, 'Story not found!')
+        }
+
+        if( story.coverPage ){
+            const coverPage = story.coverPage;
+            var index1 = coverPage.lastIndexOf(`Ezmaker`);
+            var index2 = coverPage.lastIndexOf(`.`);
+            var cloudinary_id = coverPage.substring(index1,index2);
+            cloudinary.uploader.destroy(cloudinary_id ,function(error,result) {
+                if(error){
+                    console.log(error);
+                }
+                else{
+                    console.log(result);
+                }
+            });
+        }
+        
+        story.coverPage = req.files[0].path;
+
+        story
+            .save()
+            .then(() => {
+                console.log("SUCCESS!!!");
+                return res.status(200).json({
+                    success: true,
+                    id: story._id,
+                    message: 'story updated!',
+                })
+            })
+            .catch(error => {
+                console.log("FAILURE: " + JSON.stringify(error));
+                return resError(res,400, 'story not updated!')
+            })
+    })
+}
+
 //delete the comic by id 
 deleteComic = async (req, res) => {
     console.log("--------");
@@ -1257,6 +1309,7 @@ module.exports = {
     searchPublishedComicByInput,
     searchUserName,
     editComicCoverPage,
+    editStoryCoverPage,
     getAllPublishedComics,
     deletePublishedComic,
     deletePublishedStory

@@ -87,7 +87,7 @@ const MyStory = ({itemsPerPage}) => {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(100px,300px))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(100px,350px))",
           justifyContent: "center",
         }}
         

@@ -30,6 +30,7 @@ const StoryEditingPage = () => {
   const storyID = location.pathname.split("/").at(-1);
   const [publishID, setPublishID] = useState(null);
   const [deleteopen, setDeleteOpen] = useState(false);
+  const coverPageImgRef = useRef();
   const navigate = useNavigate(); 
 
   // quill object
@@ -39,6 +40,20 @@ const StoryEditingPage = () => {
     setTitle(event.target.value);
   }
 
+  const uploadCoverPage = async(event)=>{
+    const formData = new FormData();
+    formData.append('imgFile', coverPageImgRef.current.files[0] );
+    var payload = {
+      id: storyID,
+    };
+    const response = await api.editStoryCoverPage(formData, payload );
+    if ( response.status===200 ){
+        alert("Successfully updated Story cover page picture.");
+    }
+    else{
+        alert("Failed to update Story cover page picture.");
+    }
+  }
   
   const save = async (event)=>{
     setLoading(true);
@@ -51,7 +66,7 @@ const StoryEditingPage = () => {
 
     // update story metadata in the database
     var payload = {
-      // publishID: null,
+      publishID: publishID,
       id: storyID,
       storyTitle: title,
       authorID: ctx.auth.user._id,
@@ -82,6 +97,7 @@ const StoryEditingPage = () => {
         dislikedUser: [],
         likedUser: [],
         publishedTime: new Date(),
+        coverPage: story.coverPage,
         viewNumber: 0,
         filePath: story.filePath
       }
@@ -284,6 +300,10 @@ const StoryEditingPage = () => {
           </TextField>
         </div>
 
+        {/* <img alt="Avatar" src={profilePicture} style={{width:"50%", height:"auto", borderRadius:"50%"}}></img>
+        <label for="img">Cover Page Image:</label> */}
+        
+
         <div style={{backgroundColor: "white"}}>
           <div 
             ref={quillRef} 
@@ -295,8 +315,8 @@ const StoryEditingPage = () => {
         </div>
 
         <div style={{ display: "flex", justifyContent: "center" }}>
-          {/* <div style={{display:"flex",flexDirection:"column", alignItems:"center",  marginRight: "2rem",}}>
-            <img
+          <div style={{display:"flex",flexDirection:"column", alignItems:"center"}}>
+            <img type="file" name="img"  ref={coverPageImgRef} accept="image/*"
               style={{
                 width: "100px",
                 height: "auto",
@@ -305,11 +325,15 @@ const StoryEditingPage = () => {
                 position: "relative",
                 display: "flex",
               }}
-              onClick={() => {}}
+              onClick={(event)=>{uploadCoverPage(event);}}
               src={images.upload}
             ></img>
-            <p>upload</p>
-          </div> */}
+            <div style={{display:"flex",flexDirection:"column", alignItems:"center"}}>
+              <p>Upload Cover Page</p>
+              <input style={{width:"70%"}}type="file" name="img" ref={coverPageImgRef} accept="image/*"/>
+            </div>
+            
+          </div>
           
           <div style={{display:"flex",flexDirection:"column", alignItems:"center",  marginRight: "2rem",}}>
             <img

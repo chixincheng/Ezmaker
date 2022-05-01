@@ -37,7 +37,7 @@ const StoryCard = ( props ) => {
 
   
   return (
-    <div  onClick={cardOnClick} style={{ height:"20px", margin: "2rem", cursor:"pointer", border:"1px black solid", background:"white" }}>
+    <div  onClick={cardOnClick} style={{ margin: "2rem", cursor:"pointer", border:"1px black solid", background:"white" }}>
       {/* <div
         style={{
           width: "100%",
@@ -53,6 +53,9 @@ const StoryCard = ( props ) => {
       {/* <img src={  props.story.coverPage   ?   props.story.coverPage: "https://res.cloudinary.com/daufq6nuh/image/upload/c_scale,h_5000,w_3500/v1650580213/Ezmaker/WeChat_Image_20220421182906_etv2nu.png" } style={{width:"100%", height:"auto"}}>
       </img> */}
 
+      <img src={  props.story.coverPage   ?   props.story.coverPage: "https://res.cloudinary.com/daufq6nuh/image/upload/v1650580213/Ezmaker/WeChat_Image_20220421182906_etv2nu.png" } 
+        style={{width:"100%", height:"85%"}}>
+      </img>
 
       <div>
         <div style={{ textAlign: "center" }}>

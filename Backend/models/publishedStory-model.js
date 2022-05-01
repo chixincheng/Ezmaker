@@ -12,6 +12,7 @@ const PublishedStorySchema = new Schema(
         publishedTime: {type: Date, required: true},
         viewNumber: {type: Number, required: true},
         storyTitle:{ type: String, required: true },
+        coverPage: {type: String, reqiured: false},
         filePath: {type: String, required: false},
     },
     { timestamps: true },

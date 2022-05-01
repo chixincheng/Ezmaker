@@ -24,6 +24,8 @@ router.put('/editComic', auth.verify,  tldrUpload.array("tldrFile", 1),  EasyMak
 
 router.put('/editComicCoverPage', auth.verify,   imgUpload.array("imgFile", 1)  , EasyMakerController.editComicCoverPage)
 
+router.put('/editStoryCoverPage', auth.verify,   imgUpload.array("imgFile", 1)  , EasyMakerController.editStoryCoverPage)
+
 // delete a specific comic in Comic table by id
 router.delete('/deleteComic/:id', auth.verify, EasyMakerController.deleteComic) 
 
