@@ -512,7 +512,7 @@ function handleDeleteClose (event){
         <label for="img">Select icon image: </label>
         <input type="file" id="img" name="img"  ref={fileUploaderRef} accept="image/*"/>
         <input onClick={fileUploadOnClick} type="submit"/>
-      </div> */}
+      </div> update heroku*/}
       <Dialog
         id = "delete-modal"
         maxWidth='sm'
