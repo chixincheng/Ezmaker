@@ -690,6 +690,7 @@ addComment = async (req, res) => {
 // update liked user list in a published comic when a user clicks like button
 likeComic = async (req, res) =>{
     const body = req.query;
+    console.log(body);
     await User.findById(body.userID, (err, user) => {
         if (err) {
             return resError(res,400, err)
@@ -707,6 +708,9 @@ likeComic = async (req, res) =>{
             if (comic.likedUser.includes(body.userID)) {
                 return resError(res,400, 'User Already Liked The Comic')
             }
+            if(comic.dislikedUser.includes(body.userID)){
+                comic.dislikedUser.pull(body.userID);
+            }
             comic.likedUser.push(body.userID)
             comic.save((err) => {
                 if (err) {
@@ -716,7 +720,50 @@ likeComic = async (req, res) =>{
                     success: true,
                     userID: body.userID,
                     comicID: body.comicID,
+                    likedUserArr: comic.likedUser,
+                    dislikedUserArr: comic.dislikedUser,
                     message: "User Like A Comic Success"
+                })
+            })
+        })
+    })
+}
+
+// update and add the user to dislikedUser list in a published comic when a user clicks dislike button
+dislikeComic = async (req, res) => {
+    const body = req.query;
+    await User.findById(body.userID, (err, user) => {
+        if (err) {
+            return resError(res,400, err)
+        }
+        if (!user) {
+            return resError(res,404, 'UserID Not Found')
+        }
+        PublishedComic.findById(body.comicID, (err, comic) => {
+            if (err) {
+                return resError(res,400, err)
+            }
+            if (!comic) {
+                return resError(res,404, 'comicID Not Found')
+            }
+            if (comic.dislikedUser.includes(body.userID)) {
+                return resError(res,400, 'User Already Disliked The Comic')
+            }
+            if(comic.likedUser.includes(body.userID)){
+                comic.likedUser.pull(body.userID);
+            }
+            comic.dislikedUser.push(body.userID)
+            comic.save((err) => {
+                if (err) {
+                    return resError(res,400, err)
+                }
+                return res.status(200).json({
+                    success: true,
+                    userID: body.userID,
+                    comicID: body.comicID,
+                    likedUserArr: comic.likedUser,
+                    dislikedUserArr: comic.dislikedUser,
+                    message: "User Dislike A Comic Success"
                 })
             })
         })
@@ -746,7 +793,39 @@ undoLikeComic = async (req, res) =>{
                 success: true,
                 userID: body.userID,
                 comicID: body.comicID,
+                likedUserArr: comic.likedUser,
                 message: 'Undo Liking A Comic Updated Successfully'
+            })
+        })
+        
+    })
+}
+
+// undo and remove the disliked user from dislikeduser list in a published comic when a user clicks dislike button again
+undoDislikeComic = async (req, res) =>{
+    const body = req.query;
+    await PublishedComic.findById(body.comicID, (err, comic) => {
+        if (err) {
+            return resError(res,400, err)
+        }
+        if (!comic) {
+            return resError(res,404, 'comicID Not Found')
+        }
+        let oldLen = comic.dislikedUser.length
+        comic.dislikedUser.pull(body.userID)
+        if (oldLen == comic.dislikedUser.length) {
+            return resError(res,404, 'userID Not Found in disliked users list in the published comic')
+        }
+        comic.save((err) => {
+            if (err) {
+                return resError(res,400, err)
+            }
+            return res.status(200).json({
+                success: true,
+                userID: body.userID,
+                comicID: body.comicID,
+                dislikedUserArr: comic.dislikedUser,
+                message: 'Undo Dislike A Comic Updated Successfully'
             })
         })
         
@@ -773,6 +852,9 @@ likeStory = async (req, res) =>{
             if (story.likedUser.includes(body.userID)) {
                 return resError(res,400, 'User Already Liked The Story')
             }
+            if(story.dislikedUser.includes(body.userID)){
+                story.dislikedUser.pull(body.userID);
+            }
             story.likedUser.push(body.userID)
             story.save((err) => {
                 if (err) {
@@ -782,7 +864,49 @@ likeStory = async (req, res) =>{
                     success: true,
                     userID: body.userID,
                     storyID: body.storyID,
+                    likedUserArr: story.likedUser,
+                    dislikedUserArr: story.dislikedUser,
                     message: "User Like A Story Success"
+                })
+            })
+        })
+    })
+}
+// update and add the user to dislikedUser list in a published story when a user clicks dislike button
+dislikeStory = async (req, res) =>{
+    const body = req.query;
+    await User.findById(body.userID, (err, user) => {
+        if (err) {
+            return resError(res,400, err)
+        }
+        if (!user) {
+            return resError(res,404, 'UserID Not Found')
+        }
+        PublishedStory.findById(body.storyID, (err, story) => {
+            if (err) {
+                return resError(res,400, err)
+            }
+            if (!story) {
+                return resError(res,404, 'storyID Not Found')
+            }
+            if (story.dislikedUser.includes(body.userID)) {
+                return resError(res,400, 'User Already Disliked The Story')
+            }
+            if(story.likedUser.includes(body.userID)){
+                story.likedUser.pull(body.userID);
+            }
+            story.dislikedUser.push(body.userID)
+            story.save((err) => {
+                if (err) {
+                    return resError(res,400, err)
+                }
+                return res.status(200).json({
+                    success: true,
+                    userID: body.userID,
+                    storyID: body.storyID,
+                    likedUserArr: story.likedUser,
+                    dislikedUserArr: story.dislikedUser,
+                    message: "User Dislike A Story Success"
                 })
             })
         })
@@ -812,112 +936,11 @@ undoLikeStory = async (req, res) =>{
                 success: true,
                 userID: body.userID,
                 storyID: body.storyID,
+                likedUserArr: story.likedUser,
                 message: 'Undo Liking A Story Updated Successfully'
             })
         })
         
-    })
-}
-
-// update and add the user to dislikedUser list in a published comic when a user clicks dislike button
-dislikeComic = async (req, res) => {
-    const body = req.query;
-    await User.findById(body.userID, (err, user) => {
-        if (err) {
-            return resError(res,400, err)
-        }
-        if (!user) {
-            return resError(res,404, 'UserID Not Found')
-        }
-        PublishedComic.findById(body.comicID, (err, comic) => {
-            if (err) {
-                return resError(res,400, err)
-            }
-            if (!comic) {
-                return resError(res,404, 'comicID Not Found')
-            }
-            if (comic.dislikedUser.includes(body.userID)) {
-                return resError(res,400, 'User Already Disliked The Comic')
-            }
-            comic.dislikedUser.push(body.userID)
-            comic.save((err) => {
-                if (err) {
-                    return resError(res,400, err)
-                }
-                return res.status(200).json({
-                    success: true,
-                    userID: body.userID,
-                    comicID: body.comicID,
-                    message: "User Dislike A Comic Success"
-                })
-            })
-        })
-    })
-}
-
-// undo and remove the disliked user from dislikeduser list in a published comic when a user clicks dislike button again
-undoDislikeComic = async (req, res) =>{
-    const body = req.query;
-    await PublishedComic.findById(body.comicID, (err, comic) => {
-        if (err) {
-            return resError(res,400, err)
-        }
-        if (!comic) {
-            return resError(res,404, 'comicID Not Found')
-        }
-        let oldLen = comic.dislikedUser.length
-        comic.dislikedUser.pull(body.userID)
-        if (oldLen == comic.dislikedUser.length) {
-            return resError(res,404, 'userID Not Found in disliked users list in the published comic')
-        }
-        comic.save((err) => {
-            if (err) {
-                return resError(res,400, err)
-            }
-            return res.status(200).json({
-                success: true,
-                userID: body.userID,
-                comicID: body.comicID,
-                message: 'Undo Dislike A Comic Updated Successfully'
-            })
-        })
-        
-    })
-}
-
-// update and add the user to dislikedUser list in a published story when a user clicks dislike button
-dislikeStory = async (req, res) =>{
-    const body = req.query;
-    await User.findById(body.userID, (err, user) => {
-        if (err) {
-            return resError(res,400, err)
-        }
-        if (!user) {
-            return resError(res,404, 'UserID Not Found')
-        }
-        PublishedStory.findById(body.storyID, (err, story) => {
-            if (err) {
-                return resError(res,400, err)
-            }
-            if (!story) {
-                return resError(res,404, 'storyID Not Found')
-            }
-            if (story.dislikedUser.includes(body.userID)) {
-                return resError(res,400, 'User Already Disliked The Story')
-            }
-            story.dislikedUser.push(body.userID)
-            story.save((err) => {
-                if (err) {
-                    return resError(res,400, err)
-                }
-                return res.status(200).json({
-                    success: true,
-                    userID: body.userID,
-                    storyID: body.storyID,
-                    message: "User Dislike A Story Success"
-                })
-            })
-        })
     })
 }
 
@@ -944,6 +967,7 @@ undoDislikeStory = async (req, res) =>{
                 success: true,
                 userID: body.userID,
                 storyID: body.storyID,
+                dislikedUserArr: story.dislikedUser,
                 message: 'Undo Dislike A Story Updated Successfully'
             })
         })
@@ -964,6 +988,7 @@ incComicView = async (req, res) => {
         return res.status(200).json({
             success: true,
             comicID: body.comicID,
+            viewnum: comic.viewNumber,
             message: 'Increment View In A Comic Updated Successfully'
         })
     })
@@ -983,6 +1008,7 @@ incStoryView = async (req, res) =>{
         return res.status(200).json({
             success: true,
             storyID: body.storyID,
+            viewnum: story.viewNumber,
             message: 'Increment View In A Story Updated Successfully'
         })
     })

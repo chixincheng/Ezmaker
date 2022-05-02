@@ -3,28 +3,14 @@ import addFav from "../Images/addFav.png";
 import removeFav from "../Images/removeFav.png";
 import download from "../Images/download.png";
 import Pagination from '@mui/material/Pagination';
-import rightimage from "../Images/comicsDetailSample.png";
-import leftimage from "../Images/comicsDetailSample2.png";
 import commentSend from "../Images/commentSend.png";
 import List from '@mui/material/List';
 import likeIcon from "../Images/like.png";
 import dislikelikeIcon from "../Images/unlike.png";
-
 import { Fragment, useState, useContext, useEffect, useRef} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Playlist from "../Components/Playlist";
-import icon from "../Images/icon.png";
-import verify from "../Images/verify.png";
-import editInfo from "../Images/editInfo.png";
-import playlist from "../Images/playlist.png";
-import MyStory from "../Components/MyStory";
-import MyFavoriteStory from "../Components/MyFavoriteStory";
-import AvailableComic from "../Components/AvailableComic";
 import AuthContext from "../auth";
 import api from "../api";
-import images from "../Images";
-import { TextField } from "@mui/material";
-
 import { useQuill } from 'react-quilljs';
 
 
@@ -73,25 +59,6 @@ var commendSentStyle = {height:"50px", width:"80px", position:"absolute" , botto
    backgroundRepeat: 'no-repeat',
    cursor:"pointer"
   };
-const addFavorite = ()=>{
-    ;
-};
-const removeFavorite = ()=>{
-    ;
-};
-const downloadStory = () => {
-    ;
-}
-const addComment = () => {
-    ;
-}
-const like = () => {
-    ;
-}
-
-const dislike = () => {
-    ;
-}
 
 var commentArr = [[],[],[]];
 commentArr[0].push("Gank Owen", "Wow I like it")
@@ -131,6 +98,10 @@ const StoryDetailPage = () => {
     const ctx = useContext(AuthContext);
     const navigate = useNavigate();
     const [story, setStory] = useState(null);
+    const [likenum,setLikenum] = useState(0);
+    const [dislikenum,setDislikenum] = useState(0);
+    const [liked, setLiked] = useState(false);
+    const [disliked,setDisliked] = useState(false);
     const location = useLocation();
     var storyID = location.pathname.split("/").at(-1);
 
@@ -160,6 +131,65 @@ const StoryDetailPage = () => {
         }
     }, [quill]);
 
+    useEffect(()=>{
+        if(story !== null){
+            setLikenum(story.likedUser.length);
+            setDislikenum(story.dislikedUser.length);
+            if(story.likedUser.includes(ctx.auth.user._id)){
+                setLiked(true);
+            }
+            else if(story.dislikedUser.includes(ctx.auth.user._id)){
+                setDisliked(true);
+            }
+        }
+    },story);
+
+    const addFavorite = ()=>{
+        ;
+    };
+    const removeFavorite = ()=>{
+        ;
+    };
+    const downloadStory = () => {
+        ;
+    }
+    const addComment = () => {
+        ;
+    }
+    const like = async () => {
+        const response = await api.likeStory(storyID,{userID:ctx.auth.user._id, storyID: storyID});
+        if(response.status === 200){
+            setLikenum(response.data.likedUserArr.length);
+            setDislikenum(response.data.dislikedUserArr.length);
+            setLiked(true);
+            setDisliked(false);
+        }
+    }
+    const undolike = async()=>{
+        const response = await api.undoLikeStory(storyID,{userID:ctx.auth.user._id, storyID: storyID});
+        if(response.status === 200){
+            setLikenum(response.data.likedUserArr.length);
+            setLiked(false);
+        }
+    }
+    
+    const dislike = async () => {
+        const response = await api.dislikeStory(storyID,{userID:ctx.auth.user._id, storyID: storyID});
+        if(response.status === 200){
+            setLikenum(response.data.likedUserArr.length);
+            setDislikenum(response.data.dislikedUserArr.length);
+            setLiked(false);
+            setDisliked(true);
+        }
+    }
+
+    const undodislike = async() =>{
+        const response = await api.undoDislikeStory(storyID,{userID:ctx.auth.user._id, storyID: storyID});
+        if(response.status === 200){
+            setDislikenum(response.data.dislikedUserArr.length);
+            setDisliked(false);
+        }
+    }
 
     return(
         <div  style={{background:"rgba(250, 241, 194, 1)", display:"flex", justifyContent: "center", flexDirection: "column"}} >
@@ -169,8 +199,16 @@ const StoryDetailPage = () => {
                 <div style={removeFavButtonStyle} onClick={removeFavorite}></div>
                 <div style={downloadButtonStyle} onClick={downloadStory}></div>
                 
-                <div style={likeButtonStyle} onClick={like}></div>
-                <div style={dislikeButtonStyle} onClick={dislike}></div>
+                {liked?
+                    <div style={likeButtonStyle} onClick={undolike} className = "likedislikebuttonpress"> {likenum} </div>
+                    :
+                    <div style={likeButtonStyle} onClick={like} className = "likedislikebutton"> {likenum} </div>
+                }
+                {disliked?
+                    <div style={dislikeButtonStyle} onClick={undodislike} className = "likedislikebuttonpress"> {dislikenum} </div>
+                    :
+                    <div style={dislikeButtonStyle} onClick={dislike} className = "likedislikebutton"> {dislikenum} </div>
+                }
                
                 <div style={textStyle}>{story === null ?   "Story Title":story.storyTitle}</div>
                 <div style={textStyle}>{story === null ?   "Author Name":story.authorName}</div>

@@ -43,6 +43,15 @@ export const createPublishedStory = (payload) => api.post(`/createPublishedStory
 export const editStory = ( formData, payload) => api.put(`/editStory`, formData, {params: payload } );
 export const editStoryCoverPage = ( formData, payload) => api.put(`/editStoryCoverPage`, formData, {params: payload } );
 
+export const likeComic = (id,payload) => api.put(`/likeComic/${id}`, null, {params: payload } );
+export const dislikeComic = (id,payload) => api.put(`/dislikeComic/${id}`, null, {params: payload } );
+export const likeStory = (id,payload) => api.put(`/likeStory/${id}`, null, {params: payload } );
+export const dislikeStory = (id,payload) => api.put(`/dislikeStory/${id}`, null, {params: payload } );
+export const undoLikeComic = (id,payload) => api.put(`/undoLikeComic/${id}`, null, {params: payload } );
+export const undoDislikeComic = (id,payload) => api.put(`/undoDislikeComic/${id}`, null, {params: payload } );
+export const undoLikeStory = (id,payload) => api.put(`/undoLikeStory/${id}`, null, {params: payload } );
+export const undoDislikeStory = (id,payload) => api.put(`/undoDislikeStory/${id}`, null, {params: payload } );
+
 // , null, {params: payload } 
 export const getStory = ( id, payload) => api.put(`/getStory/${id}`, null, {params: payload});
 
@@ -97,7 +106,15 @@ const apis = {
     getStory,
     getPublishedStoryByID,
     deleteStory,
-    deletePublishedStory
+    deletePublishedStory,
+    likeComic,
+    dislikeComic,
+    likeStory,
+    dislikeStory,
+    undoLikeComic,
+    undoDislikeComic,
+    undoLikeStory,
+    undoDislikeStory
 }
 
 export default apis

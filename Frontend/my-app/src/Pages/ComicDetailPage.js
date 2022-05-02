@@ -3,8 +3,6 @@ import addFav from "../Images/addFav.png";
 import removeFav from "../Images/removeFav.png";
 import download from "../Images/download.png";
 import Pagination from '@mui/material/Pagination';
-import rightimage from "../Images/comicsDetailSample.png";
-import leftimage from "../Images/comicsDetailSample2.png";
 import commentSend from "../Images/commentSend.png";
 import List from '@mui/material/List';
 import likeIcon from "../Images/like.png";
@@ -50,26 +48,6 @@ var commendSentStyle = {height:"50px", width:"80px", position:"absolute",  botto
    backgroundRepeat: 'no-repeat',
    cursor:"pointer"
   };
-const addFavorite = ()=>{
-    ;
-};
-const removeFavorite = ()=>{
-    ;
-};
-const downloadComic = () => {
-    ;
-}
-const addComment = () => {
-    ;
-}
-
-const like = () => {
-    ;
-}
-
-const dislike = () => {
-    ;
-}
 
 var commentArr = [[],[],[]];
 commentArr[0].push("Gank Owen", "Wow I like it")
@@ -128,6 +106,10 @@ const ComicDetailPage = () => {
     const fileUploaderRef = useRef();
     const fileSystemEvents = useFileSystem();
     const [comic, setComic] = useState(null);
+    const [likenum,setLikenum] = useState(0);
+    const [dislikenum,setDislikenum] = useState(0);
+    const [liked, setLiked] = useState(false);
+    const [disliked,setDisliked] = useState(false);
 
     const getTLDR = async ()=>{
         const getComicResponse = await api.getPublishedComicByID( names.at(-1));
@@ -150,15 +132,74 @@ const ComicDetailPage = () => {
         })});
     };
 
-    
-
     useEffect(()=>{
         getTLDR();
     },[]);
 
+    useEffect(()=>{
+        if(comic !== null){
+            setLikenum(comic.likedUser.length);
+            setDislikenum(comic.dislikedUser.length);
+            if(comic.likedUser.includes(ctx.auth.user._id)){
+                setLiked(true);
+            }
+            else if(comic.dislikedUser.includes(ctx.auth.user._id)){
+                setDisliked(true);
+            }
+        }
+    },comic);
+
+
     const handleMount = (app) => {
         rTLDrawApp.current = app; // [2]
     };
+    const addFavorite = ()=>{
+        ;
+    };
+    const removeFavorite = ()=>{
+        ;
+    };
+    const downloadComic = () => {
+        ;
+    }
+    const addComment = () => {
+        ;
+    }
+    
+    const like = async () => {
+        const response = await api.likeComic(names.at(-1),{userID:ctx.auth.user._id, comicID: names.at(-1)});
+        if(response.status === 200){
+            setLikenum(response.data.likedUserArr.length);
+            setDislikenum(response.data.dislikedUserArr.length);
+            setLiked(true);
+            setDisliked(false);
+        }
+    }
+    const undolike = async()=>{
+        const response = await api.undoLikeComic(names.at(-1),{userID:ctx.auth.user._id, comicID: names.at(-1)});
+        if(response.status === 200){
+            setLikenum(response.data.likedUserArr.length);
+            setLiked(false);
+        }
+    }
+    
+    const dislike = async () => {
+        const response = await api.dislikeComic(names.at(-1),{userID:ctx.auth.user._id, comicID: names.at(-1)});
+        if(response.status === 200){
+            setLikenum(response.data.likedUserArr.length);
+            setDislikenum(response.data.dislikedUserArr.length);
+            setLiked(false);
+            setDisliked(true);
+        }
+    }
+
+    const undodislike = async() =>{
+        const response = await api.undoDislikeComic(names.at(-1),{userID:ctx.auth.user._id, comicID: names.at(-1)});
+        if(response.status === 200){
+            setDislikenum(response.data.dislikedUserArr.length);
+            setDisliked(false);
+        }
+    }
 
     return(
         <div  style={{background:"rgba(250, 241, 194, 1)", display:"flex", justifyContent: "center", flexDirection: "column", alignItems: "center"}} >
@@ -167,9 +208,16 @@ const ComicDetailPage = () => {
                 <div style={addFavButtonStyle} onClick={addFavorite}></div>
                 <div style={removeFavButtonStyle} onClick={removeFavorite}></div>
                 <div style={downloadButtonStyle} onClick={downloadComic}></div>
-                
-                <div style={likeButtonStyle} onClick={like}></div>
-                <div style={dislikeButtonStyle} onClick={dislike}></div>
+                {liked?
+                    <div style={likeButtonStyle} onClick={undolike} className = "likedislikebuttonpress"> {likenum} </div>
+                    :
+                    <div style={likeButtonStyle} onClick={like} className = "likedislikebutton"> {likenum} </div>
+                }
+                {disliked?
+                    <div style={dislikeButtonStyle} onClick={undodislike} className = "likedislikebuttonpress"> {dislikenum} </div>
+                    :
+                    <div style={dislikeButtonStyle} onClick={dislike} className = "likedislikebutton"> {dislikenum} </div>
+                }
                
                 <div style={textStyle}>{comic === null ?   "Comic Title":comic.comicTitle}</div>
                 <div style={textStyle}>{comic === null ?   "Author Name":comic.authorName}</div>

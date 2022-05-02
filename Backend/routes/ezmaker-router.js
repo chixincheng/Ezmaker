@@ -69,46 +69,46 @@ router.post('/createComment', auth.verify, EasyMakerController.createComment)
 router.put('/addComment', auth.verify, EasyMakerController.addComment)
 
 // update liked user list in a published comic when a user clicks like button
-router.put('/likeComic', auth.verify, EasyMakerController.likeComic)
+router.put('/likeComic/:id', auth.verify, EasyMakerController.likeComic)
 
 // undo update liked user list in a published comic when a user clicks like button
-router.put('/undoLikeComic', auth.verify, EasyMakerController.undoLikeComic)
+router.put('/undoLikeComic/:id', auth.verify, EasyMakerController.undoLikeComic)
 
 // update liked user list in a published story when a user clicks like button
-router.put('/likeStory', auth.verify, EasyMakerController.likeStory)
+router.put('/likeStory/:id', auth.verify, EasyMakerController.likeStory)
 
 // undo update liked user list in a published story when a user clicks like button
-router.put('/undoLikeStory', auth.verify, EasyMakerController.undoLikeStory)
+router.put('/undoLikeStory/:id', auth.verify, EasyMakerController.undoLikeStory)
 
 // update and add the user to dislikedUser list in a published comic when a user clicks dislike button
-router.put('/dislikeComic', auth.verify, EasyMakerController.dislikeComic)
+router.put('/dislikeComic/:id', auth.verify, EasyMakerController.dislikeComic)
 
 // undo and remove the disliked user from dislikeduser list in a published comic when a user clicks dislike button again
-router.put('/undoDislikeComic', auth.verify, EasyMakerController.undoDislikeComic)
+router.put('/undoDislikeComic/:id', auth.verify, EasyMakerController.undoDislikeComic)
 
 // update and add the user to dislikedUser list in a published story when a user clicks dislike button
-router.put('/dislikeStory', auth.verify, EasyMakerController.dislikeStory)
+router.put('/dislikeStory/:id', auth.verify, EasyMakerController.dislikeStory)
 
 // undo and remove the disliked user from dislikeduser list in a published story when a user clicks dislike button again
-router.put('/undoDislikeStory', auth.verify, EasyMakerController.undoDislikeStory)
+router.put('/undoDislikeStory/:id', auth.verify, EasyMakerController.undoDislikeStory)
 
 // increment view number of a published comic
-router.put('/incComicView', auth.verify, EasyMakerController.incComicView)
+router.put('/incComicView/:id', auth.verify, EasyMakerController.incComicView)
 
 // increment view number of a published story
-router.put('/incStoryView', auth.verify, EasyMakerController.incStoryView)
+router.put('/incStoryView/:id', auth.verify, EasyMakerController.incStoryView)
 
 // add a published comic to a user's favorite comic list
-router.put('/favorComic', auth.verify, EasyMakerController.favorComic)
+router.put('/favorComic/:id', auth.verify, EasyMakerController.favorComic)
 
 // undo add a published comic to a user's favorite comic list
-router.put('/undoFavorComic', auth.verify, EasyMakerController.undoFavorComic)
+router.put('/undoFavorComic/:id', auth.verify, EasyMakerController.undoFavorComic)
 
 // add a published story to a user's favorite story list
-router.put('/favorStory', auth.verify, EasyMakerController.favorStory)
+router.put('/favorStory/:id', auth.verify, EasyMakerController.favorStory)
 
 // undo add a published story to a user's favorite story list
-router.put('/undoFavorStory', auth.verify, EasyMakerController.undoFavorStory)
+router.put('/undoFavorStory/:id', auth.verify, EasyMakerController.undoFavorStory)
 
 // create a new published comic object in the published comic table
 router.post('/createPublishedComic', auth.verify, EasyMakerController.createPublishedComic)

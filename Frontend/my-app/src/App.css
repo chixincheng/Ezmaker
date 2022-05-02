@@ -66,3 +66,15 @@ DO NOT DELETE THIS, otherwise there is a large blank in the bottom of StoryDetai
 #quill svg{
   display: none;
 }
+
+.likedislikebutton{
+  color: rgba(0, 0, 0, 0.54)!important;
+  cursor: pointer;
+}
+.likedislikebuttonpress {
+  color: rgba(0, 0, 0, 0.959)!important;
+  outline: none;
+  -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
+     -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
+          box-shadow: inset 0px 0px 5px #c1c1c1;
+}
