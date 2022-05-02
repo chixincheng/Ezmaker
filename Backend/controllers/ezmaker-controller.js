@@ -978,7 +978,7 @@ undoDislikeStory = async (req, res) =>{
 // increment view number of a published comic
 incComicView = async (req, res) => {
     const body = req.query;
-    await PublishedComic.findByIdAndUpdate(body.comicID, {$inc: { viewNumber: 1}}, (err, comic) => {
+    await PublishedComic.findByIdAndUpdate(body.comicID, {$inc: { viewNumber: 0.5}}, (err, comic) => {
         if (err) {
             return resError(res,400, err)
         }
@@ -997,7 +997,7 @@ incComicView = async (req, res) => {
 // increment view number of a published story
 incStoryView = async (req, res) =>{
     const body = req.query;
-    await PublishedStory.findByIdAndUpdate(body.storyID, {$inc: { viewNumber: 1}}, (err, story) => {
+    await PublishedStory.findByIdAndUpdate(body.storyID, {$inc: { viewNumber: 0.5}}, (err, story) => {
         if (err) {
             console.log(err)
             return resError(res,400, err)

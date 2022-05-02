@@ -2,6 +2,7 @@ import cover1 from "../Images/cover1.png";
 import clock from "../Images/clock.png";
 import check from "../Images/check.png";
 import { useNavigate, useLocation } from "react-router-dom";
+import api from "../api";
 
 
 const StoryCard = ( props ) => {
@@ -10,14 +11,15 @@ const StoryCard = ( props ) => {
   const location = useLocation();
   const navigate = useNavigate();
   var today;
-  if(story.updatedAt){
-    today = story.updatedAt.split("T")[0];
-  }else{
+  if(story.publishedTime){
     today = story.publishedTime.split("T")[0];
+  }else{
+    today = story.updatedAt.split("T")[0];
   }
+  var viewnum = story.viewNumber;
 
-
-  const cardOnClick = ()=>{
+  const cardOnClick = async (event)=>{
+    event.preventDefault();
     if( location.pathname.includes("story") ){
 
       if( story.viewNumber === undefined ){
@@ -25,6 +27,7 @@ const StoryCard = ( props ) => {
       }
       else{
         navigate(`/story/detail/${story._id}`);
+        const response = await api.incStoryView(story._id,{storyID: story._id});
       }
       
     }
@@ -37,7 +40,7 @@ const StoryCard = ( props ) => {
 
   
   return (
-    <div  onClick={cardOnClick} style={{ margin: "2rem", cursor:"pointer", border:"1px black solid", background:"white" }}>
+    <div   onClick={(event)=>{cardOnClick(event);}} style={{ margin: "2rem", cursor:"pointer", border:"1px black solid", background:"white" }}>
       {/* <div
         style={{
           width: "100%",
@@ -75,11 +78,7 @@ const StoryCard = ( props ) => {
               }}
             >
             </div>
-            {location.pathname.includes("community") ?
-              <b style={{color:"orange", margin: "0 0.5rem 0 0.5rem"}}>View Number: {viewnumber}</b>
-              :
-              <b style={{color:"orange", margin: "0 0.5rem 0 0.5rem"}}>Last Edited on {today}</b>
-            }
+            <b style={{color:"orange", margin: "0 0.5rem 0 0.5rem"}}>Last Edited on {today}</b>
           </div>
         ) 
         : (
@@ -95,6 +94,7 @@ const StoryCard = ( props ) => {
               }}
             ></div>{" "}
             <b style={{color:"green", margin: "0 0.5rem 0 0.5rem"}}>Published on {today}</b>
+            <b style={{color:"orange", margin: "0 0.5rem 0 0.5rem"}}>View Number: {viewnum}</b>
           </div>
         )}
       </div>

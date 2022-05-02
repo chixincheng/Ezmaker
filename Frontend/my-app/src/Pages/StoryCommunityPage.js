@@ -52,38 +52,38 @@ const StoryCommunityPage = ()=>{
 
   function handleSortByViews(){
     setAnchorEl(null);
-    // let pair = stories.sort(
-    //   function(a,b){
-    //     let num1 = a.viewNumber;
-    //     let num2 = b.viewNumber;
-    //     return num2-num1;
-    //   }
-    // );
-    // setStories(pair);
+    let pair = stories.sort(
+      function(a,b){
+        let num1 = a.viewNumber;
+        let num2 = b.viewNumber;
+        return num2-num1;
+      }
+    );
+    setStories(pair);
   }
 
   function handleSortByLikes(){
     setAnchorEl(null);
-    // let pair = stories.sort(
-    //   function(a,b){
-    //     let num1 = a.likedUser.length;
-    //     let num2 = b.likedUser.length;
-    //     return num2-num1;
-    //   }
-    // );
-    // setStories(pair);
+    let pair = stories.sort(
+      function(a,b){
+        let num1 = a.likedUser.length;
+        let num2 = b.likedUser.length;
+        return num2-num1;
+      }
+    );
+    setStories(pair);
   }
 
   function handleSortByDislikes(){
     setAnchorEl(null);
-    // let pair = stories.sort(
-    //   function(a,b){
-    //     let num1 = a.dislikedUser.length;
-    //     let num2 = b.dislikedUser.length;
-    //     return num2-num1;
-    //   }
-    // );
-    // setStories(pair);
+    let pair = stories.sort(
+      function(a,b){
+        let num1 = a.dislikedUser.length;
+        let num2 = b.dislikedUser.length;
+        return num2-num1;
+      }
+    );
+    setStories(pair);
   }
 
   const handleMenuClose = () => {

@@ -52,38 +52,38 @@ const ComicCommunityPage = ()=>{
 
   function handleSortByViews(){
     setAnchorEl(null);
-    // let pair = comics.sort(
-    //   function(a,b){
-    //     let num1 = a.viewNumber;
-    //     let num2 = b.viewNumber;
-    //     return num2-num1;
-    //   }
-    // );
-    // setComics(pair);
+    let pair = comics.sort(
+      function(a,b){
+        let num1 = a.viewNumber;
+        let num2 = b.viewNumber;
+        return num2-num1;
+      }
+    );
+    setComics(pair);
   }
 
   function handleSortByLikes(){
     setAnchorEl(null);
-    // let pair = comics.sort(
-    //   function(a,b){
-    //     let num1 = a.likedUser.length;
-    //     let num2 = b.likedUser.length;
-    //     return num2-num1;
-    //   }
-    // );
-    // setComics(pair);
+    let pair = comics.sort(
+      function(a,b){
+        let num1 = a.likedUser.length;
+        let num2 = b.likedUser.length;
+        return num2-num1;
+      }
+    );
+    setComics(pair);
   }
 
   function handleSortByDislikes(){
     setAnchorEl(null);
-    // let pair = comics.sort(
-    //   function(a,b){
-    //     let num1 = a.dislikedUser.length;
-    //     let num2 = b.dislikedUser.length;
-    //     return num2-num1;
-    //   }
-    // );
-    // setComics(pair);
+    let pair = comics.sort(
+      function(a,b){
+        let num1 = a.dislikedUser.length;
+        let num2 = b.dislikedUser.length;
+        return num2-num1;
+      }
+    );
+    setComics(pair);
   }
 
   const handleMenuClose = () => {

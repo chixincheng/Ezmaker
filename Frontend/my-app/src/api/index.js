@@ -51,6 +51,8 @@ export const undoLikeComic = (id,payload) => api.put(`/undoLikeComic/${id}`, nul
 export const undoDislikeComic = (id,payload) => api.put(`/undoDislikeComic/${id}`, null, {params: payload } );
 export const undoLikeStory = (id,payload) => api.put(`/undoLikeStory/${id}`, null, {params: payload } );
 export const undoDislikeStory = (id,payload) => api.put(`/undoDislikeStory/${id}`, null, {params: payload } );
+export const incComicView = (id,payload) => api.put(`/incComicView/${id}`, null, {params: payload } );
+export const incStoryView = (id,payload) => api.put(`/incStoryView/${id}`, null, {params: payload } );
 
 // , null, {params: payload } 
 export const getStory = ( id, payload) => api.put(`/getStory/${id}`, null, {params: payload});
@@ -114,7 +116,9 @@ const apis = {
     undoLikeComic,
     undoDislikeComic,
     undoLikeStory,
-    undoDislikeStory
+    undoDislikeStory,
+    incStoryView,
+    incComicView
 }
 
 export default apis
