@@ -7,7 +7,6 @@ import playlist from "../Images/playlist.png";
 import MyComic from "../Components/MyComic";
 import MyFavoriteComic from "../Components/MyFavoriteComic";
 import { useNavigate } from "react-router-dom";
-import SortButton from "../Components/SortButton";
 
 import AuthContext from "../auth";
 import { useContext } from "react";

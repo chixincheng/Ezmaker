@@ -9,7 +9,6 @@ import images from "../Images/index.js";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
 import AuthContext from "../auth";
-import SortButton from "./SortButton.js";
 
 
 
