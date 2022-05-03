@@ -56,8 +56,9 @@ router.get('/getAllUserUnpublishedComics/:id', auth.verify, EasyMakerController.
 // get all unpublished stories of this user
 router.get('/getAllUserUnpublishedStories/:id', auth.verify, EasyMakerController.getAllUserUnpublishedStories)
 
-// get all published comics of this user
+// get all published comics of this user 
 router.get('/getAllUserPublishedComics/:id', auth.verify, EasyMakerController.getAllUserPublishedComics)
+
 
 // get all published stories of this user
 router.get('/getAllUserPublishedStories/:id', auth.verify, EasyMakerController.getAllUserPublishedStories)
@@ -135,10 +136,10 @@ router.get('/searchComicByInput', auth.verify, EasyMakerController.searchComicBy
 router.get('/searchStoryByInput', auth.verify, EasyMakerController.searchStoryByInput)
 
 // get all the search result by user input in published comic table
-router.get('/searchPublishedComicByInput', auth.verify, EasyMakerController.searchPublishedComicByInput)
+router.get('/searchPublishedComicByInput/:searchInput', auth.verify, EasyMakerController.searchPublishedComicByInput)
 
 // get all the search result by user input in published story table
-router.get('/searchPublishedStoryByInput', auth.verify, EasyMakerController.searchPublishedStoryByInput)
+router.get('/searchPublishedStoryByInput/:searchInput', auth.verify, EasyMakerController.searchPublishedStoryByInput)
 
 //get the search result for user
 router.get('/searchUserName/:searchInput', auth.verify, EasyMakerController.searchUserName)

@@ -17,7 +17,6 @@ const ComicCommunityPage = ()=>{
 
   const loadAllComics = async ()=>{
     const response2 = await api.getCommunityComics();
-    console.log(response2);
     var array = [...response2.data.comics]
     setComics(array);
   };

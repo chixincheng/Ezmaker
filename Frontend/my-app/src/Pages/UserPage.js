@@ -21,12 +21,9 @@ const UserPage = ()=>{
     const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(()=>{
-      if( searchResult.length <1 ){
-         store.setSearchKey(names.at(-1));
-      }
-      else if( currentUser === null ){
+      if( currentUser === null ){
           for( const user of searchResult   ){
-              if( user["userName"] === names.at(-1) ){
+              if( user["_id"] === names.at(-1) ){
                   setCurrentUser(user);
               }
           }
@@ -63,7 +60,7 @@ const UserPage = ()=>{
                   justifyContent: "space-evenly",
                 }}
               >
-                <b>{names[names.length-1]}</b>
+                <b>{currentUser.userName}</b>
                 <div
                   style={{
                     width: "50px",

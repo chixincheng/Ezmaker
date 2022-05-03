@@ -1,4 +1,4 @@
-import React, { useContext,useState } from 'react'
+import React, { useContext,useState, useEffect,useCallback } from 'react'
 import { GlobalStoreContext } from '../store'
 import easyToUse from "../Images/easyToUse.png"
 import communityIcon from "../Images/communityIcon.png"
@@ -15,16 +15,22 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-
+import AutoComplete2 from './AutoComplete'
 
 const Header = ()=>{
     const navigate = useNavigate();
     const location = useLocation();
-    const { store,searchResult } = useContext(GlobalStoreContext);
-    const [option,setOption] = React.useState('user');
+    const { store,searchResult,option } = useContext(GlobalStoreContext);
     const ctx = useContext(AuthContext);
     const [popupopen, setPopUpOpen] = useState(false);
     const [navigatePage, setNavigatePage] = useState("");
+
+
+    useEffect(()=>{
+        store.setSearchOption('user');
+        store.setSearchKey("");
+        store.resetSearchResult();
+      },[]);
 
     const handleDashboardNavigate =()=>{
         if(location.pathname.includes("editing")){
@@ -79,13 +85,10 @@ const Header = ()=>{
 
     function handleSearchOption (event){
         store.setSearchOption(event.target.value);
-        setOption(event.target.value);
+        store.setSearchKey("");
+        store.resetSearchResult([]);
     }
 
-    function handleNavigate (event){
-       
-        //store.searchNavigate(event.target.value);
-    }
     const logoutIconOnClick = ()=>{
         if(location.pathname.includes("editing")){
             setPopUpOpen(true);
@@ -127,7 +130,7 @@ const Header = ()=>{
             </div>
             
             {(location.pathname.includes("home") || location.pathname.includes("community")) ?
-                (<Box style={{width: "45%", display: "flex",alignItems:"center"}}>
+                (<Box style={{width: "45%", display: "flex",alignItems:"center"}} value = {option}>
                     <Select
                         label="user"
                         value = {option}
@@ -137,33 +140,7 @@ const Header = ()=>{
                         <MenuItem value = "user">User</MenuItem>
                         <MenuItem value ="cs">Comic/Story</MenuItem>
                     </Select>
-                    <Autocomplete
-                        fullWidth
-                        disablePortal
-                        options={ searchResult.map((item)=> item["userName"] ) }
-                        onInputChange={handleNavigate}
-                        onChange={(e,value)=>{ 
-                            console.log(value);
-                            if( location.pathname.includes("comic") ){
-                                navigate(`/comic/user/${value}`); 
-                            }
-                            else if(location.pathname.includes("story")){
-                                navigate(`/story/user/${value}`); 
-                            }
-                            
-                        }}
-                        renderInput={(params) => <TextField {...params}
-                            fullWidth
-                            id = "search-key"
-                            label = "search"
-                            margin = "none"
-                            onChange = {handleSearchKeyWord}
-                            style = {{ background: "white", top: "13%"}}
-                           
-                        >
-                        </TextField>}
-                    >
-                    </Autocomplete>
+                   <AutoComplete2 option={option} searchResult={searchResult}></AutoComplete2>
                 </Box>)
                 :
                 <Fragment></Fragment>

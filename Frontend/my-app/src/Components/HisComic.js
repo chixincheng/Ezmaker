@@ -1,8 +1,36 @@
 import ComicCard from "./ComicCard";
-import React, { useEffect, useState } from 'react';
+import { Fragment } from "react";
+import ReactPaginate from 'react-paginate';
+import React, { useEffect, useState, useContext} from 'react';
+import axios from 'axios';
+// require('dotenv').config();
 import Pagination from '@mui/material/Pagination';
+import images from "../Images/index.js";
+import { useNavigate,useLocation } from "react-router-dom";
+import api from "../api";
+import AuthContext from "../auth";
+import { Tldraw, TldrawApp, useFileSystem, TDDocument,  TDExport } from "@tldraw/tldraw";
+
+
 
 const HisComic = ({itemsPerPage}) => {
+  const rTLDrawApp =   new TldrawApp() ;
+  const navigate = useNavigate();
+  const [pageCount, setPageCount] = useState(5);
+  const [comics, setComics] = useState([]);
+  const ctx = useContext(AuthContext);
+  const location = useLocation();
+
+  const loadAllComics = async ()=>{
+    const response2 = await api.getAllUserPublishedComics(location.pathname.split("/").at(-1));
+    setComics(response2.data.publishedComics);
+  };
+
+  useEffect(()=>{
+    loadAllComics();
+  },[]);
+  
+  
   return (
     <div
       style={{
@@ -21,21 +49,19 @@ const HisComic = ({itemsPerPage}) => {
         }}
       >
         <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>Comics:</b>
-        
       </div>
 
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(100px,300px))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(100px,350px))",
           justifyContent: "center",
         }}
       >
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
+        {comics.map((comic, index)=>{
+          
+          return(<ComicCard key={index} comic={comic}></ComicCard>);
+        })}
 
        
       </div>

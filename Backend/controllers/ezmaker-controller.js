@@ -519,6 +519,7 @@ getAllUserPublishedComics = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
+
 // get all user's published stories
 getAllUserPublishedStories = async (req, res) => {
     await PublishedStory.find({authorID: req.params.id }, (err, storyList) => {
@@ -1036,7 +1037,7 @@ favorComic = async (req, res) => {
             if (user.favoredComics.includes(body.comicID)) {
                 return resError(res,400, 'User Already Favored The Comic')
             }
-            user.favoredComics.push(body.comicID)
+            user.favoredComics.push(body.comicID);
             user.save((err) => {
                 if (err) {
                     return resError(res,400, err)
@@ -1045,6 +1046,7 @@ favorComic = async (req, res) => {
                     success: true,
                     userID: body.userID,
                     comicID: body.comicID,
+                    favoredComics:user.favoredComics,
                     message: "User Favor A Comic Success"
                 })
             })
@@ -1063,7 +1065,7 @@ undoFavorComic = async (req, res) =>{
             return resError(res,404, 'userID Not Found')
         }
         let oldLen = user.favoredComics.length
-        user.favoredComics.pull(body.comicID)
+        user.favoredComics.pull(body.comicID);
         if (oldLen == user.favoredComics.length) {
             return resError(res,404, 'comicID Not Found in user\'s favored comics list')
         }
@@ -1075,6 +1077,7 @@ undoFavorComic = async (req, res) =>{
                 success: true,
                 userID: body.userID,
                 comicID: body.comicID,
+                favoredComics:user.favoredComics,
                 message: 'Undo favor A Comic Updated Successfully'
             })
         })
@@ -1102,7 +1105,7 @@ favorStory = async (req, res) => {
             if (user.favoredStories.includes(body.storyID)) {
                 return resError(res,400, 'User Already Favored The Story')
             }
-            user.favoredStories.push(body.storyID)
+            user.favoredStories.push(body.storyID);
             user.save((err) => {
                 if (err) {
                     return resError(res,400, err)
@@ -1111,6 +1114,7 @@ favorStory = async (req, res) => {
                     success: true,
                     userID: body.userID,
                     storyID: body.storyID,
+                    favoredStories: user.favoredStories,
                     message: "User Favor A Story Success"
                 })
             })
@@ -1129,7 +1133,7 @@ undoFavorStory = async (req, res) =>{
             return resError(res,404, 'userID Not Found')
         }
         let oldLen = user.favoredStories.length
-        user.favoredStories.pull(body.storyID)
+        user.favoredStories.pull(body.storyID);
         if (oldLen == user.favoredStories.length) {
             return resError(res,404, 'storyID Not Found in user\'s favored stories list')
         }
@@ -1141,6 +1145,7 @@ undoFavorStory = async (req, res) =>{
                 success: true,
                 userID: body.userID,
                 storyID: body.storyID,
+                favoredStories: user.favoredStories,
                 message: 'Undo favor A Story Updated Successfully'
             })
         })
@@ -1268,8 +1273,8 @@ searchStoryByInput = async (req, res) => {
 
 // get published comics by input
 searchPublishedComicByInput = async (req, res) => {
-    const body = req.query
-    await PublishedComic.find({$or:[{comicTitle: { "$regex": body.searchInput, "$options": "i" }},{authorName: { "$regex": body.searchInput, "$options": "i" }}]}, (err, comic) => {
+    const body = req.params
+    await PublishedComic.find({comicTitle: { "$regex": body.searchInput, "$options": "i" }}, (err, comic) => {
         if (err) {
             return resError(res,400, err)
         }
@@ -1280,8 +1285,8 @@ searchPublishedComicByInput = async (req, res) => {
 
 // get published stories by input
 searchPublishedStoryByInput = async (req, res) => {
-    const body = req.query
-    await PublishedStory.find({$or:[{storyTitle: { "$regex": body.searchInput, "$options": "i" }},{authorName: { "$regex": body.searchInput, "$options": "i" }}]}, (err, story) => {
+    const body = req.params
+    await PublishedStory.find({storyTitle: { "$regex": body.searchInput, "$options": "i" }}, (err, story) => {
         if (err) {
             return resError(res,400, err)
         }

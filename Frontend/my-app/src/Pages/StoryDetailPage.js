@@ -14,7 +14,7 @@ import api from "../api";
 import { useQuill } from 'react-quilljs';
 
 
-var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(80vw - 40px)', backgroundImage: `url(${addFav})`,
+var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(85vw - 30px)', backgroundImage: `url(${addFav})`,
     backgroundPosition: 'right',
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
@@ -104,7 +104,7 @@ const StoryDetailPage = () => {
     const [disliked,setDisliked] = useState(false);
     const location = useLocation();
     var storyID = location.pathname.split("/").at(-1);
-
+    const [favorited, setFavorited] = useState(false);
     const { quill, quillRef } = useQuill({theme: 'bubble'});
     
 
@@ -141,14 +141,28 @@ const StoryDetailPage = () => {
             else if(story.dislikedUser.includes(ctx.auth.user._id)){
                 setDisliked(true);
             }
+            console.log(ctx.auth.user);
+            if(ctx.auth.user.favoredStories.includes(storyID)){
+                console.log("---");
+                setFavorited(true);
+            }
         }
     },story);
 
-    const addFavorite = ()=>{
-        ;
+
+    const addFavorite = async ()=>{
+        const response = await api.favorStory(storyID,{userID:ctx.auth.user._id, storyID: storyID});
+        if(response.status === 200){
+            ctx.auth.user.favoredStories = response.data.favoredStories;
+            setFavorited(true);
+        }
     };
-    const removeFavorite = ()=>{
-        ;
+    const removeFavorite = async ()=>{
+        const response = await api.undoFavorStory(storyID,{userID:ctx.auth.user._id, storyID: storyID});
+        if(response.status === 200){
+            ctx.auth.user.favoredStories = response.data.favoredStories;
+            setFavorited(false);
+        }
     };
     const downloadStory = () => {
         ;
@@ -195,8 +209,12 @@ const StoryDetailPage = () => {
         <div  style={{background:"rgba(250, 241, 194, 1)", display:"flex", justifyContent: "center", flexDirection: "column"}} >
             <Header></Header>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "5rem 3rem 5rem 3rem", background: "rgba(250, 241, 194, 1)", height:`clac(100vh -  )` }}>
-                <div style={addFavButtonStyle} onClick={addFavorite}></div>
-                <div style={removeFavButtonStyle} onClick={removeFavorite}></div>
+                
+                {favorited?
+                    <div style={addFavButtonStyle} onClick={removeFavorite} className = "likedislikebuttonpress"></div>
+                    :
+                    <div style={addFavButtonStyle} onClick={addFavorite} className = "likedislikebutton"></div>
+                }
                 <div style={downloadButtonStyle} onClick={downloadStory}></div>
                 
                 {liked?

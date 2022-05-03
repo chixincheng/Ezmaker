@@ -53,6 +53,10 @@ export const undoLikeStory = (id,payload) => api.put(`/undoLikeStory/${id}`, nul
 export const undoDislikeStory = (id,payload) => api.put(`/undoDislikeStory/${id}`, null, {params: payload } );
 export const incComicView = (id,payload) => api.put(`/incComicView/${id}`, null, {params: payload } );
 export const incStoryView = (id,payload) => api.put(`/incStoryView/${id}`, null, {params: payload } );
+export const favorComic = (id,payload) => api.put(`/favorComic/${id}`, null, {params: payload } );
+export const undoFavorComic = (id,payload) => api.put(`/undoFavorComic/${id}`, null, {params: payload } );
+export const favorStory = (id,payload) => api.put(`/favorStory/${id}`, null, {params: payload } );
+export const undoFavorStory = (id,payload) => api.put(`/undoFavorStory/${id}`, null, {params: payload } );
 
 // , null, {params: payload } 
 export const getStory = ( id, payload) => api.put(`/getStory/${id}`, null, {params: payload});
@@ -63,6 +67,9 @@ export const deleteStory = (id) => api.delete(`/deleteStory/${id}`);
 export const deletePublishedStory = (id) => api.delete(`/deletePublishedStory/${id}`);
 
 export const searchUserName = (searchInput) => api.get(`/searchUserName/${searchInput}`)
+export const searchPublishedComicByInput = (searchInput) => api.get(`/searchPublishedComicByInput/${searchInput}`)
+export const searchPublishedStoryByInput = (searchInput) => api.get(`/searchPublishedStoryByInput/${searchInput}`)
+
 
 export const getLoggedIn = () => api.get(`/loggedIn/`);
 export const registerUser = (payload) => api.post(`/register`,null, {params: payload} )
@@ -118,7 +125,13 @@ const apis = {
     undoLikeStory,
     undoDislikeStory,
     incStoryView,
-    incComicView
+    incComicView,
+    searchPublishedComicByInput,
+    searchPublishedStoryByInput,
+    favorComic,
+    undoFavorComic,
+    favorStory,
+    undoFavorStory
 }
 
 export default apis

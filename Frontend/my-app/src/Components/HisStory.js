@@ -1,11 +1,35 @@
-import ComicCard from "./ComicCard";
-import React, { useEffect, useState } from 'react';
+import StoryCard from "./StoryCard";
+import { Fragment } from "react";
+import ReactPaginate from 'react-paginate';
+import React, { useEffect, useState, useContext } from 'react';
+import axios from 'axios';
 // require('dotenv').config();
 import Pagination from '@mui/material/Pagination';
-import { useNavigate } from "react-router-dom";
+import images from "../Images/index.js";
+import { useNavigate,useLocation } from "react-router-dom";
+import api from "../api";
+import AuthContext from "../auth";
+
+
 
 
 const HisStory = ({itemsPerPage}) => {
+  const navigate = useNavigate();
+  const [pageCount, setPageCount] = useState(5);
+  const [stories, setStories] = useState([]);
+  const ctx = useContext(AuthContext);
+  const location = useLocation();
+ 
+  const loadAllStories = async ()=>{
+    const response2 = await api.getAllUserPublishedStories(location.pathname.split("/").at(-1));
+    setStories(response2.data.publishedStories);
+  };
+  
+ 
+  useEffect(()=>{
+    loadAllStories();
+  },[]);
+
 
   return (
     <div
@@ -25,25 +49,26 @@ const HisStory = ({itemsPerPage}) => {
         }}
       >
         <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>Stories:</b>
-        
       </div>
 
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(100px,300px))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(100px,350px))",
           justifyContent: "center",
         }}
+        
       >
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
-        <ComicCard></ComicCard>
+      
+      {stories.map((story, index)=>{
+          
+          return(<StoryCard key={index} story={story}></StoryCard>);
+        })}
 
-       
+      
       </div>
       <div style={{display:"flex",justifyContent:"center"}}><Pagination count={10} color="primary" /></div>
+      
     </div>
   );
 };

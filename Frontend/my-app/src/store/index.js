@@ -94,34 +94,8 @@ function GlobalStoreContextProvider(props) {
         }
     }
     store.setSearchKey = function (key) {
-        //how to search immediately
-        //use (use effect)
-        console.log("enter");
+
         setSearchKeyword(key);
-    }
-
-    store.searchNavigate = function(result){
-
-    }
-
-    store.sortByDislikes = function(){
-
-    }
-
-    store.sortByLikes = function(){
-
-    }
-
-    store.sortByNewest = function(){
-
-    }
-
-    store.sortByOldest = function(){
-        
-    }
-
-    store.sortByViews = function(){
-        
     }
 
     useEffect( ()=>{
@@ -134,15 +108,32 @@ function GlobalStoreContextProvider(props) {
             }
             searchUser();
         }
-        else{//search comic/story
+        else if (searchKeyWord.length >0){//search comic/story
             if(location.pathname.includes("comic")){//search comic
-
+                async function searchComic(){
+                    const response = await api.searchPublishedComicByInput(searchKeyWord);
+                    if(response.data.success){
+                        console.log(response.data.comic);
+                        setSearchResult(response.data.comic); 
+                    }
+                }
+                searchComic();
             }
             else{//search story
-
+                async function searchStory(){
+                    const response = await api.searchPublishedStoryByInput(searchKeyWord);
+                    if(response.data.success){
+                        setSearchResult(response.data.story); 
+                    }
+                }
+                searchStory();
             }
         }
     },[searchKeyWord])
+
+    store.resetSearchResult = function(){
+        setSearchResult([]);
+    }
 
     store.setSearchOption = function(option) {
         setSearchOption(option);
@@ -154,7 +145,7 @@ function GlobalStoreContextProvider(props) {
 
     return (
         <GlobalStoreContext.Provider value={{
-            store,searchResult:searchResult
+            store,searchResult:searchResult,option:searchOption
         }}>
             {props.children}
         </GlobalStoreContext.Provider>

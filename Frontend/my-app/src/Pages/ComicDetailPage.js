@@ -15,7 +15,7 @@ import api from "../api";
 
 
 
-var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(80vw - 40px)', backgroundImage: `url(${addFav})`,
+var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(85vw - 30px)', backgroundImage: `url(${addFav})`,
     backgroundPosition: 'right',
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
@@ -110,6 +110,7 @@ const ComicDetailPage = () => {
     const [dislikenum,setDislikenum] = useState(0);
     const [liked, setLiked] = useState(false);
     const [disliked,setDisliked] = useState(false);
+    const [favorited, setFavorited] = useState(false);
 
     const getTLDR = async ()=>{
         const getComicResponse = await api.getPublishedComicByID( names.at(-1));
@@ -146,6 +147,9 @@ const ComicDetailPage = () => {
             else if(comic.dislikedUser.includes(ctx.auth.user._id)){
                 setDisliked(true);
             }
+            if(ctx.auth.user.favoredComics.includes(comic._id)){
+                setFavorited(true);
+            }
         }
     },comic);
 
@@ -153,11 +157,19 @@ const ComicDetailPage = () => {
     const handleMount = (app) => {
         rTLDrawApp.current = app; // [2]
     };
-    const addFavorite = ()=>{
-        ;
+    const addFavorite = async ()=>{
+        const response = await api.favorComic(names.at(-1),{userID:ctx.auth.user._id, comicID: names.at(-1)});
+        if(response.status === 200){
+            ctx.auth.user.favoredComics = response.data.favoredComics;
+            setFavorited(true);
+        }
     };
-    const removeFavorite = ()=>{
-        ;
+    const removeFavorite = async ()=>{
+        const response = await api.undoFavorComic(names.at(-1),{userID:ctx.auth.user._id, comicID: names.at(-1)});
+        if(response.status === 200){
+            ctx.auth.user.favoredComics = response.data.favoredComics;
+            setFavorited(false);
+        }
     };
     const downloadComic = () => {
         ;
@@ -205,8 +217,12 @@ const ComicDetailPage = () => {
         <div  style={{background:"rgba(250, 241, 194, 1)", display:"flex", justifyContent: "center", flexDirection: "column", alignItems: "center"}} >
             <Header></Header>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "5rem 3rem 5rem 3rem", background: "rgba(250, 241, 194, 1)", height:`clac(100vh -  )` }}>
-                <div style={addFavButtonStyle} onClick={addFavorite}></div>
-                <div style={removeFavButtonStyle} onClick={removeFavorite}></div>
+                {favorited?
+                    <div style={addFavButtonStyle} onClick={removeFavorite} className = "likedislikebuttonpress"></div>
+                    :
+                    <div style={addFavButtonStyle} onClick={addFavorite} className = "likedislikebutton"></div>
+                }
+                
                 <div style={downloadButtonStyle} onClick={downloadComic}></div>
                 {liked?
                     <div style={likeButtonStyle} onClick={undolike} className = "likedislikebuttonpress"> {likenum} </div>

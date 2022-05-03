@@ -1,26 +1,34 @@
 import StoryCard from "./StoryCard";
-import { Fragment } from "react";
-import ReactPaginate from 'react-paginate';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import images from "../Images/index.js";
+import React, { useEffect, useState, useContext } from 'react';
 import Pagination from '@mui/material/Pagination';
-
-
-
+import api from "../api";
+import AuthContext from "../auth";
 
 
 
 
 const MyFavoriteStory = ({itemsPerPage}) => {
- 
-  const [pageCount, setPageCount] = useState(5);
- 
 
-  
-  const handlePageClick = (event) => {
-    
+  const [stories, setStories] = useState([]);
+  const ctx = useContext(AuthContext);
+ 
+  const loadAllStories = async ()=>{
+    var response = await api.getUserById(ctx.auth.user._id);
+    const storyid = response.data.user.favoredStories;
+    var storyarr = [];
+    for(var i = 0;i<storyid.length;i++){
+      response = await api.getPublishedStoryByID(storyid[i]);
+        if(response.data.success){
+          storyarr.push(response.data.story);
+        }
+    }    
+    setStories(storyarr);
   };
+  
+ 
+  useEffect(()=>{
+    loadAllStories();
+  },[]);
 
   return (
     <div
@@ -28,6 +36,7 @@ const MyFavoriteStory = ({itemsPerPage}) => {
         padding: "2rem 1rem 2rem 1rem",
         background: "rgba(187, 241, 253, 1)",
         borderRadius: "1rem",
+        marginBottom:"1rem"
       }}
     >
       <div
@@ -39,22 +48,21 @@ const MyFavoriteStory = ({itemsPerPage}) => {
         }}
       >
         <b style={{fontFamily: "Ribeye Marrow", fontSize: 20}}>My Favorite Stories:</b>
-        
       </div>
 
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(100px,300px))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(100px,350px))",
           justifyContent: "center",
         }}
-      >
         
-      {/* <StoryCard></StoryCard>
-      <StoryCard></StoryCard>
-      <StoryCard></StoryCard>
-      <StoryCard></StoryCard>
-      <StoryCard></StoryCard> */}
+      >
+      
+      {stories.map((story, index)=>{
+          
+          return(<StoryCard key={index} story={story}></StoryCard>);
+        })}
 
       
       </div>
