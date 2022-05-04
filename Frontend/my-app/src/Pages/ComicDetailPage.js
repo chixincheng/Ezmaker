@@ -249,7 +249,7 @@ const ComicDetailPage = () => {
                 <Tldraw   showMenu={!read} showMultiplayerMenu={!read} showPages={true} readOnly={ read } 
                 onClick={()=>{console.log("456");}}{...fileSystemEvents}onMount={handleMount} />
             </div>
-            <div style={{display:"flex",justifyContent:"center", background: "rgba(250, 241, 194, 1)", marginBottom:"1rem"}}><Pagination count={10} color="primary" /></div>
+            <div style={{display:"flex",justifyContent:"center", background: "rgba(250, 241, 194, 1)", marginBottom:"1rem", marginTop:"1rem"}}><Pagination count={10} color="primary" /></div>
             <div style={{display: "flex", width:"100%",flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
                 <div style={commentTitle}>Comment</div>
                 <div style={{height:"300px", width:"100%", background : "white", position:"relative"}}><div style={commendSentStyle} onClick={addComment}></div></div>
