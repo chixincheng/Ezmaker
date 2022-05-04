@@ -14,19 +14,19 @@ import api from "../api";
 import { useQuill } from 'react-quilljs';
 
 
-var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(85vw - 30px)', backgroundImage: `url(${addFav})`,
+var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",right: '15%', backgroundImage: `url(${addFav})`,
     backgroundPosition: 'right',
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     cursor:"pointer"
    };
-var removeFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(85vw - 30px)', backgroundImage: `url(${removeFav})`,
+var removeFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",right: '10%', backgroundImage: `url(${removeFav})`,
    backgroundPosition: 'right',
    backgroundSize: 'contain',
    backgroundRepeat: 'no-repeat',
    cursor:"pointer"
   };
-var downloadButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(90vw - 20px)', backgroundImage: `url(${download})`,
+var downloadButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",right: '5%', backgroundImage: `url(${download})`,
    backgroundPosition: 'right',
    backgroundSize: 'contain',
    backgroundRepeat: 'no-repeat',
@@ -37,13 +37,13 @@ var textStyle = {
     fontSize: 36
 };
 
-var likeButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(10vw - 100px)', backgroundImage: `url(${likeIcon})`,
+var likeButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",left: '5%', backgroundImage: `url(${likeIcon})`,
     backgroundPosition: 'left',
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     cursor:"pointer"
    };
-var dislikeButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"calc(20vh - 50px)",left: 'calc(15vw - 70px)', backgroundImage: `url(${dislikelikeIcon})`,
+var dislikeButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",left: '10%', backgroundImage: `url(${dislikelikeIcon})`,
    backgroundPosition: 'left',
    backgroundSize: 'contain',
    backgroundRepeat: 'no-repeat',
@@ -208,7 +208,7 @@ const StoryDetailPage = () => {
     return(
         <div  style={{background:"rgba(250, 241, 194, 1)", display:"flex", justifyContent: "center", flexDirection: "column"}} >
             <Header></Header>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "5rem 3rem 5rem 3rem", background: "rgba(250, 241, 194, 1)", height:`clac(100vh -  )` }}>
+            <div style={{ display: "flex",  position:"relative",flexDirection: "column", alignItems: "center", padding: "5rem 3rem 5rem 3rem", background: "rgba(250, 241, 194, 1)", height:`clac(100vh -  )` }}>
                 
                 {favorited?
                     <div style={addFavButtonStyle} onClick={removeFavorite} className = "likedislikebuttonpress"></div>
