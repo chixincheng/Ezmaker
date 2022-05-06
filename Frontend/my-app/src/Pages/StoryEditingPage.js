@@ -202,7 +202,7 @@ const StoryEditingPage = () => {
         <div style={{ position:"fixed",zIndex:"100"  ,width:"100vw", height:"100vh", backgroundImage:`url(${images.loading})`, backgroundRepeat: 'no-repeat', backgroundSize: 'contain',backgroundPosition: 'center' }} > 
         
         </div>
-         </Fragment>
+      </Fragment>
      
       :
       <Fragment/>

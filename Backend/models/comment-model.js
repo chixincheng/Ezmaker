@@ -4,9 +4,14 @@ const ObjectId = Schema.Types.ObjectId
 
 const CommentSchema = new Schema(
     {
-        commentUserID: { type: ObjectId, required: true },
+        isComic: {type: Boolean, required: true},
+        comicOrStoryID: {type: ObjectId, required: true},
+        isReplyToAnotherComment: {type: Boolean, required: true},
+        replyToCommentID: {type: ObjectId, required: false},
+        replyToUserID: {type: ObjectId, required: false},
+        creatorID: {type: ObjectId, required: true},
         content: {type: String, required: true},
-        replies: {type: [ObjectId], required: false}
+        // createdDate: {type: Date, required: true, default: new Date()
     },
     { timestamps: true },
 )

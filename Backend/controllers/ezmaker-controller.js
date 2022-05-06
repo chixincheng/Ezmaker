@@ -74,7 +74,7 @@ createComic = (req, res) => {
 //edit comics
 editComic = async (req, res) => {
     const body = req.query
-    console.log(body);
+    // console.log(body);
     if (!body || !body.id) {
         return resError(res,400, 'You must provide a body to update')
     }
@@ -552,145 +552,405 @@ getAllPublishedComics = async(req,res) =>{
 
 
 
+// // create a new comment
+// createComment = (req,res) =>{
+//     const body = req.query;
+//     if (!body) {
+//         return resError(res,400, 'You must provide a comment object')
+//     }
+//     const comment = new Comment(body);
+//     console.log("creating comment: " + JSON.stringify(comment));
+//     if (!comment) {
+//         return resError(res,400, 'Comment Object Creation Failed in JavaScript')
+//     }
+//     comment
+//         .save()
+//         .then(() => {
+//             return res.status(201).json({
+//                 success: true,
+//                 comment: comment,
+//                 message: 'Comment Created!'
+//             })
+//         })
+//         .catch(error => {
+//             return resError(res,400, 'Comment Not Created!')
+//         })
+// }
+
+// // get comment by id
+// getCommentByID = async (req, res) => {
+//     await Comment.findById({ _id: req.query._id }, (err, comment) => {
+//         if (err) {
+//             return resError(res,400, err)
+//         }
+//         if (!comment) {
+//             return resError(res,404, 'Comment Not Found!')
+//         }
+//         return res.status(200).json({ success: true, comment: comment })
+//     }).catch(err => console.log(err))
+// }
+
+// addRepliedComment = async (req,res) => {
+//     const body = req.query
+//     console.log("add replied comment: " + JSON.stringify(body));
+//     if (!body) {
+//         return resError(res,400, 'You must provide a body to update')
+//     }
+//     Comment.findOne({ _id: req.query.id }, (err, replyComment) => {
+//         console.log("Comment found: " + JSON.stringify(replyComment));
+//         if (err) {
+//             // ID is not found in published story and in published comic
+//             return resError(res,400, err)
+//         }
+//         if (!replyComment) {
+//             return resError(res,404, 'Comment Not Found!')
+//         }
+//         // ID found in published Comic table
+//         replyComment.replies.push(body.commentID);
+
+//         replyComment
+//             .save()
+//             .then(() => {
+//                 console.log("SUCCESS!!!");
+//                 return res.status(200).json({
+//                     success: true,
+//                     id: replyComment._id,
+//                     message: 'Comment updated!',
+//                 })
+//             })
+//             .catch(error => {
+//                 console.log("FAILURE: " + JSON.stringify(error));
+//                 return resError(res,400, 'Comment not updated!')
+//             })
+//     })
+// }
+
+// // update comment array in published comic/story
+// addComment = async (req, res) => {
+//     const body = req.query
+//     console.log("add Comment: " + JSON.stringify(body));
+//     if (!body) {
+//         return resError(res,400, 'You must provide a body to update')
+//     }
+//     PublishedStory.findOne({ _id: req.query.id }, (err, publishedStory) => {
+//         console.log("PublishedStory found: " + JSON.stringify(publishedStory));
+//         if (err || !publishedStory) {
+//             // Published story is not found, try to found id in published comic
+//             PublishedComic.findOne({ _id: req.query.id }, (err, publishedComic) => {
+//                 console.log("PublishedComic found: " + JSON.stringify(publishedComic));
+//                 if (err) {
+//                     // ID is not found in published story and in published comic
+//                     return resError(res,400, err)
+//                 }
+//                 if (!publishedComic) {
+//                     return resError(res,400, 'PublishedComic and PublishedStory not found!')
+//                 }
+//                 // ID found in published Comic table
+//                 publishedComic.comments.push(body.commentID);
+
+//                 publishedComic
+//                     .save()
+//                     .then(() => {
+//                         console.log("SUCCESS!!!");
+//                         return res.status(200).json({
+//                             success: true,
+//                             id: publishedComic._id,
+//                             message: 'PublishedComic updated!',
+//                         })
+//                     })
+//                     .catch(error => {
+//                         console.log("FAILURE: " + JSON.stringify(error));
+//                         return resError(res,400, 'PublishedComic not updated!')
+//                     })
+//             })
+//         }
+//         else {
+//                 //ID found in published Story table
+//             publishedStory.comments.push(body.commentID);
+
+//             publishedStory
+//                 .save()
+//                 .then(() => {
+//                     console.log("SUCCESS!!!");
+//                     return res.status(200).json({
+//                         success: true,
+//                         id: publishedStory._id,
+//                         message: 'PublishedStory updated!',
+//                     })
+//                 })
+//                 .catch(error => {
+//                     console.log("FAILURE: " + JSON.stringify(error));
+//                     return resError(res,400, 'PublishedStory not updated!')
+//                 })
+//         }
+        
+//     })
+// }
+
 // create a new comment
-createComment = (req,res) =>{
+createComment = async (req, res) => {
+    // console.log("creating new comment")
     const body = req.query;
-    if (!body) {
-        return resError(res,400, 'You must provide a comment object')
+
+    if (body['isComic'] !== undefined) {
+        body.isComic = body.isComic == 'true' ? true: false
     }
+    if (body['isReplyToAnotherComment'] !== undefined) {
+        body.isReplyToAnotherComment = body.isReplyToAnotherComment == 'true' ? true: false
+    }
+
+    // console.log(body)
+    
+    // check is PublishedComic or PublishedStory existed
+    if (body['isComic'] !== undefined) {
+        if (body.isComic == true) {
+            try {
+                await PublishedComic.findById(body.comicOrStoryID).orFail('Not Found')
+            }
+            catch (error) {
+                if (error == "Not Found") return resError(res, 404, "comicID Not Found")
+                return resError(res, 400, "PublishedComic findById Error")
+            }
+        }
+        else {
+            try {
+                await PublishedStory.findById(body.comicOrStoryID).orFail('Not Found')
+            }
+            catch (error) {
+                if (error == "Not Found") return resError(res, 404, "storyID Not Found")
+                return resError(res, 400, "PublishedStory findById Error")
+            }
+        }
+    }
+    else {
+        return resError(res, 400, "Must provide \'isComic\'")
+    }
+    
+
+    // check is isReplyToAnotherComment existed
+    if (body['isReplyToAnotherComment'] !== undefined) {
+        if (body.isReplyToAnotherComment == true) {
+            if (body['replyToCommentID'] !== undefined) {
+                try {
+                    if (body['replyToUserID'] !== undefined) {
+                        await Comment.findOne({_id:body.replyToCommentID, isComic:body.isComic, comicOrStoryID:body.comicOrStoryID, creatorID:body.replyToUserID}).orFail('Not Found')
+                    }
+                    else {
+                        await Comment.findOne({_id:body.replyToCommentID, isComic:body.isComic, comicOrStoryID:body.comicOrStoryID}).orFail('Not Found')
+                    }
+                    
+                }
+                catch (error) {
+                    if (error == "Not Found") return resError(res, 404, "replyToCommentID or replyToUserID Not Found or Not Matched In Current Comic or Story")
+                    return resError(res, 400, "repliedComment Comment findOne Error")
+                }
+            }
+            else {
+                return resError(res, 400, "Must provide \'replyToCommentID\' when \'isReplyToAnotherComment\' is true")
+            }
+        }
+        else if (body['replyToCommentID']  !== undefined || body['replyToUserID']  !== undefined) {
+            return resError(res, 400, "No need to provide \'replyToCommentID\' or \'replyToUserID\' when \'isReplyToAnotherComment\' is false.")
+        }
+    }
+    else {
+        return resError(res, 400, "Must provide \'isReplyToAnotherComment\'")
+    }
+
+    // check is creatorID existed
+    if (body['creatorID'] !== undefined) {
+        try {
+            await User.findById(body.creatorID).orFail('Not Found')
+        }
+        catch (error) {
+            if (error == "Not Found") return resError(res, 404, "creatorID Not Found")
+            return resError(res, 400, "creatorID: User findById Error")
+        }
+    }
+    else {
+        return resError(res, 400, "Must provide \'creatorID\'")
+    }
+
+    // check is content existed
+    if (body['content'] === undefined) {
+        return resError(res, 400, "Must provide \'content\'")
+    }
+
     const comment = new Comment(body);
-    console.log("creating comment: " + JSON.stringify(comment));
     if (!comment) {
-        return resError(res,400, 'Comment Object Creation Failed in JavaScript')
+        return resError(res,400, 'Comic Object Creation Failed in JavaScript')
     }
+
     comment
         .save()
         .then(() => {
-            return res.status(201).json({
+            return res.status(200).json({
                 success: true,
                 comment: comment,
                 message: 'Comment Created!'
             })
         })
         .catch(error => {
+            console.log(error)
             return resError(res,400, 'Comment Not Created!')
         })
 }
 
-// get comment by id
-getCommentByID = async (req, res) => {
-    await Comment.findById({ _id: req.query._id }, (err, comment) => {
-        if (err) {
-            return resError(res,400, err)
+// delete a comment
+deleteComment = async (req, res) => {
+    console.log('deleting Comment')
+    body = req.params;
+    console.log(body)
+    // check is userID existed
+    if (body['userID'] !== undefined) {
+        try {
+            await User.findById(body.userID).orFail('Not Found')
         }
-        if (!comment) {
-            return resError(res,404, 'Comment Not Found!')
+        catch (error) {
+            if (error == "Not Found") return resError(res, 404, "userID Not Found")
+            return resError(res, 400, "userID: User findById Error")
         }
-        return res.status(200).json({ success: true, comment: comment })
-    }).catch(err => console.log(err))
-}
-
-addRepliedComment = async (req,res) => {
-    const body = req.query
-    console.log("add replied comment: " + JSON.stringify(body));
-    if (!body) {
-        return resError(res,400, 'You must provide a body to update')
     }
-    Comment.findOne({ _id: req.query.id }, (err, replyComment) => {
-        console.log("Comment found: " + JSON.stringify(replyComment));
-        if (err) {
-            // ID is not found in published story and in published comic
-            return resError(res,400, err)
-        }
-        if (!replyComment) {
-            return resError(res,404, 'Comment Not Found!')
-        }
-        // ID found in published Comic table
-        replyComment.replies.push(body.commentID);
+    else {
+        return resError(res, 400, "Must provide \'userID\'")
+    }
 
-        replyComment
-            .save()
-            .then(() => {
-                console.log("SUCCESS!!!");
-                return res.status(200).json({
-                    success: true,
-                    id: replyComment._id,
-                    message: 'Comment updated!',
-                })
-            })
-            .catch(error => {
-                console.log("FAILURE: " + JSON.stringify(error));
-                return resError(res,400, 'Comment not updated!')
-            })
+    
+
+    // check is commentID existed
+    if (body['commentID'] !== undefined) {
+        try {
+            await Comment.deleteMany({replyToCommentID: body.commentID});
+            var delComment = await Comment.findOneAndDelete({_id:body.commentID, creatorID:body.userID}).orFail('Not Found')
+        }
+        catch (error) {
+            if (error == "Not Found") return resError(res, 404, "Not Found: commentID Not Found or No Comment has commentID as _id and userID as creatorID")
+            return resError(res, 400, "Comment findOneAndDelete Error")
+        }
+    }
+    else {
+        return resError(res, 400, "Must provide \'commentID\'")
+    }
+
+    return res.status(200).json({
+        success: true,
+        deletedComment: delComment,
+        message: "Delete A Comment Success"
     })
 }
 
-// update comment array in published comic/story
-addComment = async (req, res) => {
-    const body = req.query
-    console.log("add Comment: " + JSON.stringify(body));
-    if (!body) {
-        return resError(res,400, 'You must provide a body to update')
-    }
-    PublishedStory.findOne({ _id: req.query.id }, (err, publishedStory) => {
-        console.log("PublishedStory found: " + JSON.stringify(publishedStory));
-        if (err || !publishedStory) {
-            // Published story is not found, try to found id in published comic
-            PublishedComic.findOne({ _id: req.query.id }, (err, publishedComic) => {
-                console.log("PublishedComic found: " + JSON.stringify(publishedComic));
-                if (err) {
-                    // ID is not found in published story and in published comic
-                    return resError(res,400, err)
-                }
-                if (!publishedComic) {
-                    return resError(res,400, 'PublishedComic and PublishedStory not found!')
-                }
-                // ID found in published Comic table
-                publishedComic.comments.push(body.commentID);
+// get Comments
+getComments = async (req, res) => {
+    let body = JSON.parse(JSON.stringify(req.query)); // deep copy of req.query
+    
+    // check existence of parameters
+    if (body['isComic'] == undefined || body.isComic == 'null' || (body.isComic != 'true' && body.isComic != 'false'))
+        return resError(res, 400, "Must provide \'isComic\'")
+    else
+        body.isComic = body.isComic == 'true' ? true: false;
 
-                publishedComic
-                    .save()
-                    .then(() => {
-                        console.log("SUCCESS!!!");
-                        return res.status(200).json({
-                            success: true,
-                            id: publishedComic._id,
-                            message: 'PublishedComic updated!',
-                        })
-                    })
-                    .catch(error => {
-                        console.log("FAILURE: " + JSON.stringify(error));
-                        return resError(res,400, 'PublishedComic not updated!')
-                    })
-            })
+    if (body['isReplyToAnotherComment'] == undefined || body.isReplyToAnotherComment == 'null' || (body.isReplyToAnotherComment != 'true' && body.isReplyToAnotherComment != 'false'))
+        return resError(res, 400, "Must provide \'isReplyToAnotherComment\'")
+    else
+        body.isReplyToAnotherComment = body.isReplyToAnotherComment == 'true' ? true: false;
+
+    if (body['skip'] === undefined || body.skip == 'null')
+        return resError(res, 400, "Must provide \'skip\'")
+    else
+        body.skip = parseInt(body.skip)
+
+    if (body['limit'] === undefined || body.limit == 'null')
+        return resError(res, 400, "Must provide \'limit\'")
+    else
+        body.limit = parseInt(body.limit)
+
+
+    // console.log("getComments: ")
+    // console.log(body)
+
+
+    // check is PublishedComic or PublishedStory existed
+    if (body.isComic == true) {
+        try {
+            await PublishedComic.findById(body.comicOrStoryID).orFail('Not Found')
+        }
+        catch (error) {
+            if (error == "Not Found") return resError(res, 404, "comicID Not Found")
+            return resError(res, 400, "PublishedComic findById Error")
+        }
+    }
+    else {
+        try {
+            await PublishedStory.findById(body.comicOrStoryID).orFail('Not Found')
+        }
+        catch (error) {
+            if (error == "Not Found") return resError(res, 404, "storyID Not Found")
+            return resError(res, 400, "PublishedStory findById Error")
+        }
+    }
+
+    // check is replyToCommentID existed
+    if (body.isReplyToAnotherComment == true) {
+        if (body['replyToCommentID'] != 'null') {
+            try {
+                await Comment.findOne({_id:body.replyToCommentID, isComic:body.isComic, comicOrStoryID:body.comicOrStoryID}).orFail('Not Found')
+            }
+            catch (error) {
+                if (error == "Not Found") return resError(res, 404, "replyToCommentID Not Found In Current Comic or Story")
+                return resError(res, 400, "repliedComment Comment findById Error")
+            }
         }
         else {
-                //ID found in published Story table
-            publishedStory.comments.push(body.commentID);
-
-            publishedStory
-                .save()
-                .then(() => {
-                    console.log("SUCCESS!!!");
-                    return res.status(200).json({
-                        success: true,
-                        id: publishedStory._id,
-                        message: 'PublishedStory updated!',
-                    })
-                })
-                .catch(error => {
-                    console.log("FAILURE: " + JSON.stringify(error));
-                    return resError(res,400, 'PublishedStory not updated!')
-                })
+            return resError(res, 400, "Must provide \'replyToCommentID\' when \'isReplyToAnotherComment\' is true")
         }
-        
+    }
+    else if (body['replyToCommentID'] !== undefined) {
+        return resError(res, 400, "No need to provide \'replyToCommentID\' when \'isReplyToAnotherComment\' is false.")
+    }
+
+    // get comments by limit and skips
+    let filter = {
+        isComic: body.isComic, 
+        comicOrStoryID: body.comicOrStoryID, 
+        isReplyToAnotherComment: body.isReplyToAnotherComment,
+    }
+    if (body.isReplyToAnotherComment) {
+        filter['replyToCommentID'] = body.replyToCommentID;
+    }
+    let response = await Comment.find(
+                filter, 
+                {
+                    isComic: 0, 
+                    comicOrStoryID: 0
+                }, 
+                {
+                    sort:{
+                        createdAt:1
+                    }
+                }
+            );
+    // console.log("Results:==========================")
+    // console.log(body)
+    // console.log(response)
+    let totalCount = response.length;
+    let endIndex = (body.skip + body.limit) > totalCount ? totalCount : (body.skip + body.limit);
+    response = response.slice(body.skip, endIndex)
+
+    
+    return res.status(200).json({
+        success: true,
+        totalCount: totalCount,
+        comments: response,
+        message: "Get Comments Success"
     })
+    
+    
 }
 
 // update liked user list in a published comic when a user clicks like button
 likeComic = async (req, res) =>{
     const body = req.query;
-    console.log(body);
+    // console.log(body);
     await User.findById(body.userID, (err, user) => {
         if (err) {
             return resError(res,400, err)
@@ -1220,6 +1480,7 @@ getPublishedComicByID = async (req, res) => {
 
 // get published story by id
 getPublishedStoryByID = async (req, res) => {
+    // console.log("getPublsihedStoryByID: " + req.params.id)
     await PublishedStory.findById({ _id: req.params.id }, (err, story) => {
         if (err) {
             return resError(res,400, err)
@@ -1307,8 +1568,8 @@ module.exports = {
     getAllUserUnpublishedStories,
     getAllUserPublishedComics,
     getAllUserPublishedStories,
-    createComment,
-    addComment,
+    // createComment,
+    // addComment,
     likeComic,
     undoLikeComic,
     likeStory,
@@ -1327,8 +1588,8 @@ module.exports = {
     createPublishedStory,
     getPublishedComicByID,
     getPublishedStoryByID,
-    getCommentByID,
-    addRepliedComment,
+    // getCommentByID,
+    // addRepliedComment,
     searchComicByInput,
     searchStoryByInput,
     searchPublishedStoryByInput,
@@ -1338,5 +1599,8 @@ module.exports = {
     editStoryCoverPage,
     getAllPublishedComics,
     deletePublishedComic,
-    deletePublishedStory
+    deletePublishedStory,
+    createComment,
+    deleteComment,
+    getComments
 }
