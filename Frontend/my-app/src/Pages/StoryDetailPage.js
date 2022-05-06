@@ -252,7 +252,7 @@ const StoryDetailPage = () => {
             </div>
 
 
-            <div style={{display:"flex",justifyContent:"center", background: "rgba(250, 241, 194, 1)", marginBottom:"1rem", marginTop:"1rem"}}><Pagination count={10} color="primary" /></div>
+            <div style={{display:"flex",justifyContent:"center", background: "rgba(250, 241, 194, 1)", marginBottom:"1rem", marginTop:"1rem"}}></div>
             
             {/* <div style={{display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
                 <div style={commentTitle}>Comment</div>
