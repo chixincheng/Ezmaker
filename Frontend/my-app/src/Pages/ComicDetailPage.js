@@ -15,7 +15,7 @@ import api from "../api";
 import CommentSession from '../Components/CommentSession'
 
 
-var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",right: '15%', backgroundImage: `url(${addFav})`,
+var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",right: '10%', backgroundImage: `url(${addFav})`,
     backgroundPosition: 'right',
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
@@ -101,7 +101,7 @@ const ComicDetailPage = () => {
     const rTLDrawApp =   new TldrawApp() ;
     const [read, setRead] = useState(false);
     const location = useLocation();
-    var names = location.pathname.split("/");
+    var comicID = location.pathname.split("/").at(-1);
     const navigate = useNavigate();
     const fileUploaderRef = useRef();
     const fileSystemEvents = useFileSystem();
@@ -113,7 +113,7 @@ const ComicDetailPage = () => {
     const [favorited, setFavorited] = useState(false);
 
     const getTLDR = async ()=>{
-        const getComicResponse = await api.getPublishedComicByID( names.at(-1));
+        const getComicResponse = await api.getPublishedComicByID( comicID);
         
         if( getComicResponse.status !== 200 ){
             navigate("/comic/home");
@@ -158,14 +158,14 @@ const ComicDetailPage = () => {
         rTLDrawApp.current = app; // [2]
     };
     const addFavorite = async ()=>{
-        const response = await api.favorComic(names.at(-1),{userID:ctx.auth.user._id, comicID: names.at(-1)});
+        const response = await api.favorComic(comicID,{userID:ctx.auth.user._id, comicID: comicID});
         if(response.status === 200){
             ctx.auth.user.favoredComics = response.data.favoredComics;
             setFavorited(true);
         }
     };
     const removeFavorite = async ()=>{
-        const response = await api.undoFavorComic(names.at(-1),{userID:ctx.auth.user._id, comicID: names.at(-1)});
+        const response = await api.undoFavorComic(comicID,{userID:ctx.auth.user._id, comicID: comicID});
         if(response.status === 200){
             ctx.auth.user.favoredComics = response.data.favoredComics;
             setFavorited(false);
@@ -179,7 +179,7 @@ const ComicDetailPage = () => {
     }
     
     const like = async () => {
-        const response = await api.likeComic(names.at(-1),{userID:ctx.auth.user._id, comicID: names.at(-1)});
+        const response = await api.likeComic(comicID,{userID:ctx.auth.user._id, comicID: comicID});
         if(response.status === 200){
             setLikenum(response.data.likedUserArr.length);
             setDislikenum(response.data.dislikedUserArr.length);
@@ -188,7 +188,7 @@ const ComicDetailPage = () => {
         }
     }
     const undolike = async()=>{
-        const response = await api.undoLikeComic(names.at(-1),{userID:ctx.auth.user._id, comicID: names.at(-1)});
+        const response = await api.undoLikeComic(comicID,{userID:ctx.auth.user._id, comicID: comicID});
         if(response.status === 200){
             setLikenum(response.data.likedUserArr.length);
             setLiked(false);
@@ -196,7 +196,7 @@ const ComicDetailPage = () => {
     }
     
     const dislike = async () => {
-        const response = await api.dislikeComic(names.at(-1),{userID:ctx.auth.user._id, comicID: names.at(-1)});
+        const response = await api.dislikeComic(comicID,{userID:ctx.auth.user._id, comicID: comicID});
         if(response.status === 200){
             setLikenum(response.data.likedUserArr.length);
             setDislikenum(response.data.dislikedUserArr.length);
@@ -206,7 +206,7 @@ const ComicDetailPage = () => {
     }
 
     const undodislike = async() =>{
-        const response = await api.undoDislikeComic(names.at(-1),{userID:ctx.auth.user._id, comicID: names.at(-1)});
+        const response = await api.undoDislikeComic(comicID,{userID:ctx.auth.user._id, comicID: comicID});
         if(response.status === 200){
             setDislikenum(response.data.dislikedUserArr.length);
             setDisliked(false);
@@ -219,7 +219,7 @@ const ComicDetailPage = () => {
                 <Header></Header>
                 <div style={{ display: "flex", flexDirection: "column", width:"100%",position:"relative",alignItems: "center", padding: "5rem 3rem 5rem 3rem", background: "rgba(250, 241, 194, 1)", height:`clac(100vh -  )` }}>
                     {favorited?
-                        <div style={addFavButtonStyle} onClick={removeFavorite} className = "likedislikebuttonpress"></div>
+                        <div style={removeFavButtonStyle} onClick={removeFavorite} className = "likedislikebuttonpress"></div>
                         :
                         <div style={addFavButtonStyle} onClick={addFavorite} className = "likedislikebutton"></div>
                     }
@@ -243,7 +243,7 @@ const ComicDetailPage = () => {
                     style={{
                         position: "relative",
                         width: "80vw",
-                        height: "80vh"
+                        height: "80vh",
                     }}
                     onClick={(e)=>{ console.log("123");}}
                     >
@@ -252,16 +252,9 @@ const ComicDetailPage = () => {
                 </div>
                 <div style={{display:"flex",justifyContent:"center", background: "rgba(250, 241, 194, 1)", marginBottom:"1rem"}}><Pagination count={10} color="primary" /></div>
                 
-                
-                {/* <div style={{display: "flex", width:"100%",flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
-                    <div style={commentTitle}>Comment</div>
-                    <div style={{height:"300px", width:"100%", background : "white", position:"relative"}}><div style={commendSentStyle} onClick={addComment}></div></div>
+                <div style={{width:"100%", display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
+                    <CommentSession isComic={true} comicOrStoryID={comicID} />
                 </div>
-                
-                <div style={{display: "flex",width:"100%" ,justifyContent:"center" ,background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
-                    {commentList}
-                </div> */}
-                <CommentSession isComic={true} comicOrStoryID={names.at(-1)} />
             </div>
         </>
         

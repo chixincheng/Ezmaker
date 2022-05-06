@@ -15,7 +15,7 @@ import { useQuill } from 'react-quilljs';
 import CommentSession from '../Components/CommentSession'
 
 
-var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",right: '15%', backgroundImage: `url(${addFav})`,
+var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",right: '10%', backgroundImage: `url(${addFav})`,
     backgroundPosition: 'right',
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
@@ -217,7 +217,7 @@ const StoryDetailPage = () => {
             <div style={{ display: "flex",  position:"relative",flexDirection: "column", alignItems: "center", padding: "5rem 3rem 5rem 3rem", background: "rgba(250, 241, 194, 1)", height:`clac(100vh -  )` }}>
                 
                 {favorited?
-                    <div style={addFavButtonStyle} onClick={removeFavorite} className = "likedislikebuttonpress"></div>
+                    <div style={removeFavButtonStyle} onClick={removeFavorite} className = "likedislikebutton"></div>
                     :
                     <div style={addFavButtonStyle} onClick={addFavorite} className = "likedislikebutton"></div>
                 }
@@ -243,8 +243,8 @@ const StoryDetailPage = () => {
                     id="quill"
                     ref={quillRef}
                     style={{ 
-                        width: "80%", 
-                        height: "700px",
+                        width: "80vw",
+                        height: "120vh",
                     }}/>
             </div>
 
@@ -261,7 +261,7 @@ const StoryDetailPage = () => {
                 {commentList}
             </div> */}
             <div style={{display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
-                <CommentSession isComic={false} comicOrStoryID={storyID} show={true}/>
+                <CommentSession isComic={false} comicOrStoryID={storyID}/>
             </div>
             
         </div>

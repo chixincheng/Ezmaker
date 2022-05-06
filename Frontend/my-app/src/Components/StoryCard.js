@@ -57,7 +57,7 @@ const StoryCard = ( props ) => {
       </img> */}
 
       <img src={  props.story.coverPage   ?   props.story.coverPage: "https://res.cloudinary.com/daufq6nuh/image/upload/v1650580213/Ezmaker/WeChat_Image_20220421182906_etv2nu.png" } 
-        style={{width:"100%", height:"85%"}}>
+        style={{width:"100%", height:"auto"}}>
       </img>
 
       <div>
