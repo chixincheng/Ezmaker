@@ -12,6 +12,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import AuthContext from "../auth";
 import api from "../api";
 import { useQuill } from 'react-quilljs';
+import CommentSession from '../Components/CommentSession'
 
 
 var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",right: '15%', backgroundImage: `url(${addFav})`,
@@ -94,7 +95,11 @@ let commentList = <List>
     }
 </List>;
 
+
+
 const StoryDetailPage = () => {
+    
+
     const ctx = useContext(AuthContext);
     const navigate = useNavigate();
     const [story, setStory] = useState(null);
@@ -206,6 +211,7 @@ const StoryDetailPage = () => {
     }
 
     return(
+        <>
         <div  style={{background:"rgba(250, 241, 194, 1)", display:"flex", justifyContent: "center", flexDirection: "column"}} >
             <Header></Header>
             <div style={{ display: "flex",  position:"relative",flexDirection: "column", alignItems: "center", padding: "5rem 3rem 5rem 3rem", background: "rgba(250, 241, 194, 1)", height:`clac(100vh -  )` }}>
@@ -227,7 +233,7 @@ const StoryDetailPage = () => {
                     :
                     <div style={dislikeButtonStyle} onClick={dislike} className = "likedislikebutton"> {dislikenum} </div>
                 }
-               
+            
                 <div style={textStyle}>{story === null ?   "Story Title":story.storyTitle}</div>
                 <div style={textStyle}>{story === null ?   "Author Name":story.authorName}</div>
             </div>
@@ -245,7 +251,7 @@ const StoryDetailPage = () => {
 
             <div style={{display:"flex",justifyContent:"center", background: "rgba(250, 241, 194, 1)", marginBottom:"1rem", marginTop:"1rem"}}><Pagination count={10} color="primary" /></div>
             
-            <div style={{display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
+            {/* <div style={{display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
                 <div style={commentTitle}>Comment</div>
                 <div style={{height:"300px", width:"100%", background : "white", position:"relative"}}><div style={commendSentStyle} onClick={addComment}></div></div>
                 
@@ -253,8 +259,15 @@ const StoryDetailPage = () => {
             
             <div style={{display: "flex", justifyContent:"center" ,background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
                 {commentList}
+            </div> */}
+            <div style={{display: "flex", flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
+                <CommentSession isComic={false} comicOrStoryID={storyID} show={true}/>
             </div>
+            
         </div>
+        
+        </>
+        
     );
 };   
 

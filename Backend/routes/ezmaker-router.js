@@ -63,11 +63,27 @@ router.get('/getAllUserPublishedComics/:id', auth.verify, EasyMakerController.ge
 // get all published stories of this user
 router.get('/getAllUserPublishedStories/:id', auth.verify, EasyMakerController.getAllUserPublishedStories)
 
-// create a new comment
-router.post('/createComment', auth.verify, EasyMakerController.createComment)
+// // create a new comment
+// router.post('/createComment', auth.verify, EasyMakerController.createComment)
 
-// modify a partifuclar comment array in published comic/story
-router.put('/addComment', auth.verify, EasyMakerController.addComment)
+// // modify a partifuclar comment array in published comic/story
+// router.put('/addComment', auth.verify, EasyMakerController.addComment)
+
+// // get a specific comment in Comment table by id
+// router.get('/getCommentByID', auth.verify, EasyMakerController.getCommentByID)
+
+// // modify a partifuclar comment array in Comment table
+// router.put('/addRepliedComment', auth.verify, EasyMakerController.addRepliedComment)
+
+// create a new comment
+router.post('/createComment', EasyMakerController.createComment)
+
+// delete a comment
+router.delete('/deleteComment/:commentID/:userID', auth.verify, EasyMakerController.deleteComment)
+
+// get Comments
+router.put('/getComments/:id', EasyMakerController.getComments)
+// router.get('/getComments/:isComic/:comicOrStoryID/:isReplyToAnotherComment/:replyToCommentID/:skip/:limit', auth.verify, EasyMakerController.getComments)
 
 // update liked user list in a published comic when a user clicks like button
 router.put('/likeComic/:id', auth.verify, EasyMakerController.likeComic)
@@ -123,12 +139,6 @@ router.get('/getPublishedComicByID/:id', auth.verify, EasyMakerController.getPub
 // get a specific published story in PublishedStory table by id
 router.get('/getPublishedStoryByID/:id', auth.verify, EasyMakerController.getPublishedStoryByID)
 
-// get a specific comment in Comment table by id
-router.get('/getCommentByID', auth.verify, EasyMakerController.getCommentByID)
-
-// modify a partifuclar comment array in Comment table
-router.put('/addRepliedComment', auth.verify, EasyMakerController.addRepliedComment)
-
 // get all the search result by user input in comic table
 router.get('/searchComicByInput', auth.verify, EasyMakerController.searchComicByInput)
 
@@ -161,6 +171,10 @@ router.get('/logout', UserController.logoutUser)
 
 // Get user by id
 router.get('/user/:id', UserController.getUserById)
+
+// Get username and profile picture by id
+router.get('/getUsernameAndProfilePicByID/:userID', UserController.getUsernameAndProfilePicByID)
+
 // Update user by id (password reset and user information change)
 router.put('/user/:id',  auth.verify ,imgUpload.array("imgFile", 1)  ,UserController.updateUser)
 

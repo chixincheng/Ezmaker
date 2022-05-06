@@ -255,6 +255,28 @@ getUserById = async (req, res) => {
         return res.status(200).json({ success: true, user: user })
     }).catch(err => console.log(err))
 }
+
+// Get username and profile picture by id
+getUsernameAndProfilePicByID = async (req, res) => {
+    console.log("getUsernameAndProfilePicByID: " + req.params.userID)
+    await User.findById({ _id: req.params.userID }, (err, user) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err });
+        }
+        if (!user) {
+            return res.status(404).json({success: false, error: "userID not found"})
+        }
+        // console.log("username: " + user.userName);
+        // console.log("profilePicture: " + user.profilePicture);
+        return res.status(200).json({ 
+            success: true, 
+            id: user._id, 
+            userName: user.userName, 
+            profilePicture: user.profilePicture
+            })
+    }).catch(err => console.log(err))
+}
+
 //==change password and password reset can be handled here
 updateUser = async (req, res) => {
     const body = req.query
@@ -432,5 +454,6 @@ module.exports = {
     updateUser,
     logoutUser,
     resetPassword,
-    deleteUser
+    deleteUser,
+    getUsernameAndProfilePicByID
 }

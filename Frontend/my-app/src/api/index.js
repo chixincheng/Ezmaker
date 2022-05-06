@@ -66,16 +66,22 @@ export const getPublishedStoryByID = (id) => api.get(`getPublishedStoryByID/${id
 export const deleteStory = (id) => api.delete(`/deleteStory/${id}`); 
 export const deletePublishedStory = (id) => api.delete(`/deletePublishedStory/${id}`);
 
-export const searchUserName = (searchInput) => api.get(`/searchUserName/${searchInput}`)
 export const searchPublishedComicByInput = (searchInput) => api.get(`/searchPublishedComicByInput/${searchInput}`)
 export const searchPublishedStoryByInput = (searchInput) => api.get(`/searchPublishedStoryByInput/${searchInput}`)
 
+export const createComment = (payload) => api.post(`createComment`, null, {params: payload});
+export const deleteComment = (commentID, userID) => api.delete(`deleteComment/${commentID}/${userID}`);
 
+export const getComments = (id,payload) => api.put(`getComments/${id}`, null, {params: payload});
+// export const getComments = (isComic, comicOrStoryID, isReplyToAnotherComment, replyToCommentID, skip, limit) => api.get(`getComments/${isComic}/${comicOrStoryID}/${isReplyToAnotherComment}/${replyToCommentID}/${skip}/${limit}`);
+
+export const searchUserName = (searchInput) => api.get(`/searchUserName/${searchInput}`)
 export const getLoggedIn = () => api.get(`/loggedIn/`);
 export const registerUser = (payload) => api.post(`/register`,null, {params: payload} )
 export const loginUser = (payload) => api.post(`/login/`, null, {params: payload})
 export const logoutUser = () => api.get(`/logout/`)
 export const getUserById = (id) => api.get(`/user/${id}`)
+export const getUsernameAndProfilePicByID = (id) => api.get(`/getUsernameAndProfilePicByID/${id}`)
 export const updateUserById = (id, payload, formData ) =>{
     if( formData === null ){
         return api.put(`/user/${id}`, null , {params: payload})
@@ -131,7 +137,12 @@ const apis = {
     favorComic,
     undoFavorComic,
     favorStory,
-    undoFavorStory
+    undoFavorStory,
+    getUsernameAndProfilePicByID,
+    createComment,
+    deleteComment,
+    getComments
+
 }
 
 export default apis
