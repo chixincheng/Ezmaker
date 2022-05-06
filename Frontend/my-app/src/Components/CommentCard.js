@@ -82,7 +82,6 @@ const CommentCard = (props) => {
             else {
                 setUserName(userResponse.data.userName);
                 setProfilePic(userResponse.data.profilePicture);
-                // alert(id + " " + userResponse.data.userName + " " + userResponse.data.profilePicture);
                 let entries = [
                     ...userIDUsernamePictureMap.entries(),
                     [
@@ -115,7 +114,7 @@ const CommentCard = (props) => {
                 <div>
                     <p onClick={userIconAndNameOnClick}>{userName}</p>
                     { comment.replyToUserID ?
-                        <p>@{userIDUsernamePictureMap.get(comment.replyToUserID)[0]}: {comment.content}</p>
+                        <p>{userIDUsernamePictureMap.get(comment.replyToUserID)? ("@"+userIDUsernamePictureMap.get(comment.replyToUserID)[0]+":"): ""} {comment.content}</p>
                         :
                         <p>{comment.content}</p>
                     }

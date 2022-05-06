@@ -63,18 +63,6 @@ router.get('/getAllUserPublishedComics/:id', auth.verify, EasyMakerController.ge
 // get all published stories of this user
 router.get('/getAllUserPublishedStories/:id', auth.verify, EasyMakerController.getAllUserPublishedStories)
 
-// // create a new comment
-// router.post('/createComment', auth.verify, EasyMakerController.createComment)
-
-// // modify a partifuclar comment array in published comic/story
-// router.put('/addComment', auth.verify, EasyMakerController.addComment)
-
-// // get a specific comment in Comment table by id
-// router.get('/getCommentByID', auth.verify, EasyMakerController.getCommentByID)
-
-// // modify a partifuclar comment array in Comment table
-// router.put('/addRepliedComment', auth.verify, EasyMakerController.addRepliedComment)
-
 // create a new comment
 router.post('/createComment', EasyMakerController.createComment)
 

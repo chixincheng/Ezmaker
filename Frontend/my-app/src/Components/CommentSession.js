@@ -42,11 +42,6 @@ const CommentSession = (props) => {
     }
 
     const sendComment = async () => {
-        if (commentText == "") {
-            // alert(JSON.stringify(userIDUsernamePictureMap))
-            alert(JSON.stringify([...userIDUsernamePictureMap.entries()]))
-            return
-        }
         let payload = {
             isComic: props.isComic,
             comicOrStoryID: props.comicOrStoryID,
@@ -84,8 +79,6 @@ const CommentSession = (props) => {
             limit: limit
         }
         const response = await api.getComments(props.comicOrStoryID, payload);
-        //                         getComments(isComic, comicOrStoryID, isReplyToAnotherComment, skip, limit)
-        // const response = await api.getComments(props.isComic, props.comicOrStoryID, false, null, skip, limit);
 
         // update firstLayerComments list, maximum comments in this list, and number of skips
         if (response.status !== 200) {
@@ -117,7 +110,6 @@ const CommentSession = (props) => {
         <> 
             <div style={{fontFamily: 'Ribeye Marrow', fontSize: 36}}>Comment</div>
             <DetailPageContext.Provider value={value}>
-                {/* <div style={{width: "80%"}}> */}
                 <div style={{width: "80%", position:"relative"}}>
                     { replyToUsername ?
                         <Button 
@@ -149,10 +141,8 @@ const CommentSession = (props) => {
                             height:"50px", 
                             width:"80px", 
                             position:"absolute",  
-                            // bottom:"-60px", 
                             right:"-60px",
                             bottom:"0px", 
-                            // right:"0px",
                             backgroundImage: `url(${commentSend})`, 
                             backgroundPosition: 'right', 
                             backgroundSize: 'contain',
@@ -161,26 +151,14 @@ const CommentSession = (props) => {
                         }} 
                         onClick={sendComment}>    
                     </div>
-                    {/* <Button /> */}
                 </div>
 
-{/* <div style={{display: "flex", width:"100%",flexDirection: "column", alignItems: "center", background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
-    <div style={commentTitle}>Comment</div>
-    <div style={{height:"300px", width:"100%", background : "white", position:"relative"}}><div style={commendSentStyle} onClick={addComment}></div></div>
-</div>
-
-<div style={{display: "flex",width:"100%" ,justifyContent:"center" ,background: "rgba(187,241,253,255)", padding: "5rem 3rem 5rem 3rem"}}>
-    {commentList}
-</div> */}
                 <div style={{alignItems: "left"}}>
                     {
-                        // firstLayerComments.length > 0 ?
                         firstLayerComments.map((firstLayerComment, index)=>{
                             
                             return(<CommentGroup key={'CommentGroup #' + index} firstLayerComment={firstLayerComment}/>)
                         })
-                        // :
-                        // <br></br>
                     }
 
                     {(totalFirstLayerComments != 0 && totalFirstLayerComments != firstLayerComments.length) ?

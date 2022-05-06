@@ -71,9 +71,7 @@ export const searchPublishedStoryByInput = (searchInput) => api.get(`/searchPubl
 
 export const createComment = (payload) => api.post(`createComment`, null, {params: payload});
 export const deleteComment = (commentID, userID) => api.delete(`deleteComment/${commentID}/${userID}`);
-
 export const getComments = (id,payload) => api.put(`getComments/${id}`, null, {params: payload});
-// export const getComments = (isComic, comicOrStoryID, isReplyToAnotherComment, replyToCommentID, skip, limit) => api.get(`getComments/${isComic}/${comicOrStoryID}/${isReplyToAnotherComment}/${replyToCommentID}/${skip}/${limit}`);
 
 export const searchUserName = (searchInput) => api.get(`/searchUserName/${searchInput}`)
 export const getLoggedIn = () => api.get(`/loggedIn/`);

@@ -31,8 +31,6 @@ const CommentGroup = (props) => {
             limit: limit
         }
         const response = await api.getComments(firstLayerComment._id,payload);
-        //                         getComments(isComic, comicOrStoryID, isReplyToAnotherComment, replyToCommentID, skip, limit)
-        // const response = await api.getComments(isComic, comicOrStoryID, true, firstLayerComment._id, skip, limit);
         if (response.status !== 200) {
             alert("Loading Replied Comments Failed");
         }
@@ -41,7 +39,6 @@ const CommentGroup = (props) => {
             setSkip(skip + response.data.comments.length);
             setLimit(limit == 2 ? maxLimit - limit : maxLimit);
             setRepliedComments([...repliedComments, ...response.data.comments]);
-            console.log(response.data.comments)
         }
     }
 
