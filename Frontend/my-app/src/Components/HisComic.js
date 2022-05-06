@@ -20,7 +20,10 @@ const HisComic = ({itemsPerPage}) => {
   const [comics, setComics] = useState([]);
   const ctx = useContext(AuthContext);
   const location = useLocation();
-
+  const [ myPage , setMyPage] = useState(1);
+  const setPage = (e, p) => {
+    setMyPage(p);
+  }
   const loadAllComics = async ()=>{
     const response2 = await api.getAllUserPublishedComics(location.pathname.split("/").at(-1));
     setComics(response2.data.publishedComics);
@@ -59,13 +62,15 @@ const HisComic = ({itemsPerPage}) => {
         }}
       >
         {comics.map((comic, index)=>{
+           if( Math.floor(index/6)+1  === myPage ){
+            return(<ComicCard key={index} comic={comic}></ComicCard>);
+           }
           
-          return(<ComicCard key={index} comic={comic}></ComicCard>);
         })}
 
        
       </div>
-      <div style={{display:"flex",justifyContent:"center"}}><Pagination count={10} color="primary" /></div>
+      <div style={{display:"flex",justifyContent:"center"}}><Pagination setPage={setPage} page={myPage} count={ Math.ceil(comics.length/ 6)  } color="primary" /></div>
     </div>
   );
 };

@@ -14,7 +14,10 @@ const ComicCommunityPage = ()=>{
   const [comics, setComics] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
-
+  const [ myPage , setMyPage] = useState(1);
+  const setPage = (e, p) => {
+    setMyPage(p);
+  }
   const loadAllComics = async ()=>{
     const response2 = await api.getCommunityComics();
     var array = [...response2.data.comics]
@@ -143,11 +146,13 @@ const ComicCommunityPage = ()=>{
         }}
       >
         {comics.map((comic, index)=>{
-        
-        return(<ComicCard key={index} comic={comic}></ComicCard>);
+        if( Math.floor(index/6)+1  === myPage ){
+          return(<ComicCard key={index} comic={comic}></ComicCard>);
+        }
+       
       })}
       </div>
-      <div style={{display:"flex",justifyContent:"center"}}><Pagination count={10} color="primary" /></div>
+      <div style={{display:"flex",justifyContent:"center"}}><Pagination setPage={setPage} page={myPage} count={ Math.ceil(comics.length/ 6)  } color="primary" /></div>
     </div>
   </Fragment>);
 };

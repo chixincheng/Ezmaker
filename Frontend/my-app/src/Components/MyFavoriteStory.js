@@ -11,7 +11,10 @@ const MyFavoriteStory = ({itemsPerPage}) => {
 
   const [stories, setStories] = useState([]);
   const ctx = useContext(AuthContext);
- 
+  const [ myPage , setMyPage] = useState(1);
+  const setPage = (e, p) => {
+    setMyPage(p);
+  }
   const loadAllStories = async ()=>{
     var response = await api.getUserById(ctx.auth.user._id);
     const storyid = response.data.user.favoredStories;
@@ -60,13 +63,15 @@ const MyFavoriteStory = ({itemsPerPage}) => {
       >
       
       {stories.map((story, index)=>{
+          if( Math.floor(index/6)+1  === myPage ){
+            return(<StoryCard key={index} story={story}></StoryCard>);
+          }
           
-          return(<StoryCard key={index} story={story}></StoryCard>);
         })}
 
       
       </div>
-      <div style={{display:"flex",justifyContent:"center"}}><Pagination count={10} color="primary" /></div>
+      <div style={{display:"flex",justifyContent:"center"}}><Pagination setPage={setPage} page={myPage} count={ Math.ceil(stories.length/ 6)  } color="primary" /></div>
       
     </div>
   );

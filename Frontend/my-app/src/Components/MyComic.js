@@ -16,10 +16,13 @@ import { Tldraw, TldrawApp, useFileSystem, TDDocument,  TDExport } from "@tldraw
 const MyComic = ({itemsPerPage}) => {
   const rTLDrawApp =   new TldrawApp() ;
   const navigate = useNavigate();
-  const [pageCount, setPageCount] = useState(5);
+  
   const [comics, setComics] = useState([]);
   const ctx = useContext(AuthContext);
-
+  const [ myPage , setMyPage] = useState(1);
+  const setPage = (e, p) => {
+    setMyPage(p);
+  }
 
   const loadAllComics = async ()=>{
     const response = await api.getAllUserUnpublishedComics(ctx.auth.user._id);
@@ -86,13 +89,15 @@ const MyComic = ({itemsPerPage}) => {
         }}
       >
         {comics.map((comic, index)=>{
+          if( Math.floor(index/6)+1  === myPage ){
+            return(<ComicCard key={index} comic={comic}></ComicCard>);
+          }
           
-          return(<ComicCard key={index} comic={comic}></ComicCard>);
         })}
 
        
       </div>
-      <div style={{display:"flex",justifyContent:"center"}}><Pagination count={10} color="primary" /></div>
+      <div style={{display:"flex",justifyContent:"center"}}><Pagination setPage={setPage} page={myPage} count={ Math.ceil(comics.length/ 6)  } color="primary" /></div>
     </div>
   );
 };
