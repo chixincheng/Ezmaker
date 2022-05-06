@@ -1,14 +1,6 @@
 import { Fragment, useState, useContext, useEffect, useRef} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Playlist from "../Components/Playlist";
 import Header from "../Components/Header";
-import icon from "../Images/icon.png";
-import verify from "../Images/verify.png";
-import editInfo from "../Images/editInfo.png";
-import playlist from "../Images/playlist.png";
-import MyStory from "../Components/MyStory";
-import MyFavoriteStory from "../Components/MyFavoriteStory";
-import AvailableComic from "../Components/AvailableComic";
 import AuthContext from "../auth";
 import api from "../api";
 import images from "../Images";

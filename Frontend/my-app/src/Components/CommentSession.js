@@ -154,7 +154,7 @@ const CommentSession = (props) => {
                     </div>
                 </div>
 
-                <div style={{alignItems: "left"}}>
+                <div style={{alignItems: "left", width: "80%"}}>
                     {
                         firstLayerComments.map((firstLayerComment, index)=>{
                             

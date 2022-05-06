@@ -74,7 +74,7 @@ DO NOT DELETE THIS, otherwise there is a large blank in the bottom of StoryDetai
 .likedislikebuttonpress {
   color: rgba(0, 0, 0, 0.959)!important;
   outline: none;
-  -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
-     -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
-          box-shadow: inset 0px 0px 5px #c1c1c1;
+  -webkit-box-shadow: inset 0px 0px 15px #777777;
+     -moz-box-shadow: inset 0px 0px 15px #777777;
+          box-shadow: inset 0px 0px 15px #777777;
 }

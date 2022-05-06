@@ -15,19 +15,19 @@ import { useQuill } from 'react-quilljs';
 import CommentSession from '../Components/CommentSession'
 
 
-var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",right: '10%', backgroundImage: `url(${addFav})`,
+var addFavButtonStyle = {height:"50px", width:"50px", position:"absolute", top:"20%",right: '10%', backgroundImage: `url(${addFav})`,
     backgroundPosition: 'right',
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     cursor:"pointer"
    };
-var removeFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",right: '10%', backgroundImage: `url(${removeFav})`,
+var removeFavButtonStyle = {height:"50px", width:"50px", position:"absolute", top:"20%",right: '10%', backgroundImage: `url(${removeFav})`,
    backgroundPosition: 'right',
    backgroundSize: 'contain',
    backgroundRepeat: 'no-repeat',
    cursor:"pointer"
   };
-var downloadButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",right: '5%', backgroundImage: `url(${download})`,
+var downloadButtonStyle = {height:"50px", width:"50px", position:"absolute", top:"20%",right: '5%', backgroundImage: `url(${download})`,
    backgroundPosition: 'right',
    backgroundSize: 'contain',
    backgroundRepeat: 'no-repeat',
@@ -38,24 +38,14 @@ var textStyle = {
     fontSize: 36
 };
 
-var likeButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",left: '5%', backgroundImage: `url(${likeIcon})`,
+var likeButtonStyle = {height:"50px", width:"50px", position:"absolute", top:"20%",left: '5%', backgroundImage: `url(${likeIcon})`,
     backgroundPosition: 'left',
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     cursor:"pointer"
    };
-var dislikeButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",left: '10%', backgroundImage: `url(${dislikelikeIcon})`,
+var dislikeButtonStyle = {height:"50px", width:"50px", position:"absolute", top:"20%",left: '10%', backgroundImage: `url(${dislikelikeIcon})`,
    backgroundPosition: 'left',
-   backgroundSize: 'contain',
-   backgroundRepeat: 'no-repeat',
-   cursor:"pointer"
-  };
-var commentTitle = {
-    fontFamily: 'Ribeye Marrow',
-    fontSize: 36
-};
-var commendSentStyle = {height:"50px", width:"80px", position:"absolute" , bottom:"-60px", right:"15px",  backgroundImage: `url(${commentSend})`,
-   backgroundPosition: 'right',
    backgroundSize: 'contain',
    backgroundRepeat: 'no-repeat',
    cursor:"pointer"
@@ -224,14 +214,27 @@ const StoryDetailPage = () => {
                 <div style={downloadButtonStyle} onClick={downloadStory}></div>
                 
                 {liked?
-                    <div style={likeButtonStyle} onClick={undolike} className = "likedislikebuttonpress"> {likenum} </div>
-                    :
-                    <div style={likeButtonStyle} onClick={like} className = "likedislikebutton"> {likenum} </div>
+                        <div style={{display:"flex"}}>
+                            <div style={likeButtonStyle} onClick={undolike} className = "likedislikebuttonpress"></div>
+                            <div style={{position:"absolute", top:"23%",left:"8%",fontSize: 24}}>{likenum} </div>
+                        </div>
+                        :
+                        <div style={{display:"flex"}}>
+                            <div style={likeButtonStyle} onClick={like} className = "likedislikebutton"></div>
+                            <div style={{position:"absolute", top:"23%",left:"8%",fontSize: 24}}>{likenum} </div>
+                        </div>
                 }
                 {disliked?
-                    <div style={dislikeButtonStyle} onClick={undodislike} className = "likedislikebuttonpress"> {dislikenum} </div>
+                    <div style={{display:"flex"}}>
+                        <div style={dislikeButtonStyle} onClick={undodislike} className = "likedislikebuttonpress"></div>
+                        <div style={{position:"absolute", top:"23%",left:"13.5%",fontSize: 24}}>{dislikenum} </div>
+                    </div>
                     :
-                    <div style={dislikeButtonStyle} onClick={dislike} className = "likedislikebutton"> {dislikenum} </div>
+                    <div style={{display:"flex"}}>
+                        <div style={dislikeButtonStyle} onClick={dislike} className = "likedislikebutton"></div>
+                        <div style={{position:"absolute", top:"23%",left:"13.5%",fontSize: 24}}>{dislikenum} </div>
+                    </div>
+                    
                 }
             
                 <div style={textStyle}>{story === null ?   "Story Title":story.storyTitle}</div>

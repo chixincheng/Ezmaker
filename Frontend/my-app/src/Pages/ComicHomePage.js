@@ -64,20 +64,6 @@ const ComicHomePage = () => {
             ></div>
             <b>Edit Info</b>
           </div>
-          <div onClick={()=>{navigate("/comic/playlist");}} style={{display:"flex", alignItems:"center", cursor:"pointer"}}>
-            {" "}
-            <div
-              style={{
-                width: "50px",
-                height: "50px",
-                backgroundImage: `url(${playlist})`,
-                backgroundPosition: "center",
-                backgroundSize: "contain",
-                backgroundRepeat: "no-repeat",
-              }}
-            ></div>
-            <b>Playlist</b>
-          </div>
         </div>
         <MyComic></MyComic>
         <MyFavoriteComic></MyFavoriteComic>

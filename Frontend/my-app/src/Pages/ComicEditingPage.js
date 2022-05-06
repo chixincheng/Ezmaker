@@ -1,15 +1,6 @@
 import { Fragment, useState } from "react";
-import Playlist from "../Components/Playlist";
 import Header from "../Components/Header";
-import icon from "../Images/icon.png";
-import verify from "../Images/verify.png";
-import editInfo from "../Images/editInfo.png";
-import playlist from "../Images/playlist.png";
-import MyComic from "../Components/MyComic";
-import MyFavoriteComic from "../Components/MyFavoriteComic";
 import { useNavigate } from "react-router-dom";
-import AvailableComic from "../Components/AvailableComic";
-import Pagination from '@mui/material/Pagination';
 import images from "../Images";
 import { Tldraw, TldrawApp, useFileSystem, TDDocument,  TDExport } from "@tldraw/tldraw";
 import { TDExportTypes } from '@tldraw/tldraw'
@@ -43,7 +34,7 @@ const ComicEditingPage = () => {
   const [deleteopen, setDeleteOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [publishID, setPublishID] = useState(null);
-
+  const coverPageImgRef = useRef();
   const getTLDR = async ()=>{
     const getComicResponse = await api.getComic( comicID, {id:ctx.auth.user._id} );
     
@@ -51,8 +42,6 @@ const ComicEditingPage = () => {
         navigate("/comic/home");
     }
 
-
-   
     setTitle(getComicResponse.data.comic.comicTitle);
     setPublishID(getComicResponse.data.comic.publishID);
 
@@ -65,8 +54,6 @@ const ComicEditingPage = () => {
       // rTLDrawApp.zoomToFit();
       
       // console.log(rTLDrawApp.shapes);
-     
-      
       
     })});
   };
@@ -87,18 +74,20 @@ const ComicEditingPage = () => {
   
   
   
-  const fileUploadOnClick = async ()=>{
-    // const formData = new FormData();
-    // formData.append('imgFile', fileUploaderRef.current.files[0] );
-    // const response = await api.updateUserById(_id, null , formData );
-    // if ( response.status===200 ){
-    //     alert("Successfully updated profile picture.");
-    //     navigate(0);
-    // }
-    // else{
-    //     alert("Failed to updat profile picture.");
-    // }
-}
+  const uploadCoverPage = async(event)=>{
+    const formData = new FormData();
+    formData.append('imgFile', coverPageImgRef.current.files[0] );
+    var payload = {
+      id: comicID,
+    };
+    const response = await api.editComicCoverPage(formData, payload );
+    if ( response.status===200 ){
+        alert("Successfully updated Story cover page picture.");
+    }
+    else{
+        alert("Failed to update Story cover page picture.");
+    }
+  }
 
   const handleExport = async (info) => {
     
@@ -506,13 +495,26 @@ function handleDeleteClose (event){
             <img style={{width:"100px", height:"auto"}} onClick={deletePopUp} src={images.deleteIcon}></img>
             Delete
             </div>
+            <div style={{display:"flex", flexDirection:"column", alignItems:'center' , cursor:"pointer", margin:"1rem"}}>
+              <img type="file" name="img"  ref={coverPageImgRef} accept="image/*"
+                style={{
+                  width: "100px",
+                  height: "auto",
+                  cursor: "pointer",
+                
+                  position: "relative",
+                  display: "flex",
+                }}
+                onClick={(event)=>{uploadCoverPage(event);}}
+                src={images.upload}
+              ></img>
+              <div style={{display:"flex",flexDirection:"column", alignItems:"center"}}>
+                <p>Upload Cover Page</p>
+                <input style={{width:"70%"}}type="file" name="img" ref={coverPageImgRef} accept="image/*"/>
+              </div>
+            </div>
         </div>
       </div>
-      {/* <div>
-        <label for="img">Select icon image: </label>
-        <input type="file" id="img" name="img"  ref={fileUploaderRef} accept="image/*"/>
-        <input onClick={fileUploadOnClick} type="submit"/>
-      </div> update heroku 1*/}
       <Dialog
         id = "delete-modal"
         maxWidth='sm'

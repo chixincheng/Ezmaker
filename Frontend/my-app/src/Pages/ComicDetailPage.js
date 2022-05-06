@@ -15,19 +15,19 @@ import api from "../api";
 import CommentSession from '../Components/CommentSession'
 
 
-var addFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",right: '10%', backgroundImage: `url(${addFav})`,
+var addFavButtonStyle = {height:"50px", width:"50px", position:"absolute", top:"20%",right: '10%', backgroundImage: `url(${addFav})`,
     backgroundPosition: 'right',
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     cursor:"pointer"
    };
-var removeFavButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",right: '10%', backgroundImage: `url(${removeFav})`,
+var removeFavButtonStyle = {height:"50px", width:"50px", position:"absolute", top:"20%",right: '10%', backgroundImage: `url(${removeFav})`,
    backgroundPosition: 'right',
    backgroundSize: 'contain',
    backgroundRepeat: 'no-repeat',
    cursor:"pointer"
   };
-var downloadButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",right: '5%', backgroundImage: `url(${download})`,
+var downloadButtonStyle = {height:"50px", width:"50px", position:"absolute", top:"20%",right: '5%', backgroundImage: `url(${download})`,
    backgroundPosition: 'right',
    backgroundSize: 'contain',
    backgroundRepeat: 'no-repeat',
@@ -37,17 +37,6 @@ var textStyle = {
     fontFamily: 'Love Ya Like A Sister',
     fontSize: 36
 };
-
-var commentTitle = {
-    fontFamily: 'Ribeye Marrow',
-    fontSize: 36
-};
-var commendSentStyle = {height:"50px", width:"80px", position:"absolute",  bottom:"-60px", right:"15px",backgroundImage: `url(${commentSend})`,
-   backgroundPosition: 'right',
-   backgroundSize: 'contain',
-   backgroundRepeat: 'no-repeat',
-   cursor:"pointer"
-  };
 
 var commentArr = [[],[],[]];
 commentArr[0].push("Gank Owen", "Wow I like it")
@@ -83,13 +72,13 @@ let commentList = <List>
     }
 </List>;
 
-var likeButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",left: '5%', backgroundImage: `url(${likeIcon})`,
+var likeButtonStyle = {height:"50px", width:"50px", position:"absolute", top:"20%",left: '5%', backgroundImage: `url(${likeIcon})`,
     backgroundPosition: 'left',
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     cursor:"pointer"
    };
-var dislikeButtonStyle = {height:"50px", width:"80px", position:"absolute", top:"20%",left: '10%', backgroundImage: `url(${dislikelikeIcon})`,
+var dislikeButtonStyle = {height:"50px", width:"50px", position:"absolute", top:"20%",left: '10%', backgroundImage: `url(${dislikelikeIcon})`,
    backgroundPosition: 'left',
    backgroundSize: 'contain',
    backgroundRepeat: 'no-repeat',
@@ -212,28 +201,46 @@ const ComicDetailPage = () => {
             setDisliked(false);
         }
     }
-
+//     {height:"50px", width:"50px", position:"absolute", top:"20%",left: '5%', backgroundImage: `url(${likeIcon})`,
+//     backgroundPosition: 'left',
+//     backgroundSize: 'contain',
+//     backgroundRepeat: 'no-repeat',
+//     cursor:"pointer"
+//    };
     return(
         <>
             <div  style={{background:"rgba(250, 241, 194, 1)", display:"flex", justifyContent: "center", flexDirection: "column", alignItems: "center"}} >
                 <Header></Header>
                 <div style={{ display: "flex", flexDirection: "column", width:"100%",position:"relative",alignItems: "center", padding: "5rem 3rem 5rem 3rem", background: "rgba(250, 241, 194, 1)", height:`clac(100vh -  )` }}>
                     {favorited?
-                        <div style={removeFavButtonStyle} onClick={removeFavorite} className = "likedislikebuttonpress"></div>
+                        <div style={removeFavButtonStyle} onClick={removeFavorite} className = "likedislikebutton"></div>
                         :
                         <div style={addFavButtonStyle} onClick={addFavorite} className = "likedislikebutton"></div>
                     }
                     
                     <div style={downloadButtonStyle} onClick={downloadComic}></div>
                     {liked?
-                        <div style={likeButtonStyle} onClick={undolike} className = "likedislikebuttonpress"> {likenum} </div>
+                        <div style={{display:"flex"}}>
+                            <div style={likeButtonStyle} onClick={undolike} className = "likedislikebuttonpress"></div>
+                            <div style={{position:"absolute", top:"23%",left:"8%",fontSize: 24}}>{likenum} </div>
+                        </div>
                         :
-                        <div style={likeButtonStyle} onClick={like} className = "likedislikebutton"> {likenum} </div>
+                        <div style={{display:"flex"}}>
+                            <div style={likeButtonStyle} onClick={like} className = "likedislikebutton"></div>
+                            <div style={{position:"absolute", top:"23%",left:"8%",fontSize: 24}}>{likenum} </div>
+                        </div>
                     }
                     {disliked?
-                        <div style={dislikeButtonStyle} onClick={undodislike} className = "likedislikebuttonpress"> {dislikenum} </div>
+                        <div style={{display:"flex"}}>
+                            <div style={dislikeButtonStyle} onClick={undodislike} className = "likedislikebuttonpress"></div>
+                            <div style={{position:"absolute", top:"23%",left:"13.5%",fontSize: 24}}>{dislikenum} </div>
+                        </div>
                         :
-                        <div style={dislikeButtonStyle} onClick={dislike} className = "likedislikebutton"> {dislikenum} </div>
+                        <div style={{display:"flex"}}>
+                            <div style={dislikeButtonStyle} onClick={dislike} className = "likedislikebutton"></div>
+                            <div style={{position:"absolute", top:"23%",left:"13.5%",fontSize: 24}}>{dislikenum} </div>
+                        </div>
+                        
                     }
                 
                         <div style={textStyle}>{comic === null ?   "Comic Title":comic.comicTitle}</div>

@@ -108,7 +108,7 @@ const CommentCard = (props) => {
     return (
         <>
         {comment ?
-            <div style={{display:"flex",  justifyContent:"center"}}>
+            <div style={{display:"flex"}}>
                 <div onClick={userIconAndNameOnClick} style={{ cursor:"pointer" ,width:"50px", height:"50px" , borderRadius:"50%" ,backgroundImage: `url(${profilePic})`, backgroundPosition: 'center', backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat', marginRight:"1rem"}}>
                 </div>
