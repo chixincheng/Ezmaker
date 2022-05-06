@@ -247,7 +247,7 @@ const StoryDetailPage = () => {
                     ref={quillRef}
                     style={{ 
                         width: "80vw",
-                        height: "120vh",
+                        height: "auto",
                     }}/>
             </div>
 
