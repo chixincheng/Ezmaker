@@ -134,6 +134,7 @@ const CommentSession = (props) => {
                             maxRows={4}
                             value = {commentText}
                             onChange ={(event)=>{commentTextUpdate(event);}}
+                            style={{background:"white", marginBottom:"3rem"}}
                         />
                     </div>
                     <div
@@ -163,7 +164,7 @@ const CommentSession = (props) => {
 
                     {(totalFirstLayerComments != 0 && totalFirstLayerComments != firstLayerComments.length) ?
                         <div>
-                            <p onClick={getMoreComments}>More {totalFirstLayerComments - skip} Comments...</p>
+                            <p  style={{cursor:"pointer"}} onClick={getMoreComments}>More {totalFirstLayerComments - skip} Comments...</p>
                         </div>
                         : 
                         <br></br>

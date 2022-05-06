@@ -103,29 +103,33 @@ const CommentCard = (props) => {
         getUsernameAndPicture();
     }, [])
 
+    
 
     return (
         <>
         {comment ?
-            <div>
-                <div onClick={userIconAndNameOnClick} style={{  width:"50px", height:"50px" , borderRadius:"50%" ,backgroundImage: `url(${profilePic})`, backgroundPosition: 'center', backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat', marginLeft:"1rem"}}>
+            <div style={{display:"flex",  justifyContent:"center"}}>
+                <div onClick={userIconAndNameOnClick} style={{ cursor:"pointer" ,width:"50px", height:"50px" , borderRadius:"50%" ,backgroundImage: `url(${profilePic})`, backgroundPosition: 'center', backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat', marginRight:"1rem"}}>
                 </div>
                 <div>
-                    <p onClick={userIconAndNameOnClick}>{userName}</p>
+                    <p style={{cursor:"pointer"}} onClick={userIconAndNameOnClick}><u>{userName}</u></p>
                     { comment.replyToUserID ?
-                        <p>{userIDUsernamePictureMap.get(comment.replyToUserID)? ("@"+userIDUsernamePictureMap.get(comment.replyToUserID)[0]+":"): ""} {comment.content}</p>
+                        <p style={{fontSize:"18px"}}><i>{userIDUsernamePictureMap.get(comment.replyToUserID)? ("@"+userIDUsernamePictureMap.get(comment.replyToUserID)[0]+":"): ""} {comment.content}</i></p>
                         :
-                        <p>{comment.content}</p>
+                        <p style={{fontSize:"18px"}}><i>{comment.content}</i></p>
                     }
-                    <p>{comment.createdAt}</p>
-                    <p onClick={replyOnClick}>Reply</p>
+                    <div style={{display:"flex"}}>
+                    <p style={{marginRight:"1rem"}}>{new Date(comment.createdAt).toLocaleString()}</p>
+                    <p style={{color:"blue", marginRight:"1rem", cursor:"pointer"}} onClick={replyOnClick}>Reply</p>
                     {(ctx.auth.user._id == comment.creatorID) ?
                         
-                        <p onClick={deletePopUp}>Delete</p>
+                        <p style={{color:"red", cursor:"pointer"}} onClick={deletePopUp}>Delete</p>
                         :
                         <p></p>
                     }
+                    </div>
+                   
                     
                 </div>
 

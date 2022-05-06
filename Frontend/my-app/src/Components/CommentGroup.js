@@ -66,7 +66,7 @@ const CommentGroup = (props) => {
             }
             {(totalReplies != 0 && totalReplies != repliedComments.length) ?
                 <div style={{"padding-left":"100px"}}>
-                    <p onClick={getMoreReplies}>More {totalReplies - skip} Replies...</p>
+                    <p  style={{cursor:"pointer"}} onClick={getMoreReplies}>More {totalReplies - skip} Replies...</p>
                 </div>
                 :
                 <br></br>
