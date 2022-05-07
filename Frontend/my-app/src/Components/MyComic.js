@@ -21,6 +21,7 @@ const MyComic = ({itemsPerPage}) => {
   const ctx = useContext(AuthContext);
   const [ myPage , setMyPage] = useState(1);
   const setPage = (e, p) => {
+   
     setMyPage(p);
   }
 
@@ -97,7 +98,7 @@ const MyComic = ({itemsPerPage}) => {
 
        
       </div>
-      <div style={{display:"flex",justifyContent:"center"}}><Pagination setPage={setPage} page={myPage} count={ Math.ceil(comics.length/ 6)  } color="primary" /></div>
+      <div style={{display:"flex",justifyContent:"center"}}><Pagination onChange={setPage} page={myPage} count={ Math.ceil(comics.length/ 6)  } color="primary" /></div>
     </div>
   );
 };

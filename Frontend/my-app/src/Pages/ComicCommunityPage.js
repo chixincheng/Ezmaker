@@ -16,6 +16,7 @@ const ComicCommunityPage = ()=>{
   const isMenuOpen = Boolean(anchorEl);
   const [ myPage , setMyPage] = useState(1);
   const setPage = (e, p) => {
+    
     setMyPage(p);
   }
   const loadAllComics = async ()=>{
@@ -152,7 +153,7 @@ const ComicCommunityPage = ()=>{
        
       })}
       </div>
-      <div style={{display:"flex",justifyContent:"center"}}><Pagination setPage={setPage} page={myPage} count={ Math.ceil(comics.length/ 6)  } color="primary" /></div>
+      <div style={{display:"flex",justifyContent:"center"}}><Pagination onChange={setPage} page={myPage} count={ Math.ceil(comics.length/ 6)  } color="primary" /></div>
     </div>
   </Fragment>);
 };

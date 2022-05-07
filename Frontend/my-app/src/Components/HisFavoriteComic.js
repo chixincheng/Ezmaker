@@ -78,7 +78,7 @@ const HisFavoriteComic = ({itemsPerPage}) => {
 
        
       </div>
-      <div style={{display:"flex",justifyContent:"center"}}><Pagination setPage={setPage} page={myPage} count={ Math.ceil(comics.length/ 6)  } color="primary" /></div>
+      <div style={{display:"flex",justifyContent:"center"}}><Pagination onChange={setPage} page={myPage} count={ Math.ceil(comics.length/ 6)  } color="primary" /></div>
     </div>
   );
 };

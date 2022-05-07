@@ -104,7 +104,7 @@ const MyStory = ({itemsPerPage}) => {
 
       
       </div>
-      <div style={{display:"flex",justifyContent:"center"}}><Pagination  setPage={setPage} page={myPage} count={ Math.ceil(stories.length/ 6)  } color="primary" /></div>
+      <div style={{display:"flex",justifyContent:"center"}}><Pagination  onChange={setPage} page={myPage} count={ Math.ceil(stories.length/ 6)  } color="primary" /></div>
       
     </div>
   );
