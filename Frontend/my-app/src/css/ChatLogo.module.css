@@ -1,0 +1,35 @@
+.chatLogo{
+    z-Index: 10;
+    overflow: hidden;
+    align-items: center;
+    justify-Content: center;
+    border-radius: 50%;
+    background-color: #3448c5;
+    cursor: pointer;
+    height: 60px;
+    width: 60px;
+    display: flex;
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem
+}
+
+.chatLogo img{
+    height: 6.5rem;
+    width: 6.5rem
+}
+
+.chat{
+    height:100vh;
+    width:100vw; 
+    background-color:#e4ebf1;
+    display:flex; 
+    position:fixed;
+    z-index: 10;
+    height: 25rem;
+    bottom: 1rem;
+    right: calc(1rem + 60px);
+    width: 750px;
+    border-radius: 1rem;
+    padding: 1rem;
+}

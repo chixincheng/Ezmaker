@@ -244,7 +244,7 @@ const ComicDetailPage = () => {
                     }
                 
                         <div style={textStyle}>{comic === null ?   "Comic Title":comic.comicTitle}</div>
-                        <div style={textStyle}>{comic === null ?   "Author Name":comic.authorName}</div>
+                        <a href={ comic === null ? "": `/comic/user/${comic.authorID}`} style={textStyle}>{comic === null ?   "Author Name":comic.authorName}</a>
                 </div>
                 <div
                     style={{

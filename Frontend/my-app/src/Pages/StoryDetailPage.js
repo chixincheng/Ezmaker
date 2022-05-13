@@ -238,7 +238,7 @@ const StoryDetailPage = () => {
                 }
             
                 <div style={textStyle}>{story === null ?   "Story Title":story.storyTitle}</div>
-                <div style={textStyle}>{story === null ?   "Author Name":story.authorName}</div>
+                <a href={ story === null ? "": `/story/user/${story.authorID}`} style={textStyle}>{story === null ?   "Author Name":story.authorName}</a>
             </div>
 
             <div style={{display:"flex", justifyContent: "center"}}>
