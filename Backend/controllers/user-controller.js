@@ -56,7 +56,32 @@ resetPassword = async (req, res) =>{
          });
 
      } );
+}
+
+// send request for verification
+verificationRequest = async (req, res) =>{
+    var mailOptions = {
+        from: process.env.USER,
+        to: req.query.email,
+        subject: req.query.subject ,
+        text: req.query.text
+      };
       
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+          return res.status(400).json({
+            success: false,
+            errorMessage: error,
+          })
+        } else {
+          console.log('Email sent: ' + info.response);
+          return res.status(200).json({
+            success: true,
+            message: 'Email sent!'
+          })
+        }
+      });
 }
 
 getLoggedIn = async (req, res) => {
@@ -455,5 +480,6 @@ module.exports = {
     logoutUser,
     resetPassword,
     deleteUser,
-    getUsernameAndProfilePicByID
+    getUsernameAndProfilePicByID,
+    verificationRequest
 }

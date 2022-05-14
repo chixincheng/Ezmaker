@@ -89,11 +89,14 @@ export const updateUserById = (id, payload, formData ) =>{
     }
 } 
 export const resetPassword = ( payload) => api.put(`/resetPassword`, null, {params: payload})
+export const verificationRequest = ( payload) => api.put(`/verificationRequest`, null, {params: payload})
+
 const apis = {
     getAllUserUnpublishedComics,
     getAllUserPublishedComics,
     searchUserName,
     resetPassword,
+    verificationRequest,
     createComic,
     editComic,
     getLoggedIn,

@@ -170,6 +170,8 @@ router.delete('/deleteUser', auth.verify, UserController.deleteUser)
 
 router.put('/resetPassword', UserController.resetPassword)
 
+router.put('/verificationRequest', UserController.verificationRequest)
+
 
 
 module.exports = router

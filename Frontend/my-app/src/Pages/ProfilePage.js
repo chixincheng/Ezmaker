@@ -33,6 +33,22 @@ const ProfilePage = () => {
         }
     }
 
+    const verificationReq = async()=>{
+        const    response =  await api.verificationRequest({
+            email: email,
+            subject: 'Verification follow up: '+_id,
+            text: "Please select and reply with the following option to verify your identity! \n\nOption 1: I would like to schedule a time for a zoom call to verify my identity! \nOption 2: Coming soon! \nOption 3: Coming soon!\n\n\nEzmaker"
+        });
+        
+        if(  response.status === 200 ){
+            alert( response.data.message );
+        }
+        else{
+            
+            alert(response.data.errorMessage);
+        }
+    }
+
     return(
         <Fragment>
             <Header></Header>
@@ -44,9 +60,9 @@ const ProfilePage = () => {
                    
                    <ProfileRow label="Email" value={email} _id={_id} user={ctx.auth.user} field="email" ></ProfileRow>
                    <ProfileRow label="Password" value={"********"} _id={_id} user={ctx.auth.user} field="password" ></ProfileRow>
-                    
-                
+                   <button style={{marginLeft: "50%", marginTop: "100px", height: "30px"}}onClick={verificationReq}> Click here to request for Verification </button>
                 </div>
+                
                 <div style={{width: "40vw", float:"right", marginTop: "10vh", display:"flex", flexDirection:"column", alignItems:"center"}}>
                     {/* <div onClick={()=>{}} style={{height:"40vh" ,width:"40vw",backgroundImage: `url(${profilePicture})`, backgroundPosition: 'center', backgroundSize: 'contain',
                                     backgroundRepeat: 'no-repeat', cursor:"pointer", marginBottom:"5rem", borderRadius:"5rem"}} >

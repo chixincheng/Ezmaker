@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import Header from "../Components/Header";
 import icon from "../Images/icon.png";
-import verify from "../Images/verify.png";
+import verify from "../Images/verified.png";
 import editInfo from "../Images/editInfo.png";
 import playlist from "../Images/playlist.png";
 import MyComic from "../Components/MyComic";
@@ -38,16 +38,20 @@ const ComicHomePage = () => {
               }}
             >
               <b>{ctx.auth.user.userName}</b>
-              <div
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  backgroundImage: `url(${verify})`,
-                  backgroundPosition: "center",
-                  backgroundSize: "contain",
-                  backgroundRepeat: "no-repeat",
-                }}
-              ></div>
+              {ctx.auth.user.authentication ?
+                <div
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    backgroundImage: `url(${verify})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                ></div>
+                :
+                <div></div>
+              }
             </div>
           </div>
           <div onClick={()=>{navigate("/comic/profile");}} style={{display:"flex", alignItems:"center", cursor:"pointer"}}>

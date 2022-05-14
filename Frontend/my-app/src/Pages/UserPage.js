@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import Header from "../Components/Header";
 import icon from "../Images/icon.png";
-import verify from "../Images/verify.png";
+import verify from "../Images/verified.png";
 import playlist from "../Images/playlist.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import HisComic from "../Components/HisComic";
@@ -61,6 +61,7 @@ const UserPage = ()=>{
                 }}
               >
                 <b>{currentUser.userName}</b>
+                {currentUser.authentication ?
                 <div
                   style={{
                     width: "50px",
@@ -71,6 +72,9 @@ const UserPage = ()=>{
                     backgroundRepeat: "no-repeat",
                   }}
                 ></div>
+                :
+                <div></div>
+              }
               </div>
             </div>
                   
