@@ -11,27 +11,46 @@ import HisFavoriteStory from "../Components/HisFavoriteStory";
 import { GlobalStoreContext } from '../store';
 import React, { useContext,useState, useEffect } from 'react';
 import LoadingPage from "../Pages/LoadingPage"
-
+import api from "../api";
+import Chat from "../Components/Chat";
+import AuthContext from "../auth";
+import classes from "../css/UserPage.module.css"
 
 const UserPage = ()=>{
     const navigate = useNavigate();
     const location = useLocation();
-    const { store,searchResult } = useContext(GlobalStoreContext);
+    const ctx = useContext(GlobalStoreContext);
+    const ctx2 = useContext(AuthContext);
     var names = location.pathname.split("/");
     const [currentUser, setCurrentUser] = useState(null);
 
+    
+    const getUser = async ()=>{
+        const response = await api.getUserById(names.at(-1));
+        if( response.status === 200 ){
+          setCurrentUser(response.data.user);
+        }
+       
+    };
+
+
     useEffect(()=>{
       if( currentUser === null ){
-          for( const user of searchResult   ){
-              if( user["_id"] === names.at(-1) ){
-                  setCurrentUser(user);
-              }
-          }
+          // for( const user of searchResult   ){
+          //     if( user["_id"] === names.at(-1) ){
+          //         setCurrentUser(user);
+          //     }
+          // }
+          getUser();
       }
      
-    },[ searchResult ]);
+    },[ ctx.searchResult ]);
 
 
+    const handlerContactUser= ()=>{
+      Chat( ctx2.auth.user, currentUser ,ctx.chatContainer);
+      ctx.showChatFunct();
+    }
 
     if( currentUser === null ){
         return (<LoadingPage></LoadingPage>);
@@ -76,6 +95,10 @@ const UserPage = ()=>{
                 <div></div>
               }
               </div>
+            </div>
+
+            <div className={classes.button} onClick={ handlerContactUser}>
+              Contact User
             </div>
                   
             <div onClick={()=>{navigate(`/${names[1]}/playlist/user/${names[names.length-1]}`);}} style={{display:"flex", alignItems:"center", cursor:"pointer"}}>

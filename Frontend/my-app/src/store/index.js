@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import {useNavigate, useLocation} from "react-router-dom"
 import api from '../api'
 import AuthContext from '../auth'
+import Chat from '../Components/Chat'
 
 // THIS IS THE CONTEXT WE'LL USE TO SHARE OUR STORE
 export const GlobalStoreContext = createContext({});
@@ -44,6 +45,8 @@ function GlobalStoreContextProvider(props) {
     const history = useNavigate();
     const [searchKeyWord, setSearchKeyword] = useState("");
     const [searchOption, setSearchOption] = useState("user");
+    const [chatContainer, setChatContainer] = useState(null);
+    const [showChatFunct, setShowChatFunct] = useState(null);
     const location = useLocation();
     
     const [searchResult, setSearchResult] = useState([]);
@@ -131,6 +134,28 @@ function GlobalStoreContextProvider(props) {
         }
     },[searchKeyWord])
 
+    store.refChatContainer = (container) =>{
+        setChatContainer(container);
+    }
+
+    async function createChat(){
+        if( auth.user !== null && chatContainer !== null ){
+            
+            Chat( auth.user , auth.user ,chatContainer);
+        }
+    }
+
+    useEffect(  ()=>{
+        createChat();
+        
+     },[auth.user,chatContainer]);
+
+
+
+    store.bindShowChatFunct = (showChatFunct)=>{
+        setShowChatFunct( () => showChatFunct);
+    }
+
     store.resetSearchResult = function(){
         setSearchResult([]);
     }
@@ -145,7 +170,9 @@ function GlobalStoreContextProvider(props) {
 
     return (
         <GlobalStoreContext.Provider value={{
-            store,searchResult:searchResult,option:searchOption
+            store,searchResult:searchResult,option:searchOption,
+            chatContainer: chatContainer,
+        showChatFunct: showChatFunct,
         }}>
             {props.children}
         </GlobalStoreContext.Provider>
