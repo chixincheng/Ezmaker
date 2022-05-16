@@ -42,8 +42,17 @@ const PlaylistPage = (props) => {
             return;
         }
         event.stopPropagation();
+        console.log(allPlaylists[selectedID]);
         allPlaylists[selectedID].title = event.target.value
-        status[selectedID] = 2;
+        console.log(selectedID.length > 8);
+        
+        if(selectedID.length > 8){
+            status[selectedID] = 2;
+        }
+        else{
+            status[selectedID] = 1;
+        }
+        
         setRenderFlag(!renderFlag)
     }
 
@@ -172,10 +181,15 @@ const PlaylistPage = (props) => {
         event.preventDefault();
         let message = "";
         for (let [key, value] of Object.entries(status)) {
+            console.log(value);
             // creating new playlist
             if (value == 1) {
+                console.log(allPlaylists[key]);
                 if (allPlaylists[key].elementIDSeries.length == 0) {
                     message = message + "\n\"" + allPlaylists[key].title + "\" must have at least one content!"
+                }
+                else if( allPlaylists[key].title.length < 1 ){
+                    message = message + "\n\"" + "\" can not be empty title!"
                 }
                 else {
                     let payload = {
@@ -198,25 +212,39 @@ const PlaylistPage = (props) => {
 
             // update a playlist
             else if (value == 2) {
-                let payload = {
-                    playlistID: key,
-                    userID: userID,
-                    title: allPlaylists[key].title,
-                    elementIDSeries: allPlaylists[key].elementIDSeries
+                if (allPlaylists[key].elementIDSeries.length == 0) {
+                    message = message + "\n\"" + allPlaylists[key].title + "\" must have at least one content!"
+                    // failures.push(key);
                 }
-                let updateResponse = await api.updatePlaylist(payload);
-                if (updateResponse.status != 200) {
-                    message = message + "\n\"" + allPlaylists[key].title + "\" Updated Unsuccessfully!"
+                else if( allPlaylists[key].title.length < 1 ){
+                    message = message + "\n\"" + "\" can not be empty title!"
                 }
-                else {
-                    message = message + "\n\"" + allPlaylists[key].title + "\" Updated Successfully!"
-                    status[key] = 0;
+                else{
+                    let payload = {
+                        playlistID: key,
+                        userID: userID,
+                        title: allPlaylists[key].title,
+                        elementIDSeries: allPlaylists[key].elementIDSeries
+                    }
+                    console.log(payload);
+                    // alert(JSON.stringify(payload))
+                    let updateResponse = await api.updatePlaylist(payload);
+                    if (updateResponse.status != 200) {
+                        message = message + "\n\"" + allPlaylists[key].title + "\" Updated Unsuccessfully!"
+                        // failures.push(key)
+                    }
+                    else {
+                        // successes.push(key);
+                        message = message + "\n\"" + allPlaylists[key].title + "\" Updated Successfully!"
+                        status[key] = 0;
+                    }
                 }
+                
             }
         }
         alert(message == ""? "All Saved Successfully!" : message);
         setLoading(false);
-        
+        console.log(allPlaylists)
     }
 
     const setUpPlaylists = async () => {
@@ -295,9 +323,9 @@ const PlaylistPage = (props) => {
             }
             <div  style={{background:"rgba(250, 241, 194, 1)", display:"flex", justifyContent: "center", flexDirection: "column", alignItems: "center"}} >
                 <Header></Header>
-                <div>
+                <div style={{width:"100%"}}>
                     { userIsCreator ?
-                        <div>
+                        <div style={{display:"flex", justifyContent:"space-evenly", margin:"1rem 0 1rem 0", alignItems:"center"}}>
                             <div style={{display:"flex",flexDirection:"column", alignItems:"center",  marginRight: "2rem",}}>
                                 <img
                                 style={{
@@ -352,13 +380,16 @@ const PlaylistPage = (props) => {
 
                     
                     
-                    <div>
+                    <div style={{width:"100%"}}>
                         {
                             playlistsArray.map((playlistID, index) => {
                                 return (
                                     <>
                                         <div 
-                                            style={{'border': selectedID==playlistID ? '5px solid red' : '0'}}
+                                            // style={{"padding-left":"100px"}} 
+                                            style={{'border': selectedID==playlistID ? '5px solid red' : '0', padding:"1rem",background: "rgba(187, 241, 253, 1)", margin:"1rem",
+                                                    borderRadius:"1rem", maxWidth:"100%", minWidth:"95%"
+                                            }}
                                             onClick={
                                                 (event) => {
                                                     playlistOnClick(playlistID);
@@ -370,6 +401,8 @@ const PlaylistPage = (props) => {
                                                 { userIsCreator ?
                                                     <>
                                                         <TextField 
+                                                        // label="Comic Title"
+                                                        style={{border:"3px black solid", borderRadius:"1rem"}}
                                                             value = {allPlaylists[playlistID].title}
                                                             onChange ={(event)=>{handleTitleUpdate(event);}}
                                                             onClick={(event) => {
@@ -380,7 +413,7 @@ const PlaylistPage = (props) => {
                                                             }}
                                                             >
                                                         </TextField>
-                                                        <p>{status[playlistID] == 0? "Saved" :(status[playlistID] == 1? "new" : "editing")}</p>
+                                                        <p style={{fontSize:"1.5rem" ,color:  status[playlistID] == 0 ? "green":(status[playlistID] == 1? "purple" : "orange") }}><b>{status[playlistID] == 0 ? "Saved" :(status[playlistID] == 1? "New" : "Editing")}</b></p>
                                                     </>
                                                     :
                                                     <>
@@ -389,19 +422,19 @@ const PlaylistPage = (props) => {
                                                 }
                                                 
                                                 
-                                                <p>In Playlist:</p>
-                                                <ul style={{'list-style-type': 'none'}}>
+                                                <p><b>In Playlist:</b></p>
+                                                <ul style={{'list-style-type': 'none', display:"flex", overflow:"auto", maxWidth:"100%", background:"white", padding:"1rem", borderRadius:"1rem"}}>
                                                     {   allPublished ?
                                                         
                                                         allPlaylists[playlistID].elementIDSeries.map((addedPublish, index) => {
                                                             return (
-                                                                <li>
-                                                                    <div onClick={(event) => {delistPublished(event, playlistID, addedPublish)}}>
+                                                                <li style={{border:"3px black solid", marginRight:"1rem"}}>
+                                                                    <div  style={{padding:"1rem",display:"flex", flexDirection:"column", alignItems:"center"}} onClick={(event) => {delistPublished(event, playlistID, addedPublish)}}>
                                                                         <img 
                                                                             src={allPublished[addedPublish]['coverPage'] != null ?   allPublished[addedPublish].coverPage: "https://res.cloudinary.com/daufq6nuh/image/upload/c_scale,h_5000,w_3500/v1650580213/Ezmaker/WeChat_Image_20220421182906_etv2nu.png"}
-                                                                            style={{width:"8%", height:"8%"}}
+                                                                            style={{width:"100px", height:"auto"}}
                                                                         ></img>
-                                                                        <p>{allPublished[addedPublish].title}</p>
+                                                                        <p style={{display:"flex", justifyContent:"center"}}><u>{allPublished[addedPublish].title}</u></p>
                                                                     </div>
                                                                 </li>
                                                             )
@@ -416,19 +449,19 @@ const PlaylistPage = (props) => {
 
                                         {   selectedID == playlistID ?
                                             <div>
-                                            <p>Available {isComic? "Comics" : "Stories"}:</p>
-                                            <ul>
+                                            <p><b>Available {isComic? "Comics" : "Stories"}:</b></p>
+                                            <ul style={{'list-style-type': 'none',display:"flex", overflow:"auto", background:"white", padding:"1rem", borderRadius:"1rem"}}>
                                             
                                             {
                                                 unaddedToPlaylist.map((unusedPublished, index) => {
                                                     return (
-                                                        <li>
-                                                            <div onClick={(event) => {addlistPublished(event, playlistID, unusedPublished)}}>
+                                                        <li style={{border:"3px black solid", marginRight:"1rem"}}>
+                                                            <div style={{padding:"1rem" , display:"flex", flexDirection:"column", alignItems:"center"}}  onClick={(event) => {addlistPublished(event, playlistID, unusedPublished)}}>
                                                                 <img 
                                                                     src={allPublished[unusedPublished]['coverPage'] != null ?   allPublished[unusedPublished].coverPage: "https://res.cloudinary.com/daufq6nuh/image/upload/c_scale,h_5000,w_3500/v1650580213/Ezmaker/WeChat_Image_20220421182906_etv2nu.png"}
-                                                                    style={{width:"8%", height:"8%"}}
+                                                                    style={{width:"100px", height:"auto"}}
                                                                 ></img>
-                                                                <p>{allPublished[unusedPublished].title}</p>
+                                                                <p style={{display:"flex", justifyContent:"center"}}><u>{allPublished[unusedPublished].title}</u></p>
                                                             </div>
                                                             
                                                         </li>
