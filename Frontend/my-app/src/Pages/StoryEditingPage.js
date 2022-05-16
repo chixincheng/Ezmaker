@@ -207,80 +207,6 @@ const StoryEditingPage = () => {
           height: `clac(100vh -  )`,
         }}
       >
-        {/* <div style={{ display: "flex", justifyContent: "center" }}>
-          <img
-            style={{
-              width: "100px",
-              height: "auto",
-              cursor: "pointer",
-              marginRight: "1rem",
-            }}
-            onClick={() => {
-              alert(123);
-            }}
-            src={images.textOrTextSize}
-          ></img>
-          <img
-            style={{
-              width: "100px",
-              height: "auto",
-              cursor: "pointer",
-              marginRight: "1rem",
-            }}
-            onClick={() => {
-              alert(123);
-            }}
-            src={images.underline}
-          ></img>
-          <img
-            style={{
-              width: "100px",
-              height: "auto",
-              cursor: "pointer",
-              marginRight: "1rem",
-            }}
-            onClick={() => {
-              alert(123);
-            }}
-            src={images.colorChange}
-          ></img>
-          <img
-            style={{
-              width: "100px",
-              height: "auto",
-              cursor: "pointer",
-              marginRight: "1rem",
-            }}
-            onClick={() => {
-              alert(123);
-            }}
-            src={images.bold}
-          ></img>
-          <img
-            style={{
-              width: "100px",
-              height: "auto",
-              cursor: "pointer",
-              marginRight: "1rem",
-            }}
-            onClick={() => {
-              alert(123);
-            }}
-            src={images.highlighter}
-          ></img>
-          <img
-            style={{
-              width: "100px",
-              height: "auto",
-              cursor: "pointer",
-              marginRight: "1rem",
-            }}
-            onClick={() => {
-              alert(123);
-            }}
-            src={images.italic}
-          ></img>
-        </div> */}
 
         <div style={{textAlign:'center', marginBottom:"1rem", fontSize:"2em"}}>
           <TextField 
@@ -292,8 +218,6 @@ const StoryEditingPage = () => {
           </TextField>
         </div>
 
-        {/* <img alt="Avatar" src={profilePicture} style={{width:"50%", height:"auto", borderRadius:"50%"}}></img>
-        <label for="img">Cover Page Image:</label> */}
         
 
         <div style={{backgroundColor: "white"}}>

@@ -13,7 +13,8 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true;
 const api = axios.create({
-    baseURL: 'https://ez-maker.herokuapp.com/',
+    // baseURL: 'https://ez-maker.herokuapp.com/',
+    baseURL: 'http://localhost:4000/',
 })
 
 // THESE ARE ALL THE REQUESTS WE`LL BE MAKING, ALL REQUESTS HAVE A
@@ -24,6 +25,7 @@ const api = axios.create({
 // CUSTOM FILTERS FOR QUERIES
 
 export const getAllUserUnpublishedComics = (id) => api.get(`/getAllUserUnpublishedComics/${id}`)
+
 export const getAllUserPublishedComics = (id) => api.get(`/getAllUserPublishedComics/${id}`)
 export const getCommunityComics = () => api.get(`/communityComics`)
 export const createComic = (formData, payload) => api.post(`/createComic`, formData, { params: payload });
@@ -57,21 +59,24 @@ export const favorComic = (id, payload) => api.put(`/favorComic/${id}`, null, { 
 export const undoFavorComic = (id, payload) => api.put(`/undoFavorComic/${id}`, null, { params: payload });
 export const favorStory = (id, payload) => api.put(`/favorStory/${id}`, null, { params: payload });
 export const undoFavorStory = (id, payload) => api.put(`/undoFavorStory/${id}`, null, { params: payload });
-
-// , null, {params: payload } 
 export const getStory = (id, payload) => api.put(`/getStory/${id}`, null, { params: payload });
-
 export const getPublishedStoryByID = (id) => api.get(`getPublishedStoryByID/${id}`)
-// export const editStoryCoverPage = ( formData, payload) => api.put(`/editStoryCoverPage`, formData, {params: payload } );
 export const deleteStory = (id) => api.delete(`/deleteStory/${id}`);
 export const deletePublishedStory = (id) => api.delete(`/deletePublishedStory/${id}`);
 
 export const searchPublishedComicByInput = (searchInput) => api.get(`/searchPublishedComicByInput/${searchInput}`)
 export const searchPublishedStoryByInput = (searchInput) => api.get(`/searchPublishedStoryByInput/${searchInput}`)
 
+// comments
 export const createComment = (payload) => api.post(`createComment`, null, { params: payload });
 export const deleteComment = (commentID, userID) => api.delete(`deleteComment/${commentID}/${userID}`);
 export const getComments = (id, payload) => api.put(`getComments/${id}`, null, { params: payload });
+
+// playlists
+export const createPlaylist = (payload) => api.post(`/createPlaylist`, null, { params: payload });
+export const updatePlaylist = (payload) => api.put(`/updatePlaylist`, null, { params: payload });
+export const getUserPlaylists = (payload) => api.put(`/getUserPlaylists`, null, {params: payload});
+export const deletePlaylist = (playlistID, creatorID) => api.delete(`deletePlaylist/${playlistID}/${creatorID}`);
 
 export const searchUserName = (searchInput) => api.get(`/searchUserName/${searchInput}`)
 export const getLoggedIn = () => api.get(`/loggedIn/`);
@@ -142,7 +147,12 @@ const apis = {
     getUsernameAndProfilePicByID,
     createComment,
     deleteComment,
-    getComments
+    getComments,
+    createPlaylist,
+    updatePlaylist,
+    getUserPlaylists,
+    deletePlaylist
+
 
 }
 

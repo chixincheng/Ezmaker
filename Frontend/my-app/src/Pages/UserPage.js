@@ -101,7 +101,7 @@ const UserPage = ()=>{
               Contact User
             </div>
                   
-            <div onClick={()=>{navigate(`/${names[1]}/playlist/user/${names[names.length-1]}`);}} style={{display:"flex", alignItems:"center", cursor:"pointer"}}>
+            <div onClick={()=>{navigate(`/${names[1]}/playlist/${names[names.length-1]}`);}} style={{display:"flex", alignItems:"center", cursor:"pointer"}}>
               {" "}
               <div
                 style={{

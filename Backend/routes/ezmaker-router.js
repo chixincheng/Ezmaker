@@ -57,7 +57,7 @@ router.get('/getAllUserUnpublishedComics/:id', auth.verify, EasyMakerController.
 router.get('/getAllUserUnpublishedStories/:id', auth.verify, EasyMakerController.getAllUserUnpublishedStories)
 
 // get all published comics of this user 
-router.get('/getAllUserPublishedComics/:id', auth.verify, EasyMakerController.getAllUserPublishedComics)
+router.get('/getAllUserPublishedComics/:id',  EasyMakerController.getAllUserPublishedComics)
 
 
 // get all published stories of this user
@@ -141,6 +141,18 @@ router.get('/searchPublishedStoryByInput/:searchInput', auth.verify, EasyMakerCo
 
 //get the search result for user
 router.get('/searchUserName/:searchInput', auth.verify, EasyMakerController.searchUserName)
+
+//create a new playlist
+router.post('/createPlaylist', EasyMakerController.createPlaylist)
+
+//get a user's all playlists
+router.put('/getUserPlaylists', EasyMakerController.getUserPlaylists)
+
+// update ausr's playlist
+router.put('/updatePlaylist', EasyMakerController.updatePlaylist)
+
+// delete a playlist by the creator
+router.delete('/deletePlaylist/:playlistID/:creatorID', EasyMakerController.deletePlaylist)
 
 
 

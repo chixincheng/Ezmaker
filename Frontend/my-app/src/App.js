@@ -23,7 +23,7 @@ import AuthContext from "./auth";
 import { Fragment } from "react";
 import ForgotPassword from "./Components/ForgotPassword";
 import UserPage from "./Pages/UserPage";
-
+import PlaylistPage from "./Pages/PlaylistPage";
 
 
 
@@ -60,6 +60,8 @@ function App() {
             <Route exact path="/story/community" element={<StoryCommunityPage/>}/>
             <Route exact path="/story/editing/:storyID" element={<StoryEditingPage/>}/>
             <Route exact path="/comic/editing/:comicID" element={<ComicEditingPage/>}/>
+            <Route exact path="/comic/playlist/:userID" element={<PlaylistPage/>}/>
+            <Route exact path="/story/playlist/:userID" element={<PlaylistPage/>}/>
 
             <Route exact path="/comic/user/:userID" element={<UserPage></UserPage>}/>
             <Route exact path="/story/user/:userID" element={<UserPage></UserPage>}/>

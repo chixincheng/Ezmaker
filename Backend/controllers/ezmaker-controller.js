@@ -4,6 +4,7 @@ const Comment = require('../models/comment-model');
 const User = require('../models/user-model')
 const PublishedComic = require('../models/publishedComic-model');
 const PublishedStory = require('../models/publishedStory-model');
+const Playlist = require('../models/playlist-model');
 const {cloudinary} = require("../cloudinary");
 const { findOneAndUpdate } = require('../models/comic-model');
 const { createDeflate } = require('zlib');
@@ -510,9 +511,9 @@ getAllUserPublishedComics = async (req, res) => {
         if (err) {
             return resError(res,400, err)
         }
-        if (!comicList) {
-            return resError(res,404, 'Published comic not found')
-        }
+        // if (!comicList) {
+        //     return resError(res,404, 'Published comic not found')
+        // }
         else {
             return res.status(200).json({ success: true, publishedComics: comicList })
         }
@@ -526,9 +527,9 @@ getAllUserPublishedStories = async (req, res) => {
         if (err) {
             return resError(res,400, err)
         }
-        if (!storyList) {
-            return resError(res,404, 'Story not found')
-        }
+        // if (!storyList) {
+        //     return resError(res,404, 'Story not found')
+        // }
         else {
             return res.status(200).json({ success: true, publishedStories: storyList })
         }
@@ -1413,6 +1414,161 @@ searchPublishedStoryByInput = async (req, res) => {
 }
 
 
+createPlaylist = async (req, res) => {
+    const body = JSON.parse(JSON.stringify(req.query))
+    console.log("in creating")
+    console.log(JSON.stringify(body))
+    if (body['isComic'] === undefined) {
+        return resError(res, 400, "Must provide \'isComic\'")
+    }
+    if (body['creatorID'] === undefined) {
+        return resError(res, 400, "Must provide \'creatorID\'")
+    }
+    if (body['title'] === undefined) {
+        return resError(res, 400, "Must provide \'title\'")
+    }
+    else if (body['title'] == "") {
+        return resError(res, 400, "title must be non-empty")
+    }
+    if (body['elementIDSeries'] === undefined) {
+        return resError(res, 400, "Must provide \'elementIDSeries\'")
+    }
+
+    // check is creatorID existed
+    try {
+        await User.findById(body.creatorID).orFail('Not Found')
+    }
+    catch (error) {
+        if (error == "Not Found") return resError(res, 404, "creatorID Not Found")
+        return resError(res, 400, "creatorID: User findById Error")
+    }
+
+    const playlist = new Playlist(body);
+    if (!playlist) {
+        return resError(res,400, 'Playlist Object Creation Failed in JavaScript')
+    }
+
+    playlist
+        .save()
+        .then(() => {
+            return res.status(200).json({
+                success: true,
+                playlist: playlist,
+                message: 'Playlist Created!'
+            })
+        })
+        .catch(error => {
+            console.log(error)
+            return resError(res,400, 'Playlist Not Created!')
+        })
+}
+
+updatePlaylist = async (req, res) => {
+    const body = JSON.parse(JSON.stringify(req.query))
+    if (body['playlistID'] === undefined) {
+        return resError(res, 400, "Must provide \'playlistID\'")
+    }
+    if (body['userID'] === undefined) {
+        return resError(res, 400, "Must provide \'userID\'")
+    }
+    if (body['title'] === undefined) {
+        return resError(res, 400, "Must provide \'title\'")
+    }
+    else if (body['title'] == "") {
+        return resError(res, 400, "title must be non-empty")
+    }
+    if (body['elementIDSeries'] === undefined) {
+        return resError(res, 400, "Must provide \'elementIDSeries\'")
+    }
+
+    await Playlist.findOneAndUpdate(
+        {  // filter
+            _id: body.playlistID, 
+            creatorID: body.userID 
+        }, 
+        { // updated info
+            title: body.title, 
+            elementIDSeries: body.elementIDSeries
+        },
+        (err, newPlaylist) => { // callback
+        if (err) {
+            return resError(res,400, err)
+        }
+        if (!newPlaylist) {
+            return resError(res,404, 'Playlist not found!')
+        }
+        return res.status(200).json({
+            success: true,
+            playlist: newPlaylist,
+            message: 'Playlist Created!'
+        })
+    })
+}
+
+getUserPlaylists = async (req, res) => {
+    let body = JSON.parse(JSON.stringify(req.query))
+    // console.log(body);
+    // let body = {
+    //     creatorID: req.params.creatorID,
+    //     isComic: req.query.isComic
+    // }
+    console.log(body);
+    await Playlist.find({creatorID: body.creatorID, isComic: body.isComic }, null, {sort:{createdAt:1}}, (err, playlists) => {
+        if (err) {
+            return resError(res,400, err)
+        }
+        if (!playlists) {
+            return resError(res,404, 'Playlists not found')
+        }
+        else {
+            return res.status(200).json({ success: true, playlists: playlists })
+        }
+    }).catch(err => console.log(err))
+}
+
+
+deletePlaylist = async (req, res) => {
+    let body = JSON.parse(JSON.stringify(req.params))
+
+    // check is creatorID existed
+    if (body['creatorID'] !== undefined) {
+        try {
+            await User.findById(body.creatorID).orFail('Not Found')
+        }
+        catch (error) {
+            if (error == "Not Found") return resError(res, 404, "creatorID Not Found")
+            return resError(res, 400, "creatorID: User findById Error")
+        }
+    }
+    else {
+        return resError(res, 400, "Must provide \'craetorID\'")
+    }
+
+    
+
+    // check is playlistID existed
+    if (body['playlistID'] !== undefined) {
+        try {
+            await Playlist.findOneAndDelete({_id: body.playlistID, creatorID: body.creatorID});
+        }
+        catch (error) {
+            if (error == "Not Found") return resError(res, 404, "Not Found: playlistID Not Found or No Playlist has playlistID as _id and creatorID as creatorID")
+            return resError(res, 400, "Playlist findOneAndDelete Error")
+        }
+    }
+    else {
+        return resError(res, 400, "Must provide \'playlistID\'")
+    }
+
+    return res.status(200).json({
+        success: true,
+        deletedPlaylistID: body.playlistID,
+        message: "Delete A Playlist Success"
+    })
+
+}
+
+
 
 
 module.exports = {
@@ -1430,8 +1586,6 @@ module.exports = {
     getAllUserUnpublishedStories,
     getAllUserPublishedComics,
     getAllUserPublishedStories,
-    // createComment,
-    // addComment,
     likeComic,
     undoLikeComic,
     likeStory,
@@ -1450,8 +1604,6 @@ module.exports = {
     createPublishedStory,
     getPublishedComicByID,
     getPublishedStoryByID,
-    // getCommentByID,
-    // addRepliedComment,
     searchComicByInput,
     searchStoryByInput,
     searchPublishedStoryByInput,
@@ -1464,5 +1616,9 @@ module.exports = {
     deletePublishedStory,
     createComment,
     deleteComment,
-    getComments
+    getComments,
+    createPlaylist,
+    updatePlaylist,
+    getUserPlaylists,
+    deletePlaylist
 }

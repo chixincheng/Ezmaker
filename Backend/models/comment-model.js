@@ -11,7 +11,6 @@ const CommentSchema = new Schema(
         replyToUserID: {type: ObjectId, required: false},
         creatorID: {type: ObjectId, required: true},
         content: {type: String, required: true},
-        // createdDate: {type: Date, required: true, default: new Date()
     },
     { timestamps: true },
 )
