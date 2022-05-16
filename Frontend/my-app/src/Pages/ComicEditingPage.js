@@ -223,7 +223,7 @@ const ComicEditingPage = () => {
       size: [3500, 5000],
     }
    
-    const response1 = await fetch('https://www.tldraw.com/api/export', {
+    const response1 = await fetch('http://localhost:4000/api/export', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(exportInfo),

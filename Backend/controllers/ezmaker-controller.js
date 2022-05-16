@@ -8,13 +8,87 @@ const Playlist = require('../models/playlist-model');
 const {cloudinary} = require("../cloudinary");
 const { findOneAndUpdate } = require('../models/comic-model');
 const { createDeflate } = require('zlib');
-
+const chromium = require("chrome-aws-lambda");
+const { TDExport, TDExportTypes, TldrawApp } = require('@tldraw/tldraw'); 
 
 function resError (res,errCode, err) {
     return res.status(errCode).json({
         success: false,
         message: err
     })
+}
+
+const FRONTEND_URL =
+//   process.env.NODE_ENV === 'development'
+//     ? 'http://localhost:3000/?exportMode'
+//     : 
+    'https://www.tldraw.com/?exportMode';
+
+exportImage = async (req, res)=>{
+    console.log("export");
+    const { body } = req;
+  const {
+    size: [width, height],
+    type,
+  } = body;
+  
+  try {
+    const browser = await chromium.puppeteer.launch({
+      slowMo: 50,
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath,
+      ignoreHTTPSErrors: true,
+      headless: chromium.headless,
+    });
+
+    const page = await browser.newPage();
+    await page.setUserAgent(
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36'
+    );
+    await page.goto(FRONTEND_URL, { timeout: 15 * 1000, waitUntil: 'networkidle0' });
+    await page.setViewport({ width: Math.floor(width), height: Math.floor(height) });
+    await page.evaluateHandle('document.fonts.ready');
+    let err = null;
+    await page.evaluate(async (body) => {
+      try {
+        let app = window.app
+        if (!app) app = await new Promise((resolve) => setTimeout(() => resolve(window.app), 250))
+        await app.ready
+        const { assets, shapes, currentPageId } = body
+        // If the hapes were a direct child of their current page,
+        // reparent them to the app's current page.
+        shapes.forEach((shape) => {
+          if (shape.parentId === currentPageId) {
+            shape.parentId = app.currentPageId
+          }
+        })
+        app.patchAssets(assets)
+        app.createShapes(...shapes)
+        app.selectAll()
+        app.zoomToSelection()
+        app.selectNone()
+        const tlContainer = document.getElementsByClassName('tl-container').item(0) 
+        if (tlContainer) {
+          tlContainer.style.background = 'transparent'
+        }
+      } catch (e) {
+        err = e.message
+      }
+    }, body)
+    if (err) {
+      throw err
+    }
+    const imageBuffer = await page.screenshot({
+      type,
+      omitBackground: true,
+    })
+    await browser.close()
+    res.status(200).send(imageBuffer)
+  } catch (err) {
+    console.error(err.message)
+    res.status(500).send(err)
+  }
 }
 
 // get community comics
@@ -1620,5 +1694,6 @@ module.exports = {
     createPlaylist,
     updatePlaylist,
     getUserPlaylists,
-    deletePlaylist
+    deletePlaylist,
+    exportImage
 }

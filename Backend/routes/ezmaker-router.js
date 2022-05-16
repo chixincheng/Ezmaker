@@ -154,7 +154,7 @@ router.put('/updatePlaylist', EasyMakerController.updatePlaylist)
 // delete a playlist by the creator
 router.delete('/deletePlaylist/:playlistID/:creatorID', EasyMakerController.deletePlaylist)
 
-
+router.post('/api/export', EasyMakerController.exportImage)
 
 //===================================================USER========================================================
 // Handle's new user registration requests
