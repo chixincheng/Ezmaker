@@ -413,7 +413,7 @@ const PlaylistPage = (props) => {
                                                             }}
                                                             >
                                                         </TextField>
-                                                        <p style={{fontSize:"1.5rem" ,color:  status[playlistID] == 0 ? "green":(status[playlistID] == 1? "purple" : "orange") }}><b>{status[playlistID] == 0 ? "Saved" :(status[playlistID] == 1? "New" : "Editing")}</b></p>
+                                                        <p style={{fontSize:"1.5rem" ,color:  status[playlistID] == 0 ? "green":( "orange") }}><b>{status[playlistID] == 0 ? "Saved" :( "Editing")}</b></p>
                                                     </>
                                                     :
                                                     <>
