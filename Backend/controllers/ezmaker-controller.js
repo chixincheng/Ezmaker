@@ -24,6 +24,9 @@ const FRONTEND_URL =
 //     : 
     'https://www.tldraw.com/?exportMode';
 
+
+
+
 exportImage = async (req, res)=>{
     console.log("export");
     const { body } = req;
@@ -35,12 +38,15 @@ exportImage = async (req, res)=>{
   try {
     const browser = await chromium.puppeteer.launch({
       slowMo: 50,
-      args: chromium.args,
+    //  args: chromium.args,
+      args: ['--no-sandbox','--disable-setuid-sandbox'],
       defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath,
       ignoreHTTPSErrors: true,
-      headless: chromium.headless,
+    //headless: chromium.headless,
+      headless: true,
     });
+   
 
     const page = await browser.newPage();
     await page.setUserAgent(
