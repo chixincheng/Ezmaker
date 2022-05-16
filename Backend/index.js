@@ -11,7 +11,7 @@ const app = express()
 
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: ["https://ezmaker-bfcd6.web.app", "http://localhost:4000", "http://localhost:3000", "http://localhost:3001" ],
+    origin: ["https://ezmaker-bfcd6.web.app", "http://localhost:4000", "http://localhost:3000", "http://localhost:3001", "https://sbu-ezmaker.com" ],
     credentials: true
 }))
 app.use(express.json())
