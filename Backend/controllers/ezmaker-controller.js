@@ -36,7 +36,7 @@ exportImage = async (req, res)=>{
   } = body;
   
   try {
-    const browser = await chromium.puppeteer.launch({
+    const browser = await chromium.puppeteer.launch({ 
       slowMo: 50,
     //  args: chromium.args,
       args: ['--no-sandbox','--disable-setuid-sandbox'],
