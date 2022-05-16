@@ -43,7 +43,7 @@ exportImage = async (req, res)=>{
       defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath,
       ignoreHTTPSErrors: true,
-    //headless: chromium.headless,
+    //headless: chromium.headless, 
       headless: true,
     });
    
