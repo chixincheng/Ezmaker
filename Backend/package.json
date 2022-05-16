@@ -9,7 +9,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@tldraw/tldraw": "^1.12.6",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "chrome-aws-lambda": "^3.1.1",
@@ -30,7 +29,7 @@
     "puppeteer": "^3.1.0",
     "puppeteer-core": "^3.1.0",
     "python": "0.0.4",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   }
 }

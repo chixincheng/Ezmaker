@@ -9,7 +9,7 @@ const {cloudinary} = require("../cloudinary");
 const { findOneAndUpdate } = require('../models/comic-model');
 const { createDeflate } = require('zlib');
 const chromium = require("chrome-aws-lambda");
-const { TDExport, TDExportTypes, TldrawApp } = require('@tldraw/tldraw'); 
+
 
 function resError (res,errCode, err) {
     return res.status(errCode).json({
