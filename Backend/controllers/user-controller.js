@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
     user:  process.env.USER,
     pass: process.env.PASS
   }
-});
+}); 
 
 
 // when resetting a new password, the frontend will send 2 http requests: resetpassword and updateuser
