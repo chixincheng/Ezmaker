@@ -257,9 +257,7 @@ const PlaylistPage = (props) => {
             response2 = await api.getAllUserPublishedComics(userID);
         }
         else {
-            alert("before")
             response2 = await api.getAllUserPublishedStories(userID);
-            alert("after")
         }
         // alert("after response 2")
 
