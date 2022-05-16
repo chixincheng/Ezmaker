@@ -53,12 +53,10 @@ const PlaylistPage = (props) => {
         }
         if (selectedID == playlistID) {
             setSelectedID(null);
-            // setSelectedPlaylist(null);
             setUnaddedToPlaylist(null);
         }
         else {
             setSelectedID(playlistID);
-            // setSelectedPlaylist(allPlaylists[playlistID].elementIDSeries);
 
             // set all unused published and sort them based on created Time(oldest to newest)
             var unusedPublished = new Set();
@@ -71,12 +69,10 @@ const PlaylistPage = (props) => {
             unusedPublished = [...unusedPublished]
             unusedPublished.sort((a, b) => allPublished[a].createdAt > allPublished[b].createdAt ? 1 : -1);
             setUnaddedToPlaylist(unusedPublished);
-
-            // alert(unusedPublished[0])
         }
     }
 
-    const delistPublished = (event, playlistID, publishedID) => {// {id: {title, elementIDSeries}}
+    const delistPublished = (event, playlistID, publishedID) => {
         if (!userIsCreator) {
             event.preventDefault();
             if( isComic ){
@@ -115,10 +111,6 @@ const PlaylistPage = (props) => {
 
 
     const addPlaylistOnClick = () => {
-        // // alert("add new on click")
-        // alert("allPublished:\n" + JSON.stringify(allPublished) + "\nallPlaylists:\n" + JSON.stringify(allPlaylists)
-        // + "\nplaylistsArray:\n" + JSON.stringify(playlistsArray) + "\nstatus:\n" + JSON.stringify(status))
-        // alert("allPublished:\n" + JSON.stringify(allPublished))
         
         let playlistID = newID;
         allPlaylists[playlistID] = {title: "Default Playlist Title", elementIDSeries: []};
@@ -132,7 +124,6 @@ const PlaylistPage = (props) => {
             unusedPublished.push(key);
         }
         unusedPublished.sort((a, b) => allPublished[a].createdAt > allPublished[b].createdAt ? 1 : -1);
-        // alert(JSON.stringify(unaddedToPlaylist))
         setUnaddedToPlaylist(unusedPublished);
         
     }
@@ -179,16 +170,12 @@ const PlaylistPage = (props) => {
     const save = async (event)=>{
         setLoading(true);
         event.preventDefault();
-    
-        // let successes = [];
-        // let failures = [];
         let message = "";
         for (let [key, value] of Object.entries(status)) {
             // creating new playlist
             if (value == 1) {
                 if (allPlaylists[key].elementIDSeries.length == 0) {
                     message = message + "\n\"" + allPlaylists[key].title + "\" must have at least one content!"
-                    // failures.push(key);
                 }
                 else {
                     let payload = {
@@ -197,15 +184,11 @@ const PlaylistPage = (props) => {
                         title: allPlaylists[key].title,
                         elementIDSeries: allPlaylists[key].elementIDSeries
                     }
-                    // alert(JSON.stringify(payload))
                     let createResponse = await api.createPlaylist(payload);
-                    // alert("finish create new playlist")
                     if (createResponse.status != 200) {
                         message = message + "\n\"" + allPlaylists[key].title + "\" Created Unsuccessfully!"
-                        // failures.push(key)
                     }
                     else {
-                        // successes.push(key);
                         message = message + "\n\"" + allPlaylists[key].title + "\" Created Successfully!"
                         status[key] = 0;
                     }
@@ -221,28 +204,22 @@ const PlaylistPage = (props) => {
                     title: allPlaylists[key].title,
                     elementIDSeries: allPlaylists[key].elementIDSeries
                 }
-                // alert(JSON.stringify(payload))
                 let updateResponse = await api.updatePlaylist(payload);
                 if (updateResponse.status != 200) {
                     message = message + "\n\"" + allPlaylists[key].title + "\" Updated Unsuccessfully!"
-                    // failures.push(key)
                 }
                 else {
-                    // successes.push(key);
                     message = message + "\n\"" + allPlaylists[key].title + "\" Updated Successfully!"
                     status[key] = 0;
                 }
             }
         }
         alert(message == ""? "All Saved Successfully!" : message);
-        // alert("success:\n" + JSON.stringify(successes) + "\nfailures:\n" + JSON.stringify(failures))
         setLoading(false);
         
     }
 
     const setUpPlaylists = async () => {
-        // alert("before useEffect")
-        // alert("before response 1 " + userID + " " + isComic)
         let payload = {
             creatorID: userID,
             isComic: isComic
@@ -251,7 +228,6 @@ const PlaylistPage = (props) => {
         if (response.status == 404) {
             alert("404")
         }
-        // alert("after response 1")
         let response2 = null;
         if (isComic) {
             response2 = await api.getAllUserPublishedComics(userID);
@@ -259,7 +235,6 @@ const PlaylistPage = (props) => {
         else {
             response2 = await api.getAllUserPublishedStories(userID);
         }
-        // alert("after response 2")
 
         // check and set the user's playlists from var response
         if (response.status != 200) {
@@ -271,7 +246,7 @@ const PlaylistPage = (props) => {
         var playlistsArr = []
         var playlistsMap = new Map();
         var statusMap = new Map();
-        for (const onePlaylist of [...response.data.playlists]) { // [{_id: XXX, title:XXX, userID:XXX, elementIDSeries:XXX}]
+        for (const onePlaylist of [...response.data.playlists]) {
             playlistsArr.push(onePlaylist._id)
             playlistsMap[onePlaylist._id] = {title: onePlaylist.title, elementIDSeries:onePlaylist.elementIDSeries};
             statusMap[onePlaylist._id] = 0;
@@ -296,10 +271,7 @@ const PlaylistPage = (props) => {
             }
             
         }
-        // alert(JSON.stringify(publishedMap))
         setAllPublished(publishedMap);
-        
-        // alert("after useEffect")
         
     }
 
@@ -386,7 +358,6 @@ const PlaylistPage = (props) => {
                                 return (
                                     <>
                                         <div 
-                                            // style={{"padding-left":"100px"}} 
                                             style={{'border': selectedID==playlistID ? '5px solid red' : '0'}}
                                             onClick={
                                                 (event) => {
@@ -394,13 +365,11 @@ const PlaylistPage = (props) => {
                                                 }
                                             }
                                         >
-                                            {/* <PlaylistComponent key={index} playlist={playlist} allPublished={allPublished} playlists={playlists} setPlaylists={setPlaylists} selectedID={selectedID} setSelectedID={setSelectedID}/> */}
+                                            
                                             <div>
-                                                {/* <p>{playlistID}</p> */}
                                                 { userIsCreator ?
                                                     <>
                                                         <TextField 
-                                                        // label="Comic Title"
                                                             value = {allPlaylists[playlistID].title}
                                                             onChange ={(event)=>{handleTitleUpdate(event);}}
                                                             onClick={(event) => {
@@ -419,7 +388,6 @@ const PlaylistPage = (props) => {
                                                     </>
                                                 }
                                                 
-                                                {/* <p>     {allPlaylists[playlistID].title}</p> */}
                                                 
                                                 <p>In Playlist:</p>
                                                 <ul style={{'list-style-type': 'none'}}>
