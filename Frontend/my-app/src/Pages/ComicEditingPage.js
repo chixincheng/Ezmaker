@@ -223,7 +223,7 @@ const ComicEditingPage = () => {
       size: [3500, 5000],
     }
    
-    const response1 = await fetch('http://localhost:4000/api/export', {
+    const response1 = await fetch('https://ez-maker.herokuapp.com/api/export', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(exportInfo),
